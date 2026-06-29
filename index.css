@@ -25,7 +25,7 @@
 
     /* 字型配置 */
     --font-sans: 'Outfit', 'Noto Sans TC', sans-serif;
-    --font-mono: 'IBM Plex Mono', monospace;
+    --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, 'Noto Sans TC', 'Microsoft JhengHei', monospace;
 
     /* 圓角 */
     --radius-sm: 6px;
