@@ -212,11 +212,21 @@
 
                     <!-- YAML 提示詞複製區 -->
                     <div class="modal-section prompt-section">
-                        <div class="prompt-header">
-                            <h3 class="modal-section-title"><i data-lucide="code-2"></i> 提示詞模式 (YAML)</h3>
+                        <div class="prompt-header" style="margin-bottom: 16px;">
+                            <h3 class="modal-section-title" style="margin-bottom: 0;"><i data-lucide="code-2"></i> 提示詞生成器 (YAML)</h3>
                             <button class="copy-prompt-btn" id="copyPromptBtn">
-                                <i data-lucide="copy"></i> <span>複製提示詞</span>
+                                <i data-lucide="copy"></i> <span>複製 AI 提示詞</span>
                             </button>
+                        </div>
+                        <div class="prompt-config-row" style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; align-items: flex-end;">
+                            <div style="flex: 1; min-width: 240px;">
+                                <label for="modalTopicInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">簡報主題 (選填，將自動寫入提示詞)</label>
+                                <input type="text" id="modalTopicInput" placeholder="例如：新創募資簡報、年度數據報告..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); transition: var(--transition-fast); box-sizing: border-box;">
+                            </div>
+                            <div style="display: flex; align-items: center; height: 38px; margin-bottom: 2px;">
+                                <input type="checkbox" id="modalInstructionCheckbox" checked style="margin-right: 8px; cursor: pointer; width: 18px; height: 18px; accent-color: var(--accent);">
+                                <label for="modalInstructionCheckbox" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); cursor: pointer; user-select: none;">附加 AI 引導指令 (ChatGPT / Claude / Gemini 通用)</label>
+                            </div>
                         </div>
                         <div class="prompt-code-wrapper">
                             <pre><code id="modalPromptCode" class="language-yaml">提示詞加載中...</code></pre>

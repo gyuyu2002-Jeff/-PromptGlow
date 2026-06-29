@@ -950,6 +950,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         recordAction('modal_open');
 
+        // 重設與綁定提示詞產生器輸入項
+        const topicInput = document.getElementById('modalTopicInput');
+        const checkboxInput = document.getElementById('modalInstructionCheckbox');
+        if (topicInput) topicInput.value = '';
+        if (checkboxInput) checkboxInput.checked = true;
+
         // 加載完整數據
         let details = null;
         if (item.isBusiness) {
@@ -963,12 +969,30 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        // 渲染 YAML 提示詞
-        let displayedYaml = details.yaml || '無提示詞數據';
-        if (displayedYaml && displayedYaml !== '無提示詞數據') {
-            displayedYaml = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + displayedYaml;
+        // 渲染與更新 YAML 提示詞
+        function updateModalPromptDisplay() {
+            let displayedYaml = details.yaml || '無提示詞數據';
+            if (displayedYaml && displayedYaml !== '無提示詞數據') {
+                const topic = topicInput ? topicInput.value.trim() : '';
+                const addInstructions = checkboxInput ? checkboxInput.checked : true;
+                
+                if (addInstructions) {
+                    let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n`;
+                    if (topic) {
+                        prefix += `本次簡報的主題為：「${topic}」。\n`;
+                    }
+                    prefix += `此提示詞已優化，適用於 ChatGPT、Claude、Gemini 等所有主流大語言模型。\n\n---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
+                    displayedYaml = prefix + displayedYaml;
+                } else {
+                    displayedYaml = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + displayedYaml;
+                }
+            }
+            modalPromptCode.textContent = displayedYaml;
         }
-        modalPromptCode.textContent = displayedYaml;
+
+        if (topicInput) topicInput.oninput = updateModalPromptDisplay;
+        if (checkboxInput) checkboxInput.onchange = updateModalPromptDisplay;
+        updateModalPromptDisplay();
         
         // 渲染雷達圖與五維度評分
         // 默認五維度評估
