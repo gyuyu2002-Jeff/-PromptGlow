@@ -280,6 +280,22 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
+    function sanitizeGarbledText(text) {
+        if (!text) return '';
+        const trimText = text.trim();
+        // 修正特定混淆或不精確的分類標語，使其簡單易懂
+        if (trimText === 'Vq' || trimText.includes('擦拭') || trimText.includes('向量')) {
+            return '向量與扁平';
+        }
+        if (trimText.includes('備註') || trimText.includes('科幻')) {
+            return '科幻與光效';
+        }
+        if (trimText === '壁畫圖') {
+            return '扁平插畫';
+        }
+        return trimText;
+    }
+
     // --- 數據庫加載 ---
     async function loadData() {
         try {
@@ -301,11 +317,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (item.name_zh) {
                     item.name = item.name_zh;
                 }
+                
+                let rawTags = [];
                 if (item.tags_zh && item.tags_zh.length) {
-                    item.tags = item.tags_zh;
-                } else if (!item.tags || !item.tags.length) {
-                    item.tags = item.name ? item.name.split(' / ').map(t => t.trim()) : [];
+                    rawTags = item.tags_zh;
+                } else if (item.tags && item.tags.length) {
+                    rawTags = item.tags;
+                } else {
+                    rawTags = item.name ? item.name.split(' / ').map(t => t.trim()) : [];
                 }
+                
+                // 淨化可能存在的亂碼與不精確字詞
+                item.name = sanitizeGarbledText(item.name);
+                item.tags = rawTags.map(t => sanitizeGarbledText(t));
                 return item;
             });
 

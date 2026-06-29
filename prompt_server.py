@@ -44,6 +44,14 @@ class AutoGeneratingHandler(http.server.SimpleHTTPRequestHandler):
             
         super().do_GET()
 
+# Force UTF-8 encoding headers for served files to prevent browser decoding bugs on localized systems
+AutoGeneratingHandler.extensions_map.update({
+    '.json': 'application/json; charset=utf-8',
+    '.js': 'application/javascript; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.html': 'text/html; charset=utf-8',
+})
+
 if __name__ == '__main__':
     server = http.server.HTTPServer(("", PORT), AutoGeneratingHandler)
     print(f"✨ Custom PromptGlow Server started on port {PORT} with Direct CDN Fallback.")
