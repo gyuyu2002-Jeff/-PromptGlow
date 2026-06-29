@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let favorites = JSON.parse(localStorage.getItem('bx_favorites') || '[]');
     let historyList = JSON.parse(localStorage.getItem('bx_history') || '[]');
     let actionStats = JSON.parse(localStorage.getItem('bx_action_stats') || '{"copy":0,"fav_add":0,"modal_open":0,"scroll_explore":0,"badges_earned":[]}');
-    let currentModalSpecs = null;
+
 
     // --- 徽章定義 ---
     const BADGES = {
@@ -852,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (addInstructions) {
                     let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
                     
-                    let hasConfig = topic || audience || slides || detailsText || currentModalSpecs;
+                    let hasConfig = topic || audience || slides || detailsText;
                     if (hasConfig) {
                         prefix += `[簡報配置資訊]\n`;
                         if (topic) prefix += `- 簡報主題：${topic}\n`;
@@ -860,13 +860,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (slides) prefix += `- 投影片張數：${slides}\n`;
                         if (detailsText) {
                             prefix += `- 簡報大綱與重點：\n  ${detailsText.replace(/\n/g, '\n  ')}\n`;
-                        }
-                        if (currentModalSpecs) {
-                            if (currentModalSpecs.colors && currentModalSpecs.colors.length > 0) {
-                                prefix += `- 指定色彩代碼：${currentModalSpecs.colors.join(', ')}\n`;
-                            }
-                            prefix += `- 指定字體建議：標題: ${currentModalSpecs.titleFont.replace(/<br>/g, ' ')} | 內文: ${currentModalSpecs.bodyFont.replace(/<br>/g, ' ')}\n`;
-                            prefix += `- 指定版面規則：${currentModalSpecs.layoutSpec}\n`;
                         }
                         prefix += `\n`;
                     }
@@ -995,7 +988,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (addInstructions) {
                     let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
                     
-                    let hasConfig = topic || audience || slides || detailsText || currentModalSpecs;
+                    let hasConfig = topic || audience || slides || detailsText;
                     if (hasConfig) {
                         prefix += `[簡報配置資訊]\n`;
                         if (topic) prefix += `- 簡報主題：${topic}\n`;
@@ -1003,13 +996,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (slides) prefix += `- 投影片張數：${slides}\n`;
                         if (detailsText) {
                             prefix += `- 簡報大綱與重點：\n  ${detailsText.replace(/\n/g, '\n  ')}\n`;
-                        }
-                        if (currentModalSpecs) {
-                            if (currentModalSpecs.colors && currentModalSpecs.colors.length > 0) {
-                                prefix += `- 指定色彩代碼：${currentModalSpecs.colors.join(', ')}\n`;
-                            }
-                            prefix += `- 指定字體建議：標題: ${currentModalSpecs.titleFont.replace(/<br>/g, ' ')} | 內文: ${currentModalSpecs.bodyFont.replace(/<br>/g, ' ')}\n`;
-                            prefix += `- 指定版面規則：${currentModalSpecs.layoutSpec}\n`;
                         }
                         prefix += `\n`;
                     }
@@ -1022,9 +1008,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             modalPromptCode.textContent = displayedYaml;
         }
-
-        // 渲染色彩星盤與設計字型/版面規格
-        renderDesignSpecs(item, details);
 
         if (topicInput) topicInput.oninput = updateModalPromptDisplay;
         if (audienceInput) audienceInput.oninput = updateModalPromptDisplay;
@@ -1075,163 +1058,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeDetailModal() {
         detailModal.classList.remove('active');
         document.body.style.overflow = '';
-        currentModalSpecs = null;
     }
     
     modalCloseBtn.addEventListener('click', closeDetailModal);
     detailModal.addEventListener('click', (e) => {
         if (e.target === detailModal) closeDetailModal();
     });
-
-    // 渲染設計規格 (主配色色盤、字型組合、版面特徵)
-    function renderDesignSpecs(item, details) {
-        const swatchesContainer = document.getElementById('modalColorSwatches');
-        const fontSpecsContainer = document.getElementById('modalFontSpecs');
-        const layoutSpecsContainer = document.getElementById('modalLayoutSpecs');
-        
-        if (!swatchesContainer || !fontSpecsContainer || !layoutSpecsContainer) return;
-        
-        swatchesContainer.innerHTML = '';
-        
-        // 1. 提取或產生調色盤配色
-        let colors = [];
-        const yamlText = details.yaml || '';
-        
-        // 使用 Regex 尋找 YAML 內的所有 #十六進位色碼
-        const hexRegex = /#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})\b/g;
-        let match;
-        while ((match = hexRegex.exec(yamlText)) !== null) {
-            const color = match[0].toUpperCase();
-            if (!colors.includes(color)) {
-                colors.push(color);
-            }
-        }
-        
-        // 如果 YAML 內沒有找到足夠色碼，根據風格類別提供高質感配色的 Fallback 預設
-        if (colors.length < 2) {
-            const cat = item.tags && item.tags[0] ? item.tags[0] : 'default';
-            const fallbacks = {
-                'business': ['#F8F9FA', '#1E293B', '#3B82F6', '#0F172A'],
-                '向量與扁平': ['#FFFFFF', '#1E293B', '#E55039', '#4A5568'],
-                '復古與印藝': ['#F5F2EB', '#4A3C31', '#D97706', '#78350F'],
-                '手繪塗鴉': ['#FFFDF5', '#2D3748', '#F59E0B', '#4A5568'],
-                '極簡與線條': ['#FAFAFA', '#111827', '#6B7280', '#1F2937'],
-                '立體與3D': ['#EDF2F7', '#2D3748', '#EC4899', '#4A5568'],
-                '科幻與光效': ['#0B0F19', '#E2E8F0', '#06B6D4', '#F43F5E'],
-                '藝術與排版': ['#FCFAFA', '#1A202C', '#805AD5', '#2D3748'],
-                'default': ['#FAFAFA', '#1E293B', '#E55039', '#4A5568']
-            };
-            colors = fallbacks[cat] || fallbacks['default'];
-        }
-        
-        // 渲染色卡 Swatches
-        colors.forEach((color, idx) => {
-            const colorPill = document.createElement('div');
-            colorPill.className = 'color-pill';
-            colorPill.style.display = 'flex';
-            colorPill.style.alignItems = 'center';
-            colorPill.style.gap = '8px';
-            colorPill.style.padding = '6px 12px';
-            colorPill.style.borderRadius = '20px';
-            colorPill.style.backgroundColor = 'var(--bg-card)';
-            colorPill.style.border = '1px solid var(--border-color)';
-            colorPill.style.cursor = 'pointer';
-            colorPill.style.transition = 'all 0.2s ease';
-            colorPill.title = '點擊複製色碼';
-            
-            // 色標小圓點
-            const dot = document.createElement('span');
-            dot.style.display = 'inline-block';
-            dot.style.width = '16px';
-            dot.style.height = '16px';
-            dot.style.borderRadius = '50%';
-            dot.style.backgroundColor = color;
-            dot.style.border = '1px solid rgba(0,0,0,0.1)';
-            
-            // 標示文字
-            const text = document.createElement('span');
-            text.style.fontSize = '0.78rem';
-            text.style.fontWeight = '700';
-            text.style.fontFamily = 'var(--font-mono)';
-            text.style.color = 'var(--text-primary)';
-            text.textContent = color;
-            
-            colorPill.appendChild(dot);
-            colorPill.appendChild(text);
-            
-            // 懸停與點擊複製邏輯
-            colorPill.addEventListener('mouseenter', () => {
-                colorPill.style.transform = 'translateY(-2px)';
-                colorPill.style.boxShadow = 'var(--shadow-sm)';
-                colorPill.style.borderColor = 'var(--accent)';
-            });
-            colorPill.addEventListener('mouseleave', () => {
-                colorPill.style.transform = 'none';
-                colorPill.style.boxShadow = 'none';
-                colorPill.style.borderColor = 'var(--border-color)';
-            });
-            colorPill.addEventListener('click', () => {
-                navigator.clipboard.writeText(color).then(() => {
-                    showToast(`已複製色碼：${color}`);
-                    const origText = text.textContent;
-                    text.textContent = 'Copied!';
-                    setTimeout(() => { text.textContent = origText; }, 1000);
-                });
-            });
-            
-            swatchesContainer.appendChild(colorPill);
-        });
-        
-        // 2. 決定字體與版面特徵
-        const cat = item.tags && item.tags[0] ? item.tags[0] : 'default';
-        let titleFont = 'Montserrat / 蘋方體 (PingFang SC)';
-        let bodyFont = 'Inter / 標楷體或微軟正黑體';
-        let layoutSpec = '留白比：25% | 對齊：結構化網格對齊 | 特色：重點圖示引導';
-        
-        if (cat.includes('扁平') || cat.includes('vector') || cat.includes('Flat')) {
-            titleFont = 'Inter / 粗體微軟正黑體 (Microsoft JhengHei)';
-            bodyFont = 'Inter / 微軟正黑體';
-            layoutSpec = '留白比：30% | 對齊：幾何網格對齊 | 特色：無漸層硬邊色塊、粗黑描邊線條';
-        } else if (cat.includes('極簡') || cat.includes('minimal') || cat.includes('Minimal')) {
-            titleFont = 'Helvetica Neue / 儷黑體 (LiHei Pro)';
-            bodyFont = 'Inter / 儷黑體或細微軟正黑體';
-            layoutSpec = '留白比：45% | 對齊：不對稱包浩斯對齊 | 特色：無邊框、大片留白與極細裝飾線';
-        } else if (cat.includes('手繪') || cat.includes('doodle') || cat.includes('Doodle')) {
-            titleFont = 'Quicksand / 華康圓體或手寫風字體';
-            bodyFont = 'Inter / 華康圓體';
-            layoutSpec = '留白比：25% | 對齊：有機手寫自由對齊 | 特色：手繪線條外框、麥克筆填色筆觸';
-        } else if (cat.includes('立體') || cat.includes('3D') || cat.includes('clay') || cat.includes('Clay')) {
-            titleFont = 'Montserrat / 粗微軟正黑體';
-            bodyFont = 'Inter / 微軟正黑體';
-            layoutSpec = '留白比：30% | 對齊：等距三維立體對齊 | 特色：3D黏土物件、大柔和漫反射陰影';
-        } else if (cat.includes('資訊') || cat.includes('infographic') || cat.includes('Infographic')) {
-            titleFont = 'Outfit / 蘋方體 (PingFang SC)';
-            bodyFont = 'Inter / 微軟正黑體';
-            layoutSpec = '留白比：20% | 對齊：嚴格對稱網格對齊 | 特色：高度圖表化、數據區塊以粗框標註';
-        } else if (cat.includes('復古') || cat.includes('retro') || cat.includes('Retro')) {
-            titleFont = 'Georgia / 宋體 (Noto Serif TC)';
-            bodyFont = 'Georgia / 宋體';
-            layoutSpec = '留白比：35% | 對齊：經典左右雙欄對齊 | 特色：斑駁質地紋理、半色調網點裝飾';
-        } else if (cat.includes('科幻') || cat.includes('sci-fi') || cat.includes('Sci-Fi')) {
-            titleFont = 'Orbitron / 粗微軟正黑體';
-            bodyFont = 'Inter / 微軟正黑體';
-            layoutSpec = '留白比：30% | 對齊：發光介面控制台排版 | 特色：螢光霓虹描邊、深色背景暗黑模式';
-        } else if (cat.includes('藝術') || cat.includes('art') || cat.includes('Art')) {
-            titleFont = 'Playfair Display / 仿宋體 (Noto Serif TC)';
-            bodyFont = 'Inter / 仿宋體';
-            layoutSpec = '留白比：40% | 對齊：雜誌排版不規則對齊 | 特色：高對比色差、超大字母點綴飾角';
-        }
-        
-        currentModalSpecs = {
-            colors: colors,
-            titleFont: titleFont,
-            bodyFont: bodyFont,
-            layoutSpec: layoutSpec
-        };
-
-        fontSpecsContainer.innerHTML = `<strong>標題字體：</strong>${titleFont}<br><strong>內文字體：</strong>${bodyFont}`;
-        layoutSpecsContainer.innerHTML = layoutSpec;
-    }
 
     // --- Lightbox 圖片放大 ---
     const modalImageWrapper = document.querySelector('.modal-image-wrapper');
