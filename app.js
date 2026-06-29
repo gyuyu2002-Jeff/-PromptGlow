@@ -414,6 +414,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderSubtags();
                 filterAndRenderCards();
                 scrollToSelectedTab(btn);
+                
+                // 切換分類時，頁面平滑滾動回頂端
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
 
@@ -476,6 +479,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         btn.classList.add('active');
                     }
                     filterAndRenderCards();
+                    
+                    // 切換小分類時，頁面平滑滾動回頂端
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
                 
                 subtagsArea.appendChild(btn);
