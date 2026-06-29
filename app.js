@@ -826,6 +826,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
+        if (yamlContent) {
+            yamlContent = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + yamlContent;
+        }
+        
         navigator.clipboard.writeText(yamlContent).then(() => {
             const btnText = btnElement.querySelector('span') || btnElement;
             const originalText = btnText.innerHTML;
@@ -924,7 +928,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // 渲染 YAML 提示詞
-        modalPromptCode.textContent = details.yaml || '無提示詞數據';
+        let displayedYaml = details.yaml || '無提示詞數據';
+        if (displayedYaml && displayedYaml !== '無提示詞數據') {
+            displayedYaml = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + displayedYaml;
+        }
+        modalPromptCode.textContent = displayedYaml;
         
         // 渲染雷達圖與五維度評分
         // 默認五維度評估
