@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             rankingData = rankingRes;
             businessData = businessRes.map((item, index) => {
-                item.number = index + 1; // 1 to 30
+                item.number = 102 + index; // 102 to 131
                 item.isBusiness = true;
                 return item;
             });
@@ -533,7 +533,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 1. 基於大類篩選
         if (activeCategory === 'all') {
-            displayList = [...liteData];
+            displayList = [
+                ...liteData.map(item => ({ ...item, isBusiness: false })),
+                ...businessData.map(item => ({
+                    id: item.id,
+                    name: item.name_zh || item.name,
+                    tags: [item.category_zh || '商業', item.name_zh || item.name],
+                    img: item.img,
+                    isBusiness: true,
+                    yaml: item.yaml,
+                    number: item.number
+                }))
+            ];
         } else if (activeCategory === 'featured') {
             // 根據流行榜排序提取前 30 名，如果沒有流行數據，提取前 30 個項目
             if (rankingData && rankingData.order) {
@@ -582,10 +593,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3. 基於關鍵字搜尋過濾 (ID, 名稱, 標籤)
         if (searchQuery) {
             const query = searchQuery.toLowerCase().trim();
+            const cleanQuery = query.startsWith('#') ? query.substring(1) : query;
             displayList = displayList.filter(item => {
                 const nameMatch = item.name && item.name.toLowerCase().includes(query);
                 const idMatch = item.id && item.id.toLowerCase().includes(query);
-                const numberMatch = item.number && String(item.number).includes(query);
+                const paddedNum = item.number ? String(item.number).padStart(3, '0') : '';
+                const numberMatch = item.number && (String(item.number).includes(cleanQuery) || paddedNum.includes(cleanQuery));
                 const tagMatch = item.tags && item.tags.some(t => t.toLowerCase().includes(query));
                 return nameMatch || idMatch || numberMatch || tagMatch;
             });
