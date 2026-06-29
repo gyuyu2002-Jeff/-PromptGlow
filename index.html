@@ -128,6 +128,7 @@
     <footer class="footer">
         <div class="footer-content">
             <p>© 2026 PromptGlow | 設計-WHJ. All Rights Reserved.</p>
+            <p style="font-size: 0.75rem; margin-top: 6px; color: var(--text-muted); opacity: 0.8;">Antigravity 制作</p>
         </div>
     </footer>
 
@@ -161,19 +162,30 @@
                         </div>
                     </div>
                     
-                    <!-- 圖片內文對照組 (提供卡片排版內容的繁體中文純文字對照，便於閱讀) -->
-                    <div class="image-translation-card" id="imageTranslationCard">
-                        <div class="translation-header">
-                            <i data-lucide="languages"></i>
-                            <span>圖片排版文字對照（繁體中文）</span>
+                    <!-- 簡報設計內容配置 (提供輸入簡報相關資訊來完善提示詞) -->
+                    <div class="image-translation-card" id="promptConfigCard" style="padding: 16px; margin-bottom: 20px; text-align: left;">
+                        <div class="translation-header" style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="sliders" style="width: 16px; height: 16px;"></i>
+                            <span style="font-weight: 700; font-size: 0.9rem;">簡報設計內容配置 (選填，自動融入提示詞)</span>
                         </div>
-                        <ol class="translation-list">
-                            <li><span>1</span> 走路能增加靈感</li>
-                            <li><span>2</span> 調整呼吸沉澱思緒</li>
-                            <li><span>3</span> 變換場所重置注意力</li>
-                            <li><span>4</span> 寫下來整理腦袋</li>
-                            <li><span>5</span> 短暫休息恢復專注力</li>
-                        </ol>
+                        <div style="margin-bottom: 12px;">
+                            <label for="modalTopicInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">簡報主題 (Topic)</label>
+                            <input type="text" id="modalTopicInput" placeholder="例如：新創募資簡報、年度財務報告..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); box-sizing: border-box; transition: var(--transition-fast);">
+                        </div>
+                        <div class="config-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                            <div>
+                                <label for="modalAudienceInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">簡報受眾 (Audience)</label>
+                                <input type="text" id="modalAudienceInput" placeholder="例如：投資人、主管、大眾..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); box-sizing: border-box; transition: var(--transition-fast);">
+                            </div>
+                            <div>
+                                <label for="modalSlidesInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">投影片張數 (Pages)</label>
+                                <input type="text" id="modalSlidesInput" placeholder="例如：10頁、15頁左右..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); box-sizing: border-box; transition: var(--transition-fast);">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="modalDetailsInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">簡報大綱與重點描述 (Highlights)</label>
+                            <textarea id="modalDetailsInput" placeholder="請描述簡報的主要內容、關鍵數據或希望強調的痛點..." style="width: 100%; height: 70px; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); resize: none; box-sizing: border-box; font-family: inherit; transition: var(--transition-fast);"></textarea>
+                        </div>
                     </div>
                     
                     <!-- 雷達圖評估區 -->
@@ -208,20 +220,16 @@
 
                     <!-- YAML 提示詞複製區 -->
                     <div class="modal-section prompt-section">
-                        <div class="prompt-header" style="margin-bottom: 16px;">
+                        <div class="prompt-header" style="margin-bottom: 16px; align-items: center;">
                             <h3 class="modal-section-title" style="margin-bottom: 0;"><i data-lucide="code-2"></i> 提示詞生成器 (YAML)</h3>
-                            <button class="copy-prompt-btn" id="copyPromptBtn">
-                                <i data-lucide="copy"></i> <span>複製 AI 提示詞</span>
-                            </button>
-                        </div>
-                        <div class="prompt-config-row" style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; align-items: flex-end;">
-                            <div style="flex: 1; min-width: 240px;">
-                                <label for="modalTopicInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 6px;">簡報主題 (選填，將自動寫入提示詞)</label>
-                                <input type="text" id="modalTopicInput" placeholder="例如：新創募資簡報、年度數據報告..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); transition: var(--transition-fast); box-sizing: border-box;">
-                            </div>
-                            <div style="display: flex; align-items: center; height: 38px; margin-bottom: 2px;">
-                                <input type="checkbox" id="modalInstructionCheckbox" checked style="margin-right: 8px; cursor: pointer; width: 18px; height: 18px; accent-color: var(--accent);">
-                                <label for="modalInstructionCheckbox" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); cursor: pointer; user-select: none;">附加 AI 引導指令 (ChatGPT / Claude / Gemini 通用)</label>
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="modalInstructionCheckbox" checked style="margin-right: 6px; cursor: pointer; width: 16px; height: 16px; accent-color: var(--accent);">
+                                    <label for="modalInstructionCheckbox" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); cursor: pointer; user-select: none;">附加 AI 引導指令</label>
+                                </div>
+                                <button class="copy-prompt-btn" id="copyPromptBtn">
+                                    <i data-lucide="copy"></i> <span>複製 AI 提示詞</span>
+                                </button>
                             </div>
                         </div>
                         <div class="prompt-code-wrapper">

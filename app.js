@@ -866,16 +866,33 @@ document.addEventListener('DOMContentLoaded', () => {
             // 如果是從彈窗內的複製按鈕觸發，則加上自訂主題與 AI 引導詞
             if (btnElement && btnElement.id === 'copyPromptBtn') {
                 const topicInput = document.getElementById('modalTopicInput');
+                const audienceInput = document.getElementById('modalAudienceInput');
+                const slidesInput = document.getElementById('modalSlidesInput');
+                const detailsInput = document.getElementById('modalDetailsInput');
                 const checkboxInput = document.getElementById('modalInstructionCheckbox');
+                
                 const topic = topicInput ? topicInput.value.trim() : '';
+                const audience = audienceInput ? audienceInput.value.trim() : '';
+                const slides = slidesInput ? slidesInput.value.trim() : '';
+                const detailsText = detailsInput ? detailsInput.value.trim() : '';
                 const addInstructions = checkboxInput ? checkboxInput.checked : true;
                 
                 if (addInstructions) {
-                    let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n`;
-                    if (topic) {
-                        prefix += `本次簡報的主題為：「${topic}」。\n`;
+                    let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
+                    
+                    let hasConfig = topic || audience || slides || detailsText;
+                    if (hasConfig) {
+                        prefix += `[簡報配置資訊]\n`;
+                        if (topic) prefix += `- 簡報主題：${topic}\n`;
+                        if (audience) prefix += `- 簡報受眾：${audience}\n`;
+                        if (slides) prefix += `- 投影片張數：${slides}\n`;
+                        if (detailsText) {
+                            prefix += `- 簡報大綱與重點：\n  ${detailsText.replace(/\n/g, '\n  ')}\n`;
+                        }
+                        prefix += `\n`;
                     }
-                    prefix += `\n---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
+                    
+                    prefix += `---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
                     yamlContent = prefix + yamlContent;
                 } else {
                     yamlContent = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + yamlContent;
@@ -927,14 +944,10 @@ document.addEventListener('DOMContentLoaded', () => {
         detailModal.classList.add('active');
         document.body.style.overflow = 'hidden'; // 禁止底層滾動
         
-        // 動態控制圖片排版對照組的顯示與隱藏 (所有一般風格都顯示，商業風格隱藏)
-        const translationCard = document.getElementById('imageTranslationCard');
-        if (translationCard) {
-            if (item.isBusiness) {
-                translationCard.style.display = 'none';
-            } else {
-                translationCard.style.display = 'block';
-            }
+        // 確保簡報設計內容配置面板可見
+        const configCard = document.getElementById('promptConfigCard');
+        if (configCard) {
+            configCard.style.display = 'block';
         }
         
         modalNumber.textContent = `#${String(item.number).padStart(3, '0')}`;
@@ -972,8 +985,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 重設與綁定提示詞產生器輸入項
         const topicInput = document.getElementById('modalTopicInput');
+        const audienceInput = document.getElementById('modalAudienceInput');
+        const slidesInput = document.getElementById('modalSlidesInput');
+        const detailsInput = document.getElementById('modalDetailsInput');
         const checkboxInput = document.getElementById('modalInstructionCheckbox');
+        
         if (topicInput) topicInput.value = '';
+        if (audienceInput) audienceInput.value = '';
+        if (slidesInput) slidesInput.value = '';
+        if (detailsInput) detailsInput.value = '';
         if (checkboxInput) checkboxInput.checked = true;
 
         // 加載完整數據
@@ -994,14 +1014,27 @@ document.addEventListener('DOMContentLoaded', () => {
             let displayedYaml = details.yaml || '無提示詞數據';
             if (displayedYaml && displayedYaml !== '無提示詞數據') {
                 const topic = topicInput ? topicInput.value.trim() : '';
+                const audience = audienceInput ? audienceInput.value.trim() : '';
+                const slides = slidesInput ? slidesInput.value.trim() : '';
+                const detailsText = detailsInput ? detailsInput.value.trim() : '';
                 const addInstructions = checkboxInput ? checkboxInput.checked : true;
                 
                 if (addInstructions) {
-                    let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n`;
-                    if (topic) {
-                        prefix += `本次簡報的主題為：「${topic}」。\n`;
+                    let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
+                    
+                    let hasConfig = topic || audience || slides || detailsText;
+                    if (hasConfig) {
+                        prefix += `[簡報配置資訊]\n`;
+                        if (topic) prefix += `- 簡報主題：${topic}\n`;
+                        if (audience) prefix += `- 簡報受眾：${audience}\n`;
+                        if (slides) prefix += `- 投影片張數：${slides}\n`;
+                        if (detailsText) {
+                            prefix += `- 簡報大綱與重點：\n  ${detailsText.replace(/\n/g, '\n  ')}\n`;
+                        }
+                        prefix += `\n`;
                     }
-                    prefix += `\n---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
+                    
+                    prefix += `---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
                     displayedYaml = prefix + displayedYaml;
                 } else {
                     displayedYaml = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + displayedYaml;
@@ -1011,6 +1044,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (topicInput) topicInput.oninput = updateModalPromptDisplay;
+        if (audienceInput) audienceInput.oninput = updateModalPromptDisplay;
+        if (slidesInput) slidesInput.oninput = updateModalPromptDisplay;
+        if (detailsInput) detailsInput.oninput = updateModalPromptDisplay;
         if (checkboxInput) checkboxInput.onchange = updateModalPromptDisplay;
         updateModalPromptDisplay();
         
