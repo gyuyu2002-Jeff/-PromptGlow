@@ -863,7 +863,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (yamlContent) {
-            yamlContent = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + yamlContent;
+            // 如果是從彈窗內的複製按鈕觸發，則加上自訂主題與 AI 引導詞
+            if (btnElement && btnElement.id === 'copyPromptBtn') {
+                const topicInput = document.getElementById('modalTopicInput');
+                const checkboxInput = document.getElementById('modalInstructionCheckbox');
+                const topic = topicInput ? topicInput.value.trim() : '';
+                const addInstructions = checkboxInput ? checkboxInput.checked : true;
+                
+                if (addInstructions) {
+                    let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n`;
+                    if (topic) {
+                        prefix += `本次簡報的主題為：「${topic}」。\n`;
+                    }
+                    prefix += `此提示詞已優化，適用於 ChatGPT、Claude、Gemini 等所有主流大語言模型。\n\n---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
+                    yamlContent = prefix + yamlContent;
+                } else {
+                    yamlContent = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + yamlContent;
+                }
+            } else {
+                // 卡片快捷複製，使用基礎註記
+                yamlContent = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + yamlContent;
+            }
         }
         
         navigator.clipboard.writeText(yamlContent).then(() => {
