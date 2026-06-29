@@ -875,7 +875,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (topic) {
                         prefix += `本次簡報的主題為：「${topic}」。\n`;
                     }
-                    prefix += `此提示詞已優化，適用於 ChatGPT、Claude、Gemini 等所有主流大語言模型。\n\n---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
+                    prefix += `\n---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
                     yamlContent = prefix + yamlContent;
                 } else {
                     yamlContent = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + yamlContent;
@@ -1001,7 +1001,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (topic) {
                         prefix += `本次簡報的主題為：「${topic}」。\n`;
                     }
-                    prefix += `此提示詞已優化，適用於 ChatGPT、Claude、Gemini 等所有主流大語言模型。\n\n---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
+                    prefix += `\n---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
                     displayedYaml = prefix + displayedYaml;
                 } else {
                     displayedYaml = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + displayedYaml;
