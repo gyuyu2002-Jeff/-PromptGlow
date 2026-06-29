@@ -311,7 +311,11 @@ document.addEventListener('DOMContentLoaded', () => {
             ]);
             
             rankingData = rankingRes;
-            businessData = businessRes;
+            businessData = businessRes.map((item, index) => {
+                item.number = index + 1; // 1 to 30
+                item.isBusiness = true;
+                return item;
+            });
             
             // 轉換精簡數據的格式與多語言名稱，並生成默認 tag 標籤
             liteData = liteRes.map(item => {
@@ -557,7 +561,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     tags: [item.category_zh || '商業', item.name_zh || item.name],
                     img: item.img,
                     isBusiness: true,
-                    yaml: item.yaml
+                    yaml: item.yaml,
+                    number: item.number
                 };
             });
         } else {
@@ -623,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.dataset.id = item.id;
             
             const isFav = favorites.includes(item.id);
-            const displayId = item.isBusiness ? 'BIZ' : `#${String(item.number).padStart(3, '0')}`;
+            const displayId = item.isBusiness ? `BIZ-${String(item.number).padStart(2, '0')}` : `#${String(item.number).padStart(3, '0')}`;
             const category = item.tags && item.tags[0] ? item.tags[0] : '視覺風格';
             const imgUrl = getFullImageUrl(item);
             
@@ -794,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        modalNumber.textContent = item.isBusiness ? 'BIZ' : `#${String(item.number).padStart(3, '0')}`;
+        modalNumber.textContent = item.isBusiness ? `BIZ-${String(item.number).padStart(2, '0')}` : `#${String(item.number).padStart(3, '0')}`;
         modalCategory.textContent = item.tags && item.tags[0] ? item.tags[0] : '分類';
         modalTitle.textContent = item.name;
         // 重設圖片與預覽占位卡的顯示狀態
