@@ -542,68 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderSubtags() {
         subtagsArea.innerHTML = '';
-        
-        let tagsToRender = new Set();
-        
-        if (activeCategory === 'all') {
-            // "全部" 類別下，提取所有次級標籤的前 15 個熱門標籤
-            const allTagsCount = {};
-            liteData.forEach(item => {
-                if (item.tags) {
-                    item.tags.slice(1).forEach(tag => {
-                        allTagsCount[tag] = (allTagsCount[tag] || 0) + 1;
-                    });
-                }
-            });
-            // 排序並取前 15 個
-            const sortedTags = Object.keys(allTagsCount).sort((a,b) => allTagsCount[b] - allTagsCount[a]);
-            sortedTags.slice(0, 15).forEach(t => tagsToRender.add(t));
-            
-        } else if (activeCategory === 'featured') {
-            // 推薦類別下展示熱門的前 8 個
-            tagsToRender.add('Flat');
-            tagsToRender.add('Doodle');
-            tagsToRender.add('Isometric');
-            tagsToRender.add('Clay');
-            tagsToRender.add('Minimal');
-            
-        } else if (activeCategory === 'business') {
-            // 商業大類下，展示行業細分
-            const bizCats = new Set();
-            businessData.forEach(item => {
-                if (item.category_zh) bizCats.add(item.category_zh);
-            });
-            bizCats.forEach(c => tagsToRender.add(c));
-            
-        } else if (tagMap[activeCategory]) {
-            // 對應主分類下的次標籤
-            tagMap[activeCategory].forEach(t => tagsToRender.add(t));
-        }
-        
-        if (tagsToRender.size > 0) {
-            tagsToRender.forEach(tag => {
-                const btn = document.createElement('button');
-                btn.className = `subtag-btn ${activeSubtag === tag ? 'active' : ''}`;
-                btn.textContent = tag;
-                
-                btn.addEventListener('click', () => {
-                    if (activeSubtag === tag) {
-                        activeSubtag = null;
-                        btn.classList.remove('active');
-                    } else {
-                        subtagsArea.querySelectorAll('.subtag-btn').forEach(b => b.classList.remove('active'));
-                        activeSubtag = tag;
-                        btn.classList.add('active');
-                    }
-                    filterAndRenderCards();
-                    
-                    // 切換小分類時，頁面平滑滾動回頂端
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-                
-                subtagsArea.appendChild(btn);
-            });
-        }
+        subtagsArea.style.display = 'none';
     }
 
     // 點擊分類 Tab 後，平滑滾動使其居中
