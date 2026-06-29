@@ -279,6 +279,38 @@ document.addEventListener('DOMContentLoaded', () => {
         
         lucide.createIcons();
     }
+        
+    function getBusinessDesignCategory(id) {
+        if (!id) return '向量與扁平';
+        const lid = id.toLowerCase();
+        if (lid.includes('consulting') || lid.includes('government') || lid.includes('creative') || 
+            lid.includes('education') || lid.includes('retail') || lid.includes('analysis') || 
+            lid.includes('newbiz') || lid.includes('product') || lid.includes('promo') || 
+            lid.includes('innovation') || lid.includes('flat-gradient') || lid.includes('geometric') || 
+            lid.includes('infographic')) {
+            return '向量與扁平';
+        }
+        if (lid.includes('datadriven') || lid.includes('mono-accent')) {
+            return '極簡與線條';
+        }
+        if (lid.includes('empathy') || lid.includes('storytelling') || lid.includes('yuru-doodle') || lid.includes('yuru-marker')) {
+            return '手繪塗鴉';
+        }
+        if (lid.includes('japanese') || lid.includes('duotone')) {
+            return '復古與印藝';
+        }
+        if (lid.includes('premium') || lid.includes('speed') || lid.includes('aerial') || 
+            lid.includes('bokeh') || lid.includes('collage') || lid.includes('teal-orange')) {
+            return '藝術與排版';
+        }
+        if (lid.includes('tech')) {
+            return '科幻與光效';
+        }
+        if (lid.includes('isometric') || lid.includes('solid-3d')) {
+            return '立體與3D';
+        }
+        return '向量與扁平';
+    }
 
     function sanitizeGarbledText(text) {
         if (!text) return '';
@@ -541,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return {
                         id: item.id,
                         name: fullName,
-                        tags: [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
+                        tags: [getBusinessDesignCategory(item.id), item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
                         img: item.img,
                         isBusiness: true,
                         yaml: item.yaml,
@@ -575,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return {
                     id: item.id,
                     name: fullName,
-                    tags: [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
+                    tags: [getBusinessDesignCategory(item.id), item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
                     img: item.img,
                     isBusiness: true,
                     yaml: item.yaml,
@@ -583,8 +615,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             });
         } else {
-            // 標準大類過濾
-            displayList = liteData.filter(item => item.tags && item.tags[0] === activeCategory);
+            // 標準大類過濾 (包含一般風格與對應風格分類的商業簡報)
+            const filteredLite = liteData.filter(item => item.tags && item.tags[0] === activeCategory).map(item => ({ ...item, isBusiness: false }));
+            const filteredBiz = businessData
+                .map(item => {
+                    const nameParts = [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''];
+                    const fullName = nameParts.filter(Boolean).join(' / ');
+                    return {
+                        id: item.id,
+                        name: fullName,
+                        tags: [getBusinessDesignCategory(item.id), item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
+                        img: item.img,
+                        isBusiness: true,
+                        yaml: item.yaml,
+                        number: item.number
+                    };
+                })
+                .filter(item => item.tags[0] === activeCategory);
+            
+            displayList = [...filteredLite, ...filteredBiz];
         }
 
         // 2. 基於細分標籤篩選

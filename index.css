@@ -692,11 +692,7 @@ body {
     color: var(--text-secondary);
 }
 
-.style-card.biz-style .card-badge {
-    border-color: rgba(108, 99, 255, 0.3);
-    background-color: rgba(108, 99, 255, 0.1);
-    color: #6C63FF;
-}
+
 
 /* 卡片詳情內容 */
 .card-info {
@@ -714,9 +710,7 @@ body {
     margin-bottom: 6px;
 }
 
-.style-card.biz-style .card-meta {
-    color: #6C63FF;
-}
+
 
 .card-title {
     font-size: 1.05rem;
