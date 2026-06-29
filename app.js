@@ -458,20 +458,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 類別與次標籤渲染 ---
     function renderCategoryTabs() {
+        // 先計算各分類的數量
+        const allCount = liteData.length;
+        const featuredCount = rankingData && rankingData.order ? rankingData.order.length : 30;
+        const businessCount = businessData.length;
+        
         // 先保留前三個固定 Tab (全部, 流行, 商業)
         tabArea.innerHTML = `
-            <button class="tab-btn active" data-category="all">全部風格</button>
-            <button class="tab-btn" data-category="featured">🔥 流行推薦</button>
-            <button class="tab-btn" data-category="business">💼 商業專區</button>
+            <button class="tab-btn active" data-category="all">全部風格 (${allCount})</button>
+            <button class="tab-btn" data-category="featured">🔥 流行推薦 (${featuredCount})</button>
+            <button class="tab-btn" data-category="business">商業專區 (${businessCount})</button>
         `;
         
         // 渲染動態大類
         categories.forEach(cat => {
             if (cat !== 'featured' && cat !== 'business') {
+                const count = liteData.filter(item => item.tags && item.tags[0] === cat).length;
                 const btn = document.createElement('button');
                 btn.className = 'tab-btn';
                 btn.dataset.category = cat;
-                btn.textContent = cat;
+                btn.textContent = `${cat} (${count})`;
                 tabArea.appendChild(btn);
             }
         });

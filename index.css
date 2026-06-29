@@ -362,12 +362,18 @@ body {
 
 .tab-scroll-content {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     overflow-x: auto;
     scrollbar-width: none;
     scroll-behavior: smooth;
     width: 100%;
     padding: 4px 0;
+}
+
+@media (min-width: 1024px) {
+    .tab-scroll-content {
+        justify-content: center;
+    }
 }
 
 .tab-scroll-content::-webkit-scrollbar {
@@ -378,9 +384,9 @@ body {
     background: none;
     border: 1px solid var(--border-color);
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 6px 14px;
     border-radius: var(--radius-full);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-secondary);
     background-color: var(--bg-card);
@@ -424,6 +430,12 @@ body {
 .scroll-arrow.visible {
     opacity: 1;
     pointer-events: auto;
+}
+
+@media (min-width: 1024px) {
+    .scroll-arrow {
+        display: none !important;
+    }
 }
 
 .scroll-arrow:hover {
