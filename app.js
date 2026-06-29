@@ -348,6 +348,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return mapping[id] || 1;
     }
 
+    function getBusinessNameZh3(id) {
+        const mapping = {
+            'biz_business-consulting': '專業諮詢',
+            'biz_business-government': '政務企劃',
+            'biz_industry-creative': '創意設計',
+            'biz_industry-education': '教育培訓',
+            'biz_industry-retail': '零售商務',
+            'biz_scene-analysis': '分析報告',
+            'biz_scene-newbiz': '創業提案',
+            'biz_scene-product': '產品發佈',
+            'biz_scene-promo': '宣傳推廣',
+            'biz_style-datadriven': '數據導向',
+            'biz_style-empathy': '情感共鳴',
+            'biz_style-innovation': '科技創新',
+            'biz_style-japanese': '日系現代',
+            'biz_style-premium': '高端奢華',
+            'biz_style-speed': '動感效率',
+            'biz_style-storytelling': '情境敘事',
+            'biz_style-tech': '未來科技',
+            'biz_taste-aerial': '鳥瞰視角',
+            'biz_taste-bokeh': '背景虛化',
+            'biz_taste-collage': '剪貼拼貼',
+            'biz_taste-duotone': '雙色搭配',
+            'biz_taste-flat-gradient': '扁平漸變',
+            'biz_taste-geometric': '幾何構成',
+            'biz_taste-infographic': '資訊圖卡',
+            'biz_taste-isometric': '等距透視',
+            'biz_taste-mono-accent': '單色點綴',
+            'biz_taste-solid-3d': '立體三維',
+            'biz_taste-teal-orange': '青橙調色',
+            'biz_taste-yuru-doodle': '手繪塗鴉',
+            'biz_taste-yuru-marker': '麥克筆手感'
+        };
+        return mapping[id] || '';
+    }
+
     function sanitizeGarbledText(text) {
         if (!text) return '';
         const trimText = text.trim();
@@ -629,12 +665,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (activeCategory === 'business') {
             // 商業大類使用獨立數據庫
             displayList = businessData.map(item => {
-                const nameParts = [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''];
+                const nameParts = [item.category_zh || '商業', item.name_zh || item.name, getBusinessNameZh3(item.id)];
                 const fullName = nameParts.filter(Boolean).join(' / ');
                 return {
                     id: item.id,
                     name: fullName,
-                    tags: [getBusinessDesignCategory(item.id), item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
+                    tags: [getBusinessDesignCategory(item.id), item.category_zh || '商業', item.name_zh || item.name, getBusinessNameZh3(item.id)],
                     img: item.img,
                     isBusiness: true,
                     yaml: item.yaml,
@@ -649,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. 基於細分標籤篩選
         if (activeSubtag) {
             if (activeCategory === 'business') {
-                displayList = displayList.filter(item => item.tags && item.tags[0] === activeSubtag);
+                displayList = displayList.filter(item => item.tags && item.tags[1] === activeSubtag);
             } else {
                 displayList = displayList.filter(item => item.tags && item.tags.slice(1).includes(activeSubtag));
             }
