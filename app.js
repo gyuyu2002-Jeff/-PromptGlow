@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let historyList = JSON.parse(localStorage.getItem('bx_history') || '[]');
     let actionStats = JSON.parse(localStorage.getItem('bx_action_stats') || '{"copy":0,"fav_add":0,"modal_open":0,"scroll_explore":0,"badges_earned":[]}');
     
-    let radarChartInstance = null;
 
     // --- 徽章定義 ---
     const BADGES = {
@@ -577,6 +576,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 搜尋與卡片過濾 ---
+    function matchesSubtag(item, subtag) {
+        if (!item.tags) return false;
+        
+        const itemTagsStr = [
+            ...(item.tags || []),
+            item.name || '',
+            item.category || '',
+            item.category_zh || ''
+        ].join(' ').toLowerCase();
+        
+        if (subtag === '扁平插畫') {
+            return itemTagsStr.includes('flat') || itemTagsStr.includes('vector') || itemTagsStr.includes('扁平') || itemTagsStr.includes('插畫') || itemTagsStr.includes('向量');
+        }
+        if (subtag === '極簡線條') {
+            return itemTagsStr.includes('minimal') || itemTagsStr.includes('極簡') || itemTagsStr.includes('線條') || itemTagsStr.includes('mono');
+        }
+        if (subtag === '手繪塗鴉') {
+            return itemTagsStr.includes('doodle') || itemTagsStr.includes('marker') || itemTagsStr.includes('手繪') || itemTagsStr.includes('塗鴉') || itemTagsStr.includes('麥克筆');
+        }
+        if (subtag === '立體3D') {
+            return itemTagsStr.includes('3d') || itemTagsStr.includes('clay') || itemTagsStr.includes('solid') || itemTagsStr.includes('立體') || itemTagsStr.includes('黏土') || itemTagsStr.includes('三維');
+        }
+        if (subtag === '資訊圖表') {
+            return itemTagsStr.includes('infographic') || itemTagsStr.includes('data') || itemTagsStr.includes('圖表') || itemTagsStr.includes('數據') || itemTagsStr.includes('表格');
+        }
+        if (subtag === '復古印藝') {
+            return itemTagsStr.includes('retro') || itemTagsStr.includes('collage') || itemTagsStr.includes('vintage') || itemTagsStr.includes('復古') || itemTagsStr.includes('印藝') || itemTagsStr.includes('拼貼');
+        }
+        if (subtag === '科幻光效') {
+            return itemTagsStr.includes('sci-fi') || itemTagsStr.includes('neon') || itemTagsStr.includes('科幻') || itemTagsStr.includes('光效') || itemTagsStr.includes('螢光');
+        }
+        if (subtag === '幾何構成') {
+            return itemTagsStr.includes('geometric') || itemTagsStr.includes('isometric') || itemTagsStr.includes('幾何') || itemTagsStr.includes('等距') || itemTagsStr.includes('透視');
+        }
+        
+        return false;
+    }
+
     function filterAndRenderCards() {
         let displayList = [];
         
@@ -623,11 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. 基於細分標籤篩選
         if (activeSubtag) {
-            if (activeCategory === 'business') {
-                displayList = displayList.filter(item => item.tags && item.tags[1] === activeSubtag);
-            } else {
-                displayList = displayList.filter(item => item.tags && item.tags.slice(1).includes(activeSubtag));
-            }
+            displayList = displayList.filter(item => matchesSubtag(item, activeSubtag));
         }
 
         // 3. 基於關鍵字搜尋過濾 (ID, 名稱, 標籤)
@@ -906,13 +939,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 骨架屏載入提示
         modalComments.innerHTML = '<div class="comment-item"><span class="comment-text">專家評語加載中...</span></div>';
         modalPromptCode.textContent = '提示詞 YAML 代碼加載中...';
-        scoreGrid.innerHTML = '';
-        
-        // 清理舊雷達圖
-        if (radarChartInstance) {
-            radarChartInstance.destroy();
-            radarChartInstance = null;
-        }
+        if (scoreGrid) scoreGrid.innerHTML = '';
 
         // 記錄歷史記錄
         if (!historyList.includes(item.id)) {
@@ -989,23 +1016,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (checkboxInput) checkboxInput.onchange = updateModalPromptDisplay;
         updateModalPromptDisplay();
         
-        // 渲染雷達圖與五維度評分
-        // 默認五維度評估
-        let scores = details.scores || {
-            'Legibility': 6,
-            'Hierarchy': 6,
-            'Consistency': 6,
-            'Atmosphere': 6,
-            'Theme Fit': 6
-        };
-        
-        // 如果是商業提示詞，虛擬一組中規中矩的評分，或者展示基本評分
-        if (item.isBusiness) {
-            scores = { 'Legibility': 8, 'Hierarchy': 8, 'Consistency': 8, 'Atmosphere': 7, 'Theme Fit': 9 };
-        }
-        
-        renderRadarChart(scores);
-        renderScoreBars(scores);
+        // 渲染色彩星盤與設計字型/版面規格
+        renderDesignSpecs(item, details);
         
         // 渲染專家點評 (Comments)
         modalComments.innerHTML = '';
@@ -1049,10 +1061,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeDetailModal() {
         detailModal.classList.remove('active');
         document.body.style.overflow = '';
-        if (radarChartInstance) {
-            radarChartInstance.destroy();
-            radarChartInstance = null;
-        }
     }
     
     modalCloseBtn.addEventListener('click', closeDetailModal);
@@ -1060,105 +1068,147 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === detailModal) closeDetailModal();
     });
 
-    // 渲染雷達圖
-    function renderRadarChart(scores) {
-        const ctx = document.getElementById('radarChart').getContext('2d');
+    // 渲染設計規格 (主配色色盤、字型組合、版面特徵)
+    function renderDesignSpecs(item, details) {
+        const swatchesContainer = document.getElementById('modalColorSwatches');
+        const fontSpecsContainer = document.getElementById('modalFontSpecs');
+        const layoutSpecsContainer = document.getElementById('modalLayoutSpecs');
         
-        // 雷達圖維度漢化
-        const labels = ['可讀性', '視覺層級', '風格一致性', '畫面氛圍', '主題契合'];
-        const values = [
-            scores.Legibility || scores['Legibility'] || 0,
-            scores.Hierarchy || scores['Hierarchy'] || 0,
-            scores.Consistency || scores['Consistency'] || 0,
-            scores.Atmosphere || scores['Atmosphere'] || 0,
-            scores.ThemeFit || scores['Theme Fit'] || 0
-        ];
+        if (!swatchesContainer || !fontSpecsContainer || !layoutSpecsContainer) return;
         
-        radarChartInstance = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: '設計評分',
-                    data: values,
-                    backgroundColor: 'rgba(229, 80, 57, 0.2)',
-                    borderColor: '#E55039',
-                    borderWidth: 2,
-                    pointBackgroundColor: '#E55039',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: '#E55039',
-                    pointRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    r: {
-                        angleLines: {
-                            color: 'rgba(0, 0, 0, 0.08)'
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.08)'
-                        },
-                        pointLabels: {
-                            font: {
-                                family: "'Outfit', 'Noto Sans TC'",
-                                size: 11,
-                                weight: '600'
-                            },
-                            color: '#2C2C2C'
-                        },
-                        ticks: {
-                            stepSize: 2,
-                            display: false // 隱藏多餘刻度數字
-                        },
-                        min: 0,
-                        max: 10
-                    }
-                }
+        swatchesContainer.innerHTML = '';
+        
+        // 1. 提取或產生調色盤配色
+        let colors = [];
+        const yamlText = details.yaml || '';
+        
+        // 使用 Regex 尋找 YAML 內的所有 #十六進位色碼
+        const hexRegex = /#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})\b/g;
+        let match;
+        while ((match = hexRegex.exec(yamlText)) !== null) {
+            const color = match[0].toUpperCase();
+            if (!colors.includes(color)) {
+                colors.push(color);
             }
-        });
-    }
-
-    // 渲染彈窗左側下方的五維度評分進度條
-    function renderScoreBars(scores) {
-        scoreGrid.innerHTML = '';
+        }
         
-        const keyMap = {
-            'Legibility': '可讀性',
-            'Hierarchy': '視覺層級',
-            'Consistency': '一致性',
-            'Atmosphere': '畫面氛圍',
-            'Theme Fit': '主題契合'
-        };
+        // 如果 YAML 內沒有找到足夠色碼，根據風格類別提供高質感配色的 Fallback 預設
+        if (colors.length < 2) {
+            const cat = item.tags && item.tags[0] ? item.tags[0] : 'default';
+            const fallbacks = {
+                'business': ['#F8F9FA', '#1E293B', '#3B82F6', '#0F172A'],
+                '向量與扁平': ['#FFFFFF', '#1E293B', '#E55039', '#4A5568'],
+                '復古與印藝': ['#F5F2EB', '#4A3C31', '#D97706', '#78350F'],
+                '手繪塗鴉': ['#FFFDF5', '#2D3748', '#F59E0B', '#4A5568'],
+                '極簡與線條': ['#FAFAFA', '#111827', '#6B7280', '#1F2937'],
+                '立體與3D': ['#EDF2F7', '#2D3748', '#EC4899', '#4A5568'],
+                '科幻與光效': ['#0B0F19', '#E2E8F0', '#06B6D4', '#F43F5E'],
+                '藝術與排版': ['#FCFAFA', '#1A202C', '#805AD5', '#2D3748'],
+                'default': ['#FAFAFA', '#1E293B', '#E55039', '#4A5568']
+            };
+            colors = fallbacks[cat] || fallbacks['default'];
+        }
         
-        Object.entries(scores).forEach(([key, val]) => {
-            const barItem = document.createElement('div');
-            barItem.className = 'score-bar-item';
+        // 渲染色卡 Swatches
+        colors.forEach((color, idx) => {
+            const colorPill = document.createElement('div');
+            colorPill.className = 'color-pill';
+            colorPill.style.display = 'flex';
+            colorPill.style.alignItems = 'center';
+            colorPill.style.gap = '8px';
+            colorPill.style.padding = '6px 12px';
+            colorPill.style.borderRadius = '20px';
+            colorPill.style.backgroundColor = 'var(--bg-card)';
+            colorPill.style.border = '1px solid var(--border-color)';
+            colorPill.style.cursor = 'pointer';
+            colorPill.style.transition = 'all 0.2s ease';
+            colorPill.title = '點擊複製色碼';
             
-            barItem.innerHTML = `
-                <span class="score-label">${keyMap[key] || key}</span>
-                <div class="score-bar-bg">
-                    <div class="score-bar-fill" style="width: 0%;"></div>
-                </div>
-                <span class="score-value">${val}/10</span>
-            `;
+            // 色標小圓點
+            const dot = document.createElement('span');
+            dot.style.display = 'inline-block';
+            dot.style.width = '16px';
+            dot.style.height = '16px';
+            dot.style.borderRadius = '50%';
+            dot.style.backgroundColor = color;
+            dot.style.border = '1px solid rgba(0,0,0,0.1)';
             
-            scoreGrid.appendChild(barItem);
+            // 標示文字
+            const text = document.createElement('span');
+            text.style.fontSize = '0.78rem';
+            text.style.fontWeight = '700';
+            text.style.fontFamily = 'var(--font-mono)';
+            text.style.color = 'var(--text-primary)';
+            text.textContent = color;
             
-            // 延時觸發寬度過渡動畫，形成微交互體驗
-            setTimeout(() => {
-                const fill = barItem.querySelector('.score-bar-fill');
-                if (fill) fill.style.width = `${val * 10}%`;
-            }, 100);
+            colorPill.appendChild(dot);
+            colorPill.appendChild(text);
+            
+            // 懸停與點擊複製邏輯
+            colorPill.addEventListener('mouseenter', () => {
+                colorPill.style.transform = 'translateY(-2px)';
+                colorPill.style.boxShadow = 'var(--shadow-sm)';
+                colorPill.style.borderColor = 'var(--accent)';
+            });
+            colorPill.addEventListener('mouseleave', () => {
+                colorPill.style.transform = 'none';
+                colorPill.style.boxShadow = 'none';
+                colorPill.style.borderColor = 'var(--border-color)';
+            });
+            colorPill.addEventListener('click', () => {
+                navigator.clipboard.writeText(color).then(() => {
+                    showToast(`已複製色碼：${color}`);
+                    const origText = text.textContent;
+                    text.textContent = 'Copied!';
+                    setTimeout(() => { text.textContent = origText; }, 1000);
+                });
+            });
+            
+            swatchesContainer.appendChild(colorPill);
         });
+        
+        // 2. 決定字體與版面特徵
+        const cat = item.tags && item.tags[0] ? item.tags[0] : 'default';
+        let titleFont = 'Montserrat / 蘋方體 (PingFang SC)';
+        let bodyFont = 'Inter / 標楷體或微軟正黑體';
+        let layoutSpec = '留白比：25% | 對齊：結構化網格對齊 | 特色：重點圖示引導';
+        
+        if (cat.includes('扁平') || cat.includes('vector') || cat.includes('Flat')) {
+            titleFont = 'Inter / 粗體微軟正黑體 (Microsoft JhengHei)';
+            bodyFont = 'Inter / 微軟正黑體';
+            layoutSpec = '留白比：30% | 對齊：幾何網格對齊 | 特色：無漸層硬邊色塊、粗黑描邊線條';
+        } else if (cat.includes('極簡') || cat.includes('minimal') || cat.includes('Minimal')) {
+            titleFont = 'Helvetica Neue / 儷黑體 (LiHei Pro)';
+            bodyFont = 'Inter / 儷黑體或細微軟正黑體';
+            layoutSpec = '留白比：45% | 對齊：不對稱包浩斯對齊 | 特色：無邊框、大片留白與極細裝飾線';
+        } else if (cat.includes('手繪') || cat.includes('doodle') || cat.includes('Doodle')) {
+            titleFont = 'Quicksand / 華康圓體或手寫風字體';
+            bodyFont = 'Inter / 華康圓體';
+            layoutSpec = '留白比：25% | 對齊：有機手寫自由對齊 | 特色：手繪線條外框、麥克筆填色筆觸';
+        } else if (cat.includes('立體') || cat.includes('3D') || cat.includes('clay') || cat.includes('Clay')) {
+            titleFont = 'Montserrat / 粗微軟正黑體';
+            bodyFont = 'Inter / 微軟正黑體';
+            layoutSpec = '留白比：30% | 對齊：等距三維立體對齊 | 特色：3D黏土物件、大柔和漫反射陰影';
+        } else if (cat.includes('資訊') || cat.includes('infographic') || cat.includes('Infographic')) {
+            titleFont = 'Outfit / 蘋方體 (PingFang SC)';
+            bodyFont = 'Inter / 微軟正黑體';
+            layoutSpec = '留白比：20% | 對齊：嚴格對稱網格對齊 | 特色：高度圖表化、數據區塊以粗框標註';
+        } else if (cat.includes('復古') || cat.includes('retro') || cat.includes('Retro')) {
+            titleFont = 'Georgia / 宋體 (Noto Serif TC)';
+            bodyFont = 'Georgia / 宋體';
+            layoutSpec = '留白比：35% | 對齊：經典左右雙欄對齊 | 特色：斑駁質地紋理、半色調網點裝飾';
+        } else if (cat.includes('科幻') || cat.includes('sci-fi') || cat.includes('Sci-Fi')) {
+            titleFont = 'Orbitron / 粗微軟正黑體';
+            bodyFont = 'Inter / 微軟正黑體';
+            layoutSpec = '留白比：30% | 對齊：發光介面控制台排版 | 特色：螢光霓虹描邊、深色背景暗黑模式';
+        } else if (cat.includes('藝術') || cat.includes('art') || cat.includes('Art')) {
+            titleFont = 'Playfair Display / 仿宋體 (Noto Serif TC)';
+            bodyFont = 'Inter / 仿宋體';
+            layoutSpec = '留白比：40% | 對齊：雜誌排版不規則對齊 | 特色：高對比色差、超大字母點綴飾角';
+        }
+        
+        fontSpecsContainer.innerHTML = `<strong>標題字體：</strong>${titleFont}<br><strong>內文字體：</strong>${bodyFont}`;
+        layoutSpecsContainer.innerHTML = layoutSpec;
     }
 
     // --- Lightbox 圖片放大 ---
