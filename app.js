@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let favorites = JSON.parse(localStorage.getItem('bx_favorites') || '[]');
     let historyList = JSON.parse(localStorage.getItem('bx_history') || '[]');
     let actionStats = JSON.parse(localStorage.getItem('bx_action_stats') || '{"copy":0,"fav_add":0,"modal_open":0,"scroll_explore":0,"badges_earned":[]}');
-    
+    let currentModalSpecs = null;
 
     // --- 徽章定義 ---
     const BADGES = {
@@ -852,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (addInstructions) {
                     let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
                     
-                    let hasConfig = topic || audience || slides || detailsText;
+                    let hasConfig = topic || audience || slides || detailsText || currentModalSpecs;
                     if (hasConfig) {
                         prefix += `[簡報配置資訊]\n`;
                         if (topic) prefix += `- 簡報主題：${topic}\n`;
@@ -860,6 +860,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (slides) prefix += `- 投影片張數：${slides}\n`;
                         if (detailsText) {
                             prefix += `- 簡報大綱與重點：\n  ${detailsText.replace(/\n/g, '\n  ')}\n`;
+                        }
+                        if (currentModalSpecs) {
+                            if (currentModalSpecs.colors && currentModalSpecs.colors.length > 0) {
+                                prefix += `- 指定色彩代碼：${currentModalSpecs.colors.join(', ')}\n`;
+                            }
+                            prefix += `- 指定字體建議：標題: ${currentModalSpecs.titleFont.replace(/<br>/g, ' ')} | 內文: ${currentModalSpecs.bodyFont.replace(/<br>/g, ' ')}\n`;
+                            prefix += `- 指定版面規則：${currentModalSpecs.layoutSpec}\n`;
                         }
                         prefix += `\n`;
                     }
@@ -988,7 +995,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (addInstructions) {
                     let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
                     
-                    let hasConfig = topic || audience || slides || detailsText;
+                    let hasConfig = topic || audience || slides || detailsText || currentModalSpecs;
                     if (hasConfig) {
                         prefix += `[簡報配置資訊]\n`;
                         if (topic) prefix += `- 簡報主題：${topic}\n`;
@@ -996,6 +1003,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (slides) prefix += `- 投影片張數：${slides}\n`;
                         if (detailsText) {
                             prefix += `- 簡報大綱與重點：\n  ${detailsText.replace(/\n/g, '\n  ')}\n`;
+                        }
+                        if (currentModalSpecs) {
+                            if (currentModalSpecs.colors && currentModalSpecs.colors.length > 0) {
+                                prefix += `- 指定色彩代碼：${currentModalSpecs.colors.join(', ')}\n`;
+                            }
+                            prefix += `- 指定字體建議：標題: ${currentModalSpecs.titleFont.replace(/<br>/g, ' ')} | 內文: ${currentModalSpecs.bodyFont.replace(/<br>/g, ' ')}\n`;
+                            prefix += `- 指定版面規則：${currentModalSpecs.layoutSpec}\n`;
                         }
                         prefix += `\n`;
                     }
@@ -1009,15 +1023,15 @@ document.addEventListener('DOMContentLoaded', () => {
             modalPromptCode.textContent = displayedYaml;
         }
 
+        // 渲染色彩星盤與設計字型/版面規格
+        renderDesignSpecs(item, details);
+
         if (topicInput) topicInput.oninput = updateModalPromptDisplay;
         if (audienceInput) audienceInput.oninput = updateModalPromptDisplay;
         if (slidesInput) slidesInput.oninput = updateModalPromptDisplay;
         if (detailsInput) detailsInput.oninput = updateModalPromptDisplay;
         if (checkboxInput) checkboxInput.onchange = updateModalPromptDisplay;
         updateModalPromptDisplay();
-        
-        // 渲染色彩星盤與設計字型/版面規格
-        renderDesignSpecs(item, details);
         
         // 渲染專家點評 (Comments)
         modalComments.innerHTML = '';
@@ -1061,6 +1075,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeDetailModal() {
         detailModal.classList.remove('active');
         document.body.style.overflow = '';
+        currentModalSpecs = null;
     }
     
     modalCloseBtn.addEventListener('click', closeDetailModal);
@@ -1207,6 +1222,13 @@ document.addEventListener('DOMContentLoaded', () => {
             layoutSpec = '留白比：40% | 對齊：雜誌排版不規則對齊 | 特色：高對比色差、超大字母點綴飾角';
         }
         
+        currentModalSpecs = {
+            colors: colors,
+            titleFont: titleFont,
+            bodyFont: bodyFont,
+            layoutSpec: layoutSpec
+        };
+
         fontSpecsContainer.innerHTML = `<strong>標題字體：</strong>${titleFont}<br><strong>內文字體：</strong>${bodyFont}`;
         layoutSpecsContainer.innerHTML = layoutSpec;
     }
