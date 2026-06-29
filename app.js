@@ -293,6 +293,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trimText === '壁畫圖') {
             return '扁平插畫';
         }
+        if (trimText === '風味') {
+            return '視覺調性';
+        }
         return trimText;
     }
 
