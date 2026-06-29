@@ -1141,6 +1141,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Logo 點擊回到首頁功能 ---
+    const logoArea = document.querySelector('.logo-area');
+    if (logoArea) {
+        logoArea.addEventListener('click', () => {
+            // 1. 重設大類為 'all'，小類清空
+            activeCategory = 'all';
+            activeSubtag = null;
+            
+            // 2. 清空搜尋內容
+            searchInput.value = '';
+            searchQuery = '';
+            clearSearchBtn.style.display = 'none';
+            
+            // 3. 恢復大類 Tab 按鈕的選中狀態為 'all'
+            const tabBtns = tabArea.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                if (btn.dataset.category === 'all') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // 4. 重建次標籤與卡片清單
+            renderSubtags();
+            filterAndRenderCards();
+            
+            // 5. 滾動回到頂端
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
     // --- 搜尋事件監聽 ---
     let searchTimeout = null;
     searchInput.addEventListener('input', (e) => {
