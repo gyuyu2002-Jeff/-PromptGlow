@@ -628,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.dataset.id = item.id;
             
             const isFav = favorites.includes(item.id);
-            const displayId = item.isBusiness ? `BIZ-${String(item.number).padStart(2, '0')}` : `#${String(item.number).padStart(3, '0')}`;
+            const displayId = `#${String(item.number).padStart(3, '0')}`;
             const category = item.tags && item.tags[0] ? item.tags[0] : '視覺風格';
             const imgUrl = getFullImageUrl(item);
             
@@ -799,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        modalNumber.textContent = item.isBusiness ? `BIZ-${String(item.number).padStart(2, '0')}` : `#${String(item.number).padStart(3, '0')}`;
+        modalNumber.textContent = `#${String(item.number).padStart(3, '0')}`;
         modalCategory.textContent = item.tags && item.tags[0] ? item.tags[0] : '分類';
         modalTitle.textContent = item.name;
         // 重設圖片與預覽占位卡的顯示狀態
