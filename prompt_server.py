@@ -22,6 +22,10 @@ except Exception as e:
 
 class AutoGeneratingHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
+        # Serve favicon.png when favicon.ico is requested
+        if self.path == '/favicon.ico':
+            self.path = '/favicon.png'
+            
         url_path = urllib.parse.unquote(self.path)
         # Parse queries (like cache busting)
         clean_path = url_path.split('?')[0]
