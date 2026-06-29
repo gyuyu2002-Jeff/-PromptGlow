@@ -535,15 +535,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeCategory === 'all') {
             displayList = [
                 ...liteData.map(item => ({ ...item, isBusiness: false })),
-                ...businessData.map(item => ({
-                    id: item.id,
-                    name: item.name_zh || item.name,
-                    tags: [item.category_zh || '商業', item.name_zh || item.name],
-                    img: item.img,
-                    isBusiness: true,
-                    yaml: item.yaml,
-                    number: item.number
-                }))
+                ...businessData.map(item => {
+                    const nameParts = [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''];
+                    const fullName = nameParts.filter(Boolean).join(' / ');
+                    return {
+                        id: item.id,
+                        name: fullName,
+                        tags: [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
+                        img: item.img,
+                        isBusiness: true,
+                        yaml: item.yaml,
+                        number: item.number
+                    };
+                })
             ];
         } else if (activeCategory === 'featured') {
             // 根據流行榜排序提取前 30 名，如果沒有流行數據，提取前 30 個項目
@@ -566,10 +570,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (activeCategory === 'business') {
             // 商業大類使用獨立數據庫
             displayList = businessData.map(item => {
+                const nameParts = [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''];
+                const fullName = nameParts.filter(Boolean).join(' / ');
                 return {
                     id: item.id,
-                    name: item.name_zh || item.name,
-                    tags: [item.category_zh || '商業', item.name_zh || item.name],
+                    name: fullName,
+                    tags: [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
                     img: item.img,
                     isBusiness: true,
                     yaml: item.yaml,
