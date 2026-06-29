@@ -311,6 +311,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return '向量與扁平';
     }
+    
+    function getBusinessStyleNumber(id) {
+        const mapping = {
+            'biz_business-consulting': 58,
+            'biz_business-government': 58,
+            'biz_industry-creative': 1,
+            'biz_industry-education': 58,
+            'biz_industry-retail': 58,
+            'biz_scene-analysis': 58,
+            'biz_scene-newbiz': 58,
+            'biz_scene-product': 58,
+            'biz_scene-promo': 58,
+            'biz_style-datadriven': 83,
+            'biz_style-empathy': 44,
+            'biz_style-innovation': 1,
+            'biz_style-japanese': 18,
+            'biz_style-premium': 10,
+            'biz_style-speed': 94,
+            'biz_style-storytelling': 47,
+            'biz_style-tech': 86,
+            'biz_taste-aerial': 6,
+            'biz_taste-bokeh': 2,
+            'biz_taste-collage': 101,
+            'biz_taste-duotone': 3,
+            'biz_taste-flat-gradient': 91,
+            'biz_taste-geometric': 12,
+            'biz_taste-infographic': 76,
+            'biz_taste-isometric': 71,
+            'biz_taste-mono-accent': 3,
+            'biz_taste-solid-3d': 72,
+            'biz_taste-teal-orange': 28,
+            'biz_taste-yuru-doodle': 43,
+            'biz_taste-yuru-marker': 44
+        };
+        return mapping[id] || 1;
+    }
 
     function sanitizeGarbledText(text) {
         if (!text) return '';
@@ -344,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             rankingData = rankingRes;
             businessData = businessRes.map((item, index) => {
-                item.number = 102 + index; // 102 to 131
+                item.number = getBusinessStyleNumber(item.id);
                 item.isBusiness = true;
                 return item;
             });
@@ -565,22 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 1. 基於大類篩選
         if (activeCategory === 'all') {
-            displayList = [
-                ...liteData.map(item => ({ ...item, isBusiness: false })),
-                ...businessData.map(item => {
-                    const nameParts = [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''];
-                    const fullName = nameParts.filter(Boolean).join(' / ');
-                    return {
-                        id: item.id,
-                        name: fullName,
-                        tags: [getBusinessDesignCategory(item.id), item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
-                        img: item.img,
-                        isBusiness: true,
-                        yaml: item.yaml,
-                        number: item.number
-                    };
-                })
-            ];
+            displayList = liteData.map(item => ({ ...item, isBusiness: false }));
         } else if (activeCategory === 'featured') {
             // 根據流行榜排序提取前 30 名，如果沒有流行數據，提取前 30 個項目
             if (rankingData && rankingData.order) {
@@ -615,25 +636,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             });
         } else {
-            // 標準大類過濾 (包含一般風格與對應風格分類的商業簡報)
-            const filteredLite = liteData.filter(item => item.tags && item.tags[0] === activeCategory).map(item => ({ ...item, isBusiness: false }));
-            const filteredBiz = businessData
-                .map(item => {
-                    const nameParts = [item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''];
-                    const fullName = nameParts.filter(Boolean).join(' / ');
-                    return {
-                        id: item.id,
-                        name: fullName,
-                        tags: [getBusinessDesignCategory(item.id), item.category_zh || '商業', item.name_zh || item.name, item.name_en || ''],
-                        img: item.img,
-                        isBusiness: true,
-                        yaml: item.yaml,
-                        number: item.number
-                    };
-                })
-                .filter(item => item.tags[0] === activeCategory);
-            
-            displayList = [...filteredLite, ...filteredBiz];
+            // 標準大類過濾
+            displayList = liteData.filter(item => item.tags && item.tags[0] === activeCategory).map(item => ({ ...item, isBusiness: false }));
         }
 
         // 2. 基於細分標籤篩選
