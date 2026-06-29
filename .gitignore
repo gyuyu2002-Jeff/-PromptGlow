@@ -1,0 +1,13 @@
+# Ignore test images
+test_nano_*.png
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

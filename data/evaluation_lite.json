@@ -1,0 +1,2018 @@
+[
+  {
+    "id": "nano_01",
+    "number": 1,
+    "tags": [
+      "向量扁平",
+      "扁平插畫",
+      "商務企業",
+      "孟菲斯風"
+    ],
+    "total": 47,
+    "name": "Flat illustration / Corporate / Memphis",
+    "img": "assets/images/general-v2/ja/nano_73.png",
+    "name_zh": "扁平插畫 / 商務企業 / 孟菲斯風",
+    "tags_zh": [
+      "向量扁平",
+      "扁平插畫",
+      "商務企業",
+      "孟菲斯風"
+    ]
+  },
+  {
+    "id": "nano_02",
+    "number": 2,
+    "tags": [
+      "向量扁平",
+      "移軸",
+      "微型",
+      "模糊虛化"
+    ],
+    "total": 49,
+    "name": "Tilt-shift / Miniature / Blur",
+    "img": "assets/images/general-v2/ja/nano_289.png",
+    "name_zh": "移軸 / 微型 / 模糊虛化",
+    "tags_zh": [
+      "向量扁平",
+      "移軸",
+      "微型",
+      "模糊虛化"
+    ]
+  },
+  {
+    "id": "nano_03",
+    "number": 3,
+    "tags": [
+      "向量扁平",
+      "黑白",
+      "肖像",
+      "光"
+    ],
+    "total": 46,
+    "name": "Black&White / Portrait / Light",
+    "img": "assets/images/general-v2/ja/nano_283.png",
+    "name_zh": "黑白 / 肖像 / 光",
+    "tags_zh": [
+      "向量扁平",
+      "黑白",
+      "肖像",
+      "光"
+    ]
+  },
+  {
+    "id": "nano_04",
+    "number": 4,
+    "tags": [
+      "向量扁平",
+      "諾林",
+      "粉彩",
+      "靜止的"
+    ],
+    "total": 49,
+    "name": "Knolling / Pastel / Stationery",
+    "img": "assets/images/general-v2/ja/nano_86.png",
+    "name_zh": "諾林 / 粉彩 / 靜止的",
+    "tags_zh": [
+      "向量扁平",
+      "諾林",
+      "粉彩",
+      "靜止的"
+    ]
+  },
+  {
+    "id": "nano_05",
+    "number": 5,
+    "tags": [
+      "向量扁平",
+      "商務企業",
+      "孟菲斯風",
+      "俏皮"
+    ],
+    "total": 49,
+    "name": "Corporate / Memphis / Playful",
+    "img": "assets/images/general-v2/ja/nano_39.png",
+    "name_zh": "商務企業 / 孟菲斯風 / 俏皮",
+    "tags_zh": [
+      "向量扁平",
+      "商務企業",
+      "孟菲斯風",
+      "俏皮"
+    ]
+  },
+  {
+    "id": "nano_06",
+    "number": 6,
+    "tags": [
+      "向量扁平",
+      "諾林",
+      "攝影",
+      "有組織"
+    ],
+    "total": 45,
+    "name": "Knolling / Photography / Organized",
+    "img": "assets/images/general-v2/ja/nano_49.png",
+    "name_zh": "諾林 / 攝影 / 有組織",
+    "tags_zh": [
+      "向量扁平",
+      "諾林",
+      "攝影",
+      "有組織"
+    ]
+  },
+  {
+    "id": "nano_07",
+    "number": 7,
+    "tags": [
+      "向量扁平",
+      "大理石",
+      "白色",
+      "金子"
+    ],
+    "total": 45,
+    "name": "Marble / White / Gold",
+    "img": "assets/images/general-v2/ja/nano_223.png",
+    "name_zh": "大理石 / 白色 / 金子",
+    "tags_zh": [
+      "向量扁平",
+      "大理石",
+      "白色",
+      "金子"
+    ]
+  },
+  {
+    "id": "nano_08",
+    "number": 8,
+    "tags": [
+      "向量扁平",
+      "同型",
+      "扁平風",
+      "圖示"
+    ],
+    "total": 48,
+    "name": "Isotype / Flat / Icon",
+    "img": "assets/images/general-v2/ja/nano_125.png",
+    "name_zh": "同型 / 扁平風 / 圖示",
+    "tags_zh": [
+      "向量扁平",
+      "同型",
+      "扁平風",
+      "圖示"
+    ]
+  },
+  {
+    "id": "nano_09",
+    "number": 9,
+    "tags": [
+      "向量扁平",
+      "同型",
+      "向量",
+      "簡約風"
+    ],
+    "total": 48,
+    "name": "Isotype / Vector / Simple",
+    "img": "assets/images/general-v2/ja/nano_155.png",
+    "name_zh": "同型 / 向量 / 簡約風",
+    "tags_zh": [
+      "向量扁平",
+      "同型",
+      "向量",
+      "簡約風"
+    ]
+  },
+  {
+    "id": "nano_10",
+    "number": 10,
+    "tags": [
+      "向量扁平",
+      "燙金",
+      "白色",
+      "浮雕"
+    ],
+    "total": 49,
+    "name": "Foil Stamping / White / Emboss",
+    "img": "assets/images/general-v2/ja/nano_146.png",
+    "name_zh": "燙金 / 白色 / 浮雕",
+    "tags_zh": [
+      "向量扁平",
+      "燙金",
+      "白色",
+      "浮雕"
+    ]
+  },
+  {
+    "id": "nano_11",
+    "number": 11,
+    "tags": [
+      "向量扁平",
+      "森林",
+      "綠色的",
+      "陽光"
+    ],
+    "total": 47,
+    "name": "Forest / Green / Sunlight",
+    "img": "assets/images/general-v2/ja/nano_254.png",
+    "name_zh": "森林 / 綠色的 / 陽光",
+    "tags_zh": [
+      "向量扁平",
+      "森林",
+      "綠色的",
+      "陽光"
+    ]
+  },
+  {
+    "id": "nano_12",
+    "number": 12,
+    "tags": [
+      "向量扁平",
+      "建構主義",
+      "幾何圖形",
+      "紅色的"
+    ],
+    "total": 49,
+    "name": "Constructivism / Geometric / Red",
+    "img": "assets/images/general-v2/ja/nano_182.png",
+    "name_zh": "建構主義 / 幾何圖形 / 紅色的",
+    "tags_zh": [
+      "向量扁平",
+      "建構主義",
+      "幾何圖形",
+      "紅色的"
+    ]
+  },
+  {
+    "id": "nano_13",
+    "number": 13,
+    "tags": [
+      "向量扁平",
+      "水下",
+      "藍色的",
+      "光"
+    ],
+    "total": 47,
+    "name": "Underwater / Blue / Light",
+    "img": "assets/images/general-v2/ja/nano_285.png",
+    "name_zh": "水下 / 藍色的 / 光",
+    "tags_zh": [
+      "向量扁平",
+      "水下",
+      "藍色的",
+      "光"
+    ]
+  },
+  {
+    "id": "nano_14",
+    "number": 14,
+    "tags": [
+      "向量扁平",
+      "至上主義",
+      "幾何圖形",
+      "漂浮的"
+    ],
+    "total": 50,
+    "name": "Suprematism / Geometric / Floating",
+    "img": "assets/images/general-v2/ja/nano_203.png",
+    "name_zh": "至上主義 / 幾何圖形 / 漂浮的",
+    "tags_zh": [
+      "向量扁平",
+      "至上主義",
+      "幾何圖形",
+      "漂浮的"
+    ]
+  },
+  {
+    "id": "nano_15",
+    "number": 15,
+    "tags": [
+      "向量扁平",
+      "扁平插畫",
+      "材質設計",
+      "現代的"
+    ],
+    "total": 40,
+    "name": "Flat illustration / Material design / Modern",
+    "img": "assets/images/general-v2/ja/nano_05.png",
+    "name_zh": "扁平插畫 / 材質設計 / 現代的",
+    "tags_zh": [
+      "向量扁平",
+      "扁平插畫",
+      "材質設計",
+      "現代的"
+    ]
+  },
+  {
+    "id": "nano_16",
+    "number": 16,
+    "tags": [
+      "向量扁平",
+      "地中海",
+      "藍色的",
+      "瓦"
+    ],
+    "total": 47,
+    "name": "Mediterranean / Blue / Tile",
+    "img": "assets/images/general-v2/ja/nano_213.png",
+    "name_zh": "地中海 / 藍色的 / 瓦",
+    "tags_zh": [
+      "向量扁平",
+      "地中海",
+      "藍色的",
+      "瓦"
+    ]
+  },
+  {
+    "id": "nano_17",
+    "number": 17,
+    "tags": [
+      "向量扁平",
+      "達賽",
+      "2003年PPT",
+      "混亂@studio_veco"
+    ],
+    "total": 32,
+    "name": "DASAI / PPT 2003 / Chaos @studio_veco",
+    "img": "assets/images/general-v2/ja/nano_501.png",
+    "name_zh": "達賽 / 2003年PPT / 混亂@studio_veco",
+    "tags_zh": [
+      "向量扁平",
+      "達賽",
+      "2003年PPT",
+      "混亂@studio_veco"
+    ]
+  },
+  {
+    "id": "nano_18",
+    "number": 18,
+    "tags": [
+      "向量扁平",
+      "東方",
+      "紅色的",
+      "金子"
+    ],
+    "total": 46,
+    "name": "Oriental / Red / Gold",
+    "img": "assets/images/general-v2/ja/nano_219.png",
+    "name_zh": "東方 / 紅色的 / 金子",
+    "tags_zh": [
+      "向量扁平",
+      "東方",
+      "紅色的",
+      "金子"
+    ]
+  },
+  {
+    "id": "nano_19",
+    "number": 19,
+    "tags": [
+      "向量扁平",
+      "垃圾",
+      "質地",
+      "污垢"
+    ],
+    "total": 49,
+    "name": "Grunge / Texture / Dirt",
+    "img": "assets/images/general-v2/ja/nano_164.png",
+    "name_zh": "垃圾 / 質地 / 污垢",
+    "tags_zh": [
+      "向量扁平",
+      "垃圾",
+      "質地",
+      "污垢"
+    ]
+  },
+  {
+    "id": "nano_20",
+    "number": 20,
+    "tags": [
+      "向量扁平",
+      "油畫",
+      "印象派",
+      "光"
+    ],
+    "total": 44,
+    "name": "Oil Painting / Impressionism / Light",
+    "img": "assets/images/general-v2/ja/nano_85.png",
+    "name_zh": "油畫 / 印象派 / 光",
+    "tags_zh": [
+      "向量扁平",
+      "油畫",
+      "印象派",
+      "光"
+    ]
+  },
+  {
+    "id": "nano_21",
+    "number": 21,
+    "tags": [
+      "向量扁平",
+      "數據視覺化",
+      "圖形",
+      "資訊"
+    ],
+    "total": 48,
+    "name": "Data Viz / Graph / Information",
+    "img": "assets/images/general-v2/ja/nano_248.png",
+    "name_zh": "數據視覺化 / 圖形 / 資訊",
+    "tags_zh": [
+      "向量扁平",
+      "數據視覺化",
+      "圖形",
+      "資訊"
+    ]
+  },
+  {
+    "id": "nano_22",
+    "number": 22,
+    "tags": [
+      "復古與印藝",
+      "日系漫畫",
+      "少女風",
+      "閃耀效果"
+    ],
+    "total": 50,
+    "name": "Manga / Shoujo / Sparkle",
+    "img": "assets/images/general-v2/ja/nano_180.png",
+    "name_zh": "日系漫畫 / 少女風 / 閃耀效果",
+    "tags_zh": [
+      "復古與印藝",
+      "日系漫畫",
+      "少女風",
+      "閃耀效果"
+    ]
+  },
+  {
+    "id": "nano_23",
+    "number": 23,
+    "tags": [
+      "復古與印藝",
+      "拼貼剪貼",
+      "復古懷舊",
+      "花"
+    ],
+    "total": 49,
+    "name": "Collage / Vintage / Flower",
+    "img": "assets/images/general-v2/ja/nano_148.png",
+    "name_zh": "拼貼剪貼 / 復古懷舊 / 花",
+    "tags_zh": [
+      "復古與印藝",
+      "拼貼剪貼",
+      "復古懷舊",
+      "花"
+    ]
+  },
+  {
+    "id": "nano_24",
+    "number": 24,
+    "tags": [
+      "復古與印藝",
+      "拼貼剪貼",
+      "空間",
+      "復古懷舊"
+    ],
+    "total": 46,
+    "name": "Collage / Space / Vintage",
+    "img": "assets/images/general-v2/ja/nano_74.png",
+    "name_zh": "拼貼剪貼 / 空間 / 復古懷舊",
+    "tags_zh": [
+      "復古與印藝",
+      "拼貼剪貼",
+      "空間",
+      "復古懷舊"
+    ]
+  },
+  {
+    "id": "nano_25",
+    "number": 25,
+    "tags": [
+      "復古與印藝",
+      "日系漫畫",
+      "螢幕色調",
+      "行動"
+    ],
+    "total": 50,
+    "name": "Manga / Screen Tone / Action",
+    "img": "assets/images/general-v2/ja/nano_143.png",
+    "name_zh": "日系漫畫 / 螢幕色調 / 行動",
+    "tags_zh": [
+      "復古與印藝",
+      "日系漫畫",
+      "螢幕色調",
+      "行動"
+    ]
+  },
+  {
+    "id": "nano_26",
+    "number": 26,
+    "tags": [
+      "復古與印藝",
+      "像素藝術",
+      "復古遊戲",
+      "8位元像素"
+    ],
+    "total": 49,
+    "name": "Pixel Art / Retro Game / 8-bit",
+    "img": "assets/images/general-v2/ja/nano_243.png",
+    "name_zh": "像素藝術 / 復古遊戲 / 8位元像素",
+    "tags_zh": [
+      "復古與印藝",
+      "像素藝術",
+      "復古遊戲",
+      "8位元像素"
+    ]
+  },
+  {
+    "id": "nano_27",
+    "number": 27,
+    "tags": [
+      "復古與印藝",
+      "植物",
+      "復古懷舊",
+      "綠色的"
+    ],
+    "total": 49,
+    "name": "Botanical / Vintage / Green",
+    "img": "assets/images/general-v2/ja/nano_171.png",
+    "name_zh": "植物 / 復古懷舊 / 綠色的",
+    "tags_zh": [
+      "復古與印藝",
+      "植物",
+      "復古懷舊",
+      "綠色的"
+    ]
+  },
+  {
+    "id": "nano_28",
+    "number": 28,
+    "tags": [
+      "復古與印藝",
+      "拼貼剪貼",
+      "空間",
+      "復古風"
+    ],
+    "total": 49,
+    "name": "Collage / Space / Retro",
+    "img": "assets/images/general-v2/ja/nano_168.png",
+    "name_zh": "拼貼剪貼 / 空間 / 復古風",
+    "tags_zh": [
+      "復古與印藝",
+      "拼貼剪貼",
+      "空間",
+      "復古風"
+    ]
+  },
+  {
+    "id": "nano_29",
+    "number": 29,
+    "tags": [
+      "復古與印藝",
+      "植物",
+      "復古懷舊",
+      "插畫"
+    ],
+    "total": 47,
+    "name": "Botanical / Vintage / Illustration",
+    "img": "assets/images/general-v2/ja/nano_251.png",
+    "name_zh": "植物 / 復古懷舊 / 插畫",
+    "tags_zh": [
+      "復古與印藝",
+      "植物",
+      "復古懷舊",
+      "插畫"
+    ]
+  },
+  {
+    "id": "nano_30",
+    "number": 30,
+    "tags": [
+      "復古與印藝",
+      "浮世繪",
+      "扁平插畫",
+      "向量插畫"
+    ],
+    "total": 44,
+    "name": "Ukiyo-e / Flat illustration / Vector art",
+    "img": "assets/images/general-v2/ja/nano_15.png",
+    "name_zh": "浮世繪 / 扁平插畫 / 向量插畫",
+    "tags_zh": [
+      "復古與印藝",
+      "浮世繪",
+      "扁平插畫",
+      "向量插畫"
+    ]
+  },
+  {
+    "id": "nano_31",
+    "number": 31,
+    "tags": [
+      "復古與印藝",
+      "立體圖",
+      "藍色的",
+      "紅色的"
+    ],
+    "total": 46,
+    "name": "Risograph / Blue / Red",
+    "img": "assets/images/general-v2/ja/nano_169.png",
+    "name_zh": "立體圖 / 藍色的 / 紅色的",
+    "tags_zh": [
+      "復古與印藝",
+      "立體圖",
+      "藍色的",
+      "紅色的"
+    ]
+  },
+  {
+    "id": "nano_32",
+    "number": 32,
+    "tags": [
+      "復古與印藝",
+      "日系漫畫",
+      "螢幕色調",
+      "行動"
+    ],
+    "total": 49,
+    "name": "Manga / Screentone / Action",
+    "img": "assets/images/general-v2/ja/nano_88.png",
+    "name_zh": "日系漫畫 / 螢幕色調 / 行動",
+    "tags_zh": [
+      "復古與印藝",
+      "日系漫畫",
+      "螢幕色調",
+      "行動"
+    ]
+  },
+  {
+    "id": "nano_33",
+    "number": 33,
+    "tags": [
+      "復古與印藝",
+      "復古懷舊",
+      "棕褐色",
+      "質地"
+    ],
+    "total": 49,
+    "name": "Vintage / Sepia / Texture",
+    "img": "assets/images/general-v2/ja/nano_268.png",
+    "name_zh": "復古懷舊 / 棕褐色 / 質地",
+    "tags_zh": [
+      "復古與印藝",
+      "復古懷舊",
+      "棕褐色",
+      "質地"
+    ]
+  },
+  {
+    "id": "nano_34",
+    "number": 34,
+    "tags": [
+      "復古與印藝",
+      "浮世繪",
+      "都市流行音樂",
+      "半色調"
+    ],
+    "total": 49,
+    "name": "Ukiyo-e / City Pop / Halftone",
+    "img": "assets/images/general-v2/ja/nano_54.png",
+    "name_zh": "浮世繪 / 都市流行音樂 / 半色調",
+    "tags_zh": [
+      "復古與印藝",
+      "浮世繪",
+      "都市流行音樂",
+      "半色調"
+    ]
+  },
+  {
+    "id": "nano_35",
+    "number": 35,
+    "tags": [
+      "復古與印藝",
+      "普普藝術",
+      "半色調",
+      "漫畫"
+    ],
+    "total": 37,
+    "name": "Pop Art / Halftone / Comic",
+    "img": "assets/images/general-v2/ja/nano_23.png",
+    "name_zh": "普普藝術 / 半色調 / 漫畫",
+    "tags_zh": [
+      "復古與印藝",
+      "普普藝術",
+      "半色調",
+      "漫畫"
+    ]
+  },
+  {
+    "id": "nano_36",
+    "number": 36,
+    "tags": [
+      "復古與印藝",
+      "立體圖",
+      "線條藝術",
+      "螢光"
+    ],
+    "total": 46,
+    "name": "Risograph / Line art / Fluorescent",
+    "img": "assets/images/general-v2/ja/nano_59.png",
+    "name_zh": "立體圖 / 線條藝術 / 螢光",
+    "tags_zh": [
+      "復古與印藝",
+      "立體圖",
+      "線條藝術",
+      "螢光"
+    ]
+  },
+  {
+    "id": "nano_37",
+    "number": 37,
+    "tags": [
+      "復古與印藝",
+      "普普藝術",
+      "點",
+      "漫畫"
+    ],
+    "total": 49,
+    "name": "Pop Art / Dots / Comic",
+    "img": "assets/images/general-v2/ja/nano_119.png",
+    "name_zh": "普普藝術 / 點 / 漫畫",
+    "tags_zh": [
+      "復古與印藝",
+      "普普藝術",
+      "點",
+      "漫畫"
+    ]
+  },
+  {
+    "id": "nano_38",
+    "number": 38,
+    "tags": [
+      "復古與印藝",
+      "立體圖",
+      "噪音",
+      "金子"
+    ],
+    "total": 44,
+    "name": "Risograph / Noise / Gold",
+    "img": "assets/images/general-v2/ja/nano_140.png",
+    "name_zh": "立體圖 / 噪音 / 金子",
+    "tags_zh": [
+      "復古與印藝",
+      "立體圖",
+      "噪音",
+      "金子"
+    ]
+  },
+  {
+    "id": "nano_39",
+    "number": 39,
+    "tags": [
+      "復古與印藝",
+      "立體圖",
+      "多色的",
+      "未對準"
+    ],
+    "total": 49,
+    "name": "Risograph / Multi-color / Misaligned",
+    "img": "assets/images/general-v2/ja/nano_44.png",
+    "name_zh": "立體圖 / 多色的 / 未對準",
+    "tags_zh": [
+      "復古與印藝",
+      "立體圖",
+      "多色的",
+      "未對準"
+    ]
+  },
+  {
+    "id": "nano_40",
+    "number": 40,
+    "tags": [
+      "復古與印藝",
+      "瑞士排版風",
+      "立體圖",
+      "復古風"
+    ],
+    "total": 47,
+    "name": "Swiss style / Risograph / Retro",
+    "img": "assets/images/general-v2/ja/nano_06.png",
+    "name_zh": "瑞士排版風 / 立體圖 / 復古風",
+    "tags_zh": [
+      "復古與印藝",
+      "瑞士排版風",
+      "立體圖",
+      "復古風"
+    ]
+  },
+  {
+    "id": "nano_41",
+    "number": 41,
+    "tags": [
+      "復古與印藝",
+      "像素藝術",
+      "角色扮演遊戲",
+      "奇幻風"
+    ],
+    "total": 49,
+    "name": "Pixel Art / RPG / Fantasy",
+    "img": "assets/images/general-v2/ja/nano_161.png",
+    "name_zh": "像素藝術 / 角色扮演遊戲 / 奇幻風",
+    "tags_zh": [
+      "復古與印藝",
+      "像素藝術",
+      "角色扮演遊戲",
+      "奇幻風"
+    ]
+  },
+  {
+    "id": "nano_42",
+    "number": 42,
+    "tags": [
+      "復古與印藝",
+      "復古動漫",
+      "細胞著色",
+      "日落"
+    ],
+    "total": 45,
+    "name": "Retro Anime / Cel shading / Sunset",
+    "img": "assets/images/general-v2/ja/nano_69.png",
+    "name_zh": "復古動漫 / 細胞著色 / 日落",
+    "tags_zh": [
+      "復古與印藝",
+      "復古動漫",
+      "細胞著色",
+      "日落"
+    ]
+  },
+  {
+    "id": "nano_43",
+    "number": 43,
+    "tags": [
+      "手繪塗鴉",
+      "筆記本",
+      "藍色墨水"
+    ],
+    "total": 48,
+    "name": "Doodle / Notebook / Blue Ink",
+    "img": "assets/images/general-v2/ja/nano_97.png",
+    "name_zh": "手繪塗鴉 / 筆記本 / 藍色墨水",
+    "tags_zh": [
+      "手繪塗鴉",
+      "筆記本",
+      "藍色墨水"
+    ]
+  },
+  {
+    "id": "nano_44",
+    "number": 44,
+    "tags": [
+      "手繪塗鴉",
+      "手寫風",
+      "粉筆風",
+      "休閒隨性"
+    ],
+    "total": 50,
+    "name": "Handwritten / Chalk / Casual",
+    "img": "assets/images/general-v2/ja/nano_279.png",
+    "name_zh": "手寫風 / 粉筆風 / 休閒隨性",
+    "tags_zh": [
+      "手繪塗鴉",
+      "手寫風",
+      "粉筆風",
+      "休閒隨性"
+    ]
+  },
+  {
+    "id": "nano_45",
+    "number": 45,
+    "tags": [
+      "手繪塗鴉",
+      "水彩風",
+      "地圖",
+      "奇幻風"
+    ],
+    "total": 50,
+    "name": "Watercolor / Map / Fantasy",
+    "img": "assets/images/general-v2/ja/nano_184.png",
+    "name_zh": "水彩風 / 地圖 / 奇幻風",
+    "tags_zh": [
+      "手繪塗鴉",
+      "水彩風",
+      "地圖",
+      "奇幻風"
+    ]
+  },
+  {
+    "id": "nano_46",
+    "number": 46,
+    "tags": [
+      "手繪塗鴉",
+      "剪紙工藝",
+      "影子盒",
+      "粉彩"
+    ],
+    "total": 49,
+    "name": "Paper Cutout / Shadow box / Pastel",
+    "img": "assets/images/general-v2/ja/nano_109.png",
+    "name_zh": "剪紙工藝 / 影子盒 / 粉彩",
+    "tags_zh": [
+      "手繪塗鴉",
+      "剪紙工藝",
+      "影子盒",
+      "粉彩"
+    ]
+  },
+  {
+    "id": "nano_47",
+    "number": 47,
+    "tags": [
+      "手繪塗鴉",
+      "筆記本",
+      "可愛風"
+    ],
+    "total": 42,
+    "name": "Doodle / Notebook / Cute",
+    "img": "assets/images/general-v2/ja/nano_42.png",
+    "name_zh": "手繪塗鴉 / 筆記本 / 可愛風",
+    "tags_zh": [
+      "手繪塗鴉",
+      "筆記本",
+      "可愛風"
+    ]
+  },
+  {
+    "id": "nano_48",
+    "number": 48,
+    "tags": [
+      "手繪塗鴉",
+      "紙藝剪紙",
+      "分層",
+      "陰影"
+    ],
+    "total": 49,
+    "name": "Paper Craft / Layered / Shadow",
+    "img": "assets/images/general-v2/ja/nano_28.png",
+    "name_zh": "紙藝剪紙 / 分層 / 陰影",
+    "tags_zh": [
+      "手繪塗鴉",
+      "紙藝剪紙",
+      "分層",
+      "陰影"
+    ]
+  },
+  {
+    "id": "nano_49",
+    "number": 49,
+    "tags": [
+      "手繪塗鴉",
+      "紙",
+      "質地",
+      "陰影"
+    ],
+    "total": 48,
+    "name": "Paper / Texture / Shadow",
+    "img": "assets/images/general-v2/ja/nano_228.png",
+    "name_zh": "紙 / 質地 / 陰影",
+    "tags_zh": [
+      "手繪塗鴉",
+      "紙",
+      "質地",
+      "陰影"
+    ]
+  },
+  {
+    "id": "nano_50",
+    "number": 50,
+    "tags": [
+      "手繪塗鴉",
+      "報紙",
+      "黑字",
+      "紅色的"
+    ],
+    "total": 49,
+    "name": "Newspaper / Blackletter / Red",
+    "img": "assets/images/general-v2/ja/nano_132.png",
+    "name_zh": "報紙 / 黑字 / 紅色的",
+    "tags_zh": [
+      "手繪塗鴉",
+      "報紙",
+      "黑字",
+      "紅色的"
+    ]
+  },
+  {
+    "id": "nano_51",
+    "number": 51,
+    "tags": [
+      "手繪塗鴉",
+      "黑板手寫",
+      "手繪",
+      "咖啡店"
+    ],
+    "total": 46,
+    "name": "Chalkboard / Hand-drawn / Cafe",
+    "img": "assets/images/general-v2/ja/nano_46.png",
+    "name_zh": "黑板手寫 / 手繪 / 咖啡店",
+    "tags_zh": [
+      "手繪塗鴉",
+      "黑板手寫",
+      "手繪",
+      "咖啡店"
+    ]
+  },
+  {
+    "id": "nano_52",
+    "number": 52,
+    "tags": [
+      "手繪塗鴉",
+      "卡哇伊",
+      "粉彩",
+      "貼紙"
+    ],
+    "total": 48,
+    "name": "Kawaii / Pastel / Sticker",
+    "img": "assets/images/general-v2/ja/nano_157.png",
+    "name_zh": "卡哇伊 / 粉彩 / 貼紙",
+    "tags_zh": [
+      "手繪塗鴉",
+      "卡哇伊",
+      "粉彩",
+      "貼紙"
+    ]
+  },
+  {
+    "id": "nano_53",
+    "number": 53,
+    "tags": [
+      "手繪塗鴉",
+      "黑板手寫",
+      "手繪",
+      "灰塵"
+    ],
+    "total": 49,
+    "name": "Chalkboard / Hand-drawn / Dust",
+    "img": "assets/images/general-v2/ja/nano_134.png",
+    "name_zh": "黑板手寫 / 手繪 / 灰塵",
+    "tags_zh": [
+      "手繪塗鴉",
+      "黑板手寫",
+      "手繪",
+      "灰塵"
+    ]
+  },
+  {
+    "id": "nano_54",
+    "number": 54,
+    "tags": [
+      "手繪塗鴉",
+      "草圖",
+      "水彩風",
+      "旅行"
+    ],
+    "total": 47,
+    "name": "Sketch / Watercolor / Travel",
+    "img": "assets/images/general-v2/ja/nano_76.png",
+    "name_zh": "草圖 / 水彩風 / 旅行",
+    "tags_zh": [
+      "手繪塗鴉",
+      "草圖",
+      "水彩風",
+      "旅行"
+    ]
+  },
+  {
+    "id": "nano_55",
+    "number": 55,
+    "tags": [
+      "手繪塗鴉",
+      "禪",
+      "水墨渲染",
+      "空白"
+    ],
+    "total": 47,
+    "name": "Zen / Ink Wash / Void",
+    "img": "assets/images/general-v2/ja/nano_52.png",
+    "name_zh": "禪 / 水墨渲染 / 空白",
+    "tags_zh": [
+      "手繪塗鴉",
+      "禪",
+      "水墨渲染",
+      "空白"
+    ]
+  },
+  {
+    "id": "nano_56",
+    "number": 56,
+    "tags": [
+      "手繪塗鴉",
+      "卡哇伊",
+      "粉彩",
+      "甜的"
+    ],
+    "total": 48,
+    "name": "Kawaii / Pastel / Sweet",
+    "img": "assets/images/general-v2/ja/nano_270.png",
+    "name_zh": "卡哇伊 / 粉彩 / 甜的",
+    "tags_zh": [
+      "手繪塗鴉",
+      "卡哇伊",
+      "粉彩",
+      "甜的"
+    ]
+  },
+  {
+    "id": "nano_57",
+    "number": 57,
+    "tags": [
+      "手繪塗鴉",
+      "草圖",
+      "鉛筆",
+      "大致"
+    ],
+    "total": 40,
+    "name": "Sketch / Pencil / Roughly",
+    "img": "assets/images/general-v2/ja/nano_41.png",
+    "name_zh": "草圖 / 鉛筆 / 大致",
+    "tags_zh": [
+      "手繪塗鴉",
+      "草圖",
+      "鉛筆",
+      "大致"
+    ]
+  },
+  {
+    "id": "nano_58",
+    "number": 58,
+    "tags": [
+      "極簡與線條",
+      "向量插畫",
+      "商務企業",
+      "極簡風"
+    ],
+    "total": 33,
+    "name": "Vector art / Corporate / Minimal",
+    "img": "assets/images/general-v2/ja/nano_01.png",
+    "name_zh": "向量插畫 / 商務企業 / 極簡風",
+    "tags_zh": [
+      "極簡與線條",
+      "向量插畫",
+      "商務企業",
+      "極簡風"
+    ]
+  },
+  {
+    "id": "nano_59",
+    "number": 59,
+    "tags": [
+      "極簡與線條",
+      "極簡風",
+      "線條",
+      "白色"
+    ],
+    "total": 50,
+    "name": "Minimal / Line / White",
+    "img": "assets/images/general-v2/ja/nano_173.png",
+    "name_zh": "極簡風 / 線條 / 白色",
+    "tags_zh": [
+      "極簡與線條",
+      "極簡風",
+      "線條",
+      "白色"
+    ]
+  },
+  {
+    "id": "nano_60",
+    "number": 60,
+    "tags": [
+      "極簡與線條",
+      "藍圖設計",
+      "建築學",
+      "藍色的"
+    ],
+    "total": 46,
+    "name": "Blueprint / Architecture / Blue",
+    "img": "assets/images/general-v2/ja/nano_239.png",
+    "name_zh": "藍圖設計 / 建築學 / 藍色的",
+    "tags_zh": [
+      "極簡與線條",
+      "藍圖設計",
+      "建築學",
+      "藍色的"
+    ]
+  },
+  {
+    "id": "nano_61",
+    "number": 61,
+    "tags": [
+      "極簡與線條",
+      "藍圖設計",
+      "建築學",
+      "白色"
+    ],
+    "total": 47,
+    "name": "Blueprint / Architecture / White",
+    "img": "assets/images/general-v2/ja/nano_177.png",
+    "name_zh": "藍圖設計 / 建築學 / 白色",
+    "tags_zh": [
+      "極簡與線條",
+      "藍圖設計",
+      "建築學",
+      "白色"
+    ]
+  },
+  {
+    "id": "nano_62",
+    "number": 62,
+    "tags": [
+      "極簡與線條",
+      "極簡風",
+      "陰影",
+      "光"
+    ],
+    "total": 49,
+    "name": "Minimal / Shadow / Light",
+    "img": "assets/images/general-v2/ja/nano_200.png",
+    "name_zh": "極簡風 / 陰影 / 光",
+    "tags_zh": [
+      "極簡與線條",
+      "極簡風",
+      "陰影",
+      "光"
+    ]
+  },
+  {
+    "id": "nano_63",
+    "number": 63,
+    "tags": [
+      "極簡與線條",
+      "極簡風",
+      "白色",
+      "形式"
+    ],
+    "total": 44,
+    "name": "Minimal / White / Form",
+    "img": "assets/images/general-v2/ja/nano_266.png",
+    "name_zh": "極簡風 / 白色 / 形式",
+    "tags_zh": [
+      "極簡與線條",
+      "極簡風",
+      "白色",
+      "形式"
+    ]
+  },
+  {
+    "id": "nano_64",
+    "number": 64,
+    "tags": [
+      "極簡與線條",
+      "諾林",
+      "平躺",
+      "工業的"
+    ],
+    "total": 49,
+    "name": "Knolling / Flat Lay / Industrial",
+    "img": "assets/images/general-v2/ja/nano_115.png",
+    "name_zh": "諾林 / 平躺 / 工業的",
+    "tags_zh": [
+      "極簡與線條",
+      "諾林",
+      "平躺",
+      "工業的"
+    ]
+  },
+  {
+    "id": "nano_65",
+    "number": 65,
+    "tags": [
+      "極簡與線條",
+      "禪",
+      "極簡風",
+      "結石"
+    ],
+    "total": 48,
+    "name": "Zen / Minimal / Stone",
+    "img": "assets/images/general-v2/ja/nano_100.png",
+    "name_zh": "禪 / 極簡風 / 結石",
+    "tags_zh": [
+      "極簡與線條",
+      "禪",
+      "極簡風",
+      "結石"
+    ]
+  },
+  {
+    "id": "nano_66",
+    "number": 66,
+    "tags": [
+      "極簡與線條",
+      "工業的",
+      "藍圖設計",
+      "橘子"
+    ],
+    "total": 47,
+    "name": "Industrial / Blueprint / Orange",
+    "img": "assets/images/general-v2/ja/nano_64.png",
+    "name_zh": "工業的 / 藍圖設計 / 橘子",
+    "tags_zh": [
+      "極簡與線條",
+      "工業的",
+      "藍圖設計",
+      "橘子"
+    ]
+  },
+  {
+    "id": "nano_67",
+    "number": 67,
+    "tags": [
+      "極簡與線條",
+      "斯堪的納維亞語",
+      "極簡風",
+      "自然"
+    ],
+    "total": 49,
+    "name": "Scandinavian / Minimal / Nature",
+    "img": "assets/images/general-v2/ja/nano_138.png",
+    "name_zh": "斯堪的納維亞語 / 極簡風 / 自然",
+    "tags_zh": [
+      "極簡與線條",
+      "斯堪的納維亞語",
+      "極簡風",
+      "自然"
+    ]
+  },
+  {
+    "id": "nano_68",
+    "number": 68,
+    "tags": [
+      "極簡與線條",
+      "裝飾藝術",
+      "金箔工藝",
+      "極簡風"
+    ],
+    "total": 48,
+    "name": "Art Deco / Gold Foil / Minimal",
+    "img": "assets/images/general-v2/ja/nano_10.png",
+    "name_zh": "裝飾藝術 / 金箔工藝 / 極簡風",
+    "tags_zh": [
+      "極簡與線條",
+      "裝飾藝術",
+      "金箔工藝",
+      "極簡風"
+    ]
+  },
+  {
+    "id": "nano_69",
+    "number": 69,
+    "tags": [
+      "極簡與線條",
+      "線條藝術",
+      "植物",
+      "水彩風"
+    ],
+    "total": 49,
+    "name": "Line art / Botanical / Watercolor",
+    "img": "assets/images/general-v2/ja/nano_21.png",
+    "name_zh": "線條藝術 / 植物 / 水彩風",
+    "tags_zh": [
+      "極簡與線條",
+      "線條藝術",
+      "植物",
+      "水彩風"
+    ]
+  },
+  {
+    "id": "nano_70",
+    "number": 70,
+    "tags": [
+      "極簡與線條",
+      "藍圖設計",
+      "技術的",
+      "藍曬法"
+    ],
+    "total": 49,
+    "name": "Blueprint / Technical / Cyanotype",
+    "img": "assets/images/general-v2/ja/nano_27.png",
+    "name_zh": "藍圖設計 / 技術的 / 藍曬法",
+    "tags_zh": [
+      "極簡與線條",
+      "藍圖設計",
+      "技術的",
+      "藍曬法"
+    ]
+  },
+  {
+    "id": "nano_71",
+    "number": 71,
+    "tags": [
+      "立體與3D",
+      "資訊圖表",
+      "等距視覺",
+      "繽紛色彩"
+    ],
+    "total": 48,
+    "name": "Infographic / Isometric / Colorful",
+    "img": "assets/images/general-v2/ja/nano_93.png",
+    "name_zh": "資訊圖表 / 等距視覺 / 繽紛色彩",
+    "tags_zh": [
+      "立體與3D",
+      "資訊圖表",
+      "等距視覺",
+      "繽紛色彩"
+    ]
+  },
+  {
+    "id": "nano_72",
+    "number": 72,
+    "tags": [
+      "立體與3D",
+      "黏土建模",
+      "定格動畫",
+      "可愛風"
+    ],
+    "total": 49,
+    "name": "Clay / Stopmotion / Cute",
+    "img": "assets/images/general-v2/ja/nano_178.png",
+    "name_zh": "黏土建模 / 定格動畫 / 可愛風",
+    "tags_zh": [
+      "立體與3D",
+      "黏土建模",
+      "定格動畫",
+      "可愛風"
+    ]
+  },
+  {
+    "id": "nano_73",
+    "number": 73,
+    "tags": [
+      "立體與3D",
+      "新擬物風",
+      "柔軟的",
+      "白色"
+    ],
+    "total": 49,
+    "name": "Neumorphism / Soft / White",
+    "img": "assets/images/general-v2/ja/nano_150.png",
+    "name_zh": "新擬物風 / 柔軟的 / 白色",
+    "tags_zh": [
+      "立體與3D",
+      "新擬物風",
+      "柔軟的",
+      "白色"
+    ]
+  },
+  {
+    "id": "nano_74",
+    "number": 74,
+    "tags": [
+      "立體與3D",
+      "黏土質現象",
+      "粉彩",
+      "圓形"
+    ],
+    "total": 45,
+    "name": "Claymorphism / Pastel / Rounded",
+    "img": "assets/images/general-v2/ja/nano_55.png",
+    "name_zh": "黏土質現象 / 粉彩 / 圓形",
+    "tags_zh": [
+      "立體與3D",
+      "黏土質現象",
+      "粉彩",
+      "圓形"
+    ]
+  },
+  {
+    "id": "nano_75",
+    "number": 75,
+    "tags": [
+      "立體與3D",
+      "新擬物風",
+      "軟陰影",
+      "光"
+    ],
+    "total": 49,
+    "name": "Neumorphism / Soft Shadow / Light",
+    "img": "assets/images/general-v2/ja/nano_25.png",
+    "name_zh": "新擬物風 / 軟陰影 / 光",
+    "tags_zh": [
+      "立體與3D",
+      "新擬物風",
+      "軟陰影",
+      "光"
+    ]
+  },
+  {
+    "id": "nano_76",
+    "number": 76,
+    "tags": [
+      "立體與3D",
+      "資訊圖表",
+      "等距視覺",
+      "數據"
+    ],
+    "total": 48,
+    "name": "Infographic / Isometric / Data",
+    "img": "assets/images/general-v2/ja/nano_47.png",
+    "name_zh": "資訊圖表 / 等距視覺 / 數據",
+    "tags_zh": [
+      "立體與3D",
+      "資訊圖表",
+      "等距視覺",
+      "數據"
+    ]
+  },
+  {
+    "id": "nano_77",
+    "number": 77,
+    "tags": [
+      "立體與3D",
+      "黏土渲染",
+      "塑膠",
+      "玩具"
+    ],
+    "total": 49,
+    "name": "Clay Render / Plastic / Toy",
+    "img": "assets/images/general-v2/ja/nano_120.png",
+    "name_zh": "黏土渲染 / 塑膠 / 玩具",
+    "tags_zh": [
+      "立體與3D",
+      "黏土渲染",
+      "塑膠",
+      "玩具"
+    ]
+  },
+  {
+    "id": "nano_78",
+    "number": 78,
+    "tags": [
+      "立體與3D",
+      "低聚",
+      "等距視覺",
+      "森林"
+    ],
+    "total": 49,
+    "name": "Low Poly / Isometric / Forest",
+    "img": "assets/images/general-v2/ja/nano_130.png",
+    "name_zh": "低聚 / 等距視覺 / 森林",
+    "tags_zh": [
+      "立體與3D",
+      "低聚",
+      "等距視覺",
+      "森林"
+    ]
+  },
+  {
+    "id": "nano_79",
+    "number": 79,
+    "tags": [
+      "立體與3D",
+      "等距 UI",
+      "低聚",
+      "黏土渲染"
+    ],
+    "total": 49,
+    "name": "Isometric UI / Low-poly / Clay render",
+    "img": "assets/images/general-v2/ja/nano_11.png",
+    "name_zh": "等距 UI / 低聚 / 黏土渲染",
+    "tags_zh": [
+      "立體與3D",
+      "等距 UI",
+      "低聚",
+      "黏土渲染"
+    ]
+  },
+  {
+    "id": "nano_80",
+    "number": 80,
+    "tags": [
+      "立體與3D",
+      "低聚",
+      "粉彩",
+      "遊戲"
+    ],
+    "total": 49,
+    "name": "Low-poly / Pastel / Game",
+    "img": "assets/images/general-v2/ja/nano_98.png",
+    "name_zh": "低聚 / 粉彩 / 遊戲",
+    "tags_zh": [
+      "立體與3D",
+      "低聚",
+      "粉彩",
+      "遊戲"
+    ]
+  },
+  {
+    "id": "nano_81",
+    "number": 81,
+    "tags": [
+      "立體與3D",
+      "低聚",
+      "水",
+      "藍色的"
+    ],
+    "total": 47,
+    "name": "Low Poly / Water / Blue",
+    "img": "assets/images/general-v2/ja/nano_167.png",
+    "name_zh": "低聚 / 水 / 藍色的",
+    "tags_zh": [
+      "立體與3D",
+      "低聚",
+      "水",
+      "藍色的"
+    ]
+  },
+  {
+    "id": "nano_82",
+    "number": 82,
+    "tags": [
+      "立體與3D",
+      "像素藝術",
+      "等距視覺",
+      "花園"
+    ],
+    "total": 46,
+    "name": "Pixel art / Isometric / Garden",
+    "img": "assets/images/general-v2/ja/nano_63.png",
+    "name_zh": "像素藝術 / 等距視覺 / 花園",
+    "tags_zh": [
+      "立體與3D",
+      "像素藝術",
+      "等距視覺",
+      "花園"
+    ]
+  },
+  {
+    "id": "nano_83",
+    "number": 83,
+    "tags": [
+      "科幻與光效",
+      "極簡風",
+      "單色",
+      "線條藝術"
+    ],
+    "total": 50,
+    "name": "Minimal / Monochrome / Line Art",
+    "img": "assets/images/general-v2/ja/nano_111.png",
+    "name_zh": "極簡風 / 單色 / 線條藝術",
+    "tags_zh": [
+      "科幻與光效",
+      "極簡風",
+      "單色",
+      "線條藝術"
+    ]
+  },
+  {
+    "id": "nano_84",
+    "number": 84,
+    "tags": [
+      "科幻與光效",
+      "霓虹發光",
+      "黑色的",
+      "光"
+    ],
+    "total": 47,
+    "name": "Neon / Black / Light",
+    "img": "assets/images/general-v2/ja/nano_229.png",
+    "name_zh": "霓虹發光 / 黑色的 / 光",
+    "tags_zh": [
+      "科幻與光效",
+      "霓虹發光",
+      "黑色的",
+      "光"
+    ]
+  },
+  {
+    "id": "nano_85",
+    "number": 85,
+    "tags": [
+      "科幻與光效",
+      "日系漫畫",
+      "螢幕色調",
+      "單色"
+    ],
+    "total": 50,
+    "name": "Manga / Screen Tone / Monochrome",
+    "img": "assets/images/general-v2/ja/nano_51.png",
+    "name_zh": "日系漫畫 / 螢幕色調 / 單色",
+    "tags_zh": [
+      "科幻與光效",
+      "日系漫畫",
+      "螢幕色調",
+      "單色"
+    ]
+  },
+  {
+    "id": "nano_86",
+    "number": 86,
+    "tags": [
+      "科幻與光效",
+      "賽博朋克",
+      "藍色的",
+      "電路"
+    ],
+    "total": 47,
+    "name": "Cyberpunk / Blue / Circuit",
+    "img": "assets/images/general-v2/ja/nano_159.png",
+    "name_zh": "賽博朋克 / 藍色的 / 電路",
+    "tags_zh": [
+      "科幻與光效",
+      "賽博朋克",
+      "藍色的",
+      "電路"
+    ]
+  },
+  {
+    "id": "nano_87",
+    "number": 87,
+    "tags": [
+      "科幻與光效",
+      "玻璃擬態",
+      "磨砂",
+      "抽象風"
+    ],
+    "total": 46,
+    "name": "Glassmorphism / Frosted / Abstract",
+    "img": "assets/images/general-v2/ja/nano_78.png",
+    "name_zh": "玻璃擬態 / 磨砂 / 抽象風",
+    "tags_zh": [
+      "科幻與光效",
+      "玻璃擬態",
+      "磨砂",
+      "抽象風"
+    ]
+  },
+  {
+    "id": "nano_88",
+    "number": 88,
+    "tags": [
+      "科幻與光效",
+      "霓虹發光",
+      "輝光",
+      "夜晚"
+    ],
+    "total": 49,
+    "name": "Neon / Glow / Night",
+    "img": "assets/images/general-v2/ja/nano_276.png",
+    "name_zh": "霓虹發光 / 輝光 / 夜晚",
+    "tags_zh": [
+      "科幻與光效",
+      "霓虹發光",
+      "輝光",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "nano_89",
+    "number": 89,
+    "tags": [
+      "科幻與光效",
+      "線框",
+      "全息",
+      "黑色的"
+    ],
+    "total": 49,
+    "name": "Wireframe / Holographic / Black",
+    "img": "assets/images/general-v2/ja/nano_70.png",
+    "name_zh": "線框 / 全息 / 黑色的",
+    "tags_zh": [
+      "科幻與光效",
+      "線框",
+      "全息",
+      "黑色的"
+    ]
+  },
+  {
+    "id": "nano_90",
+    "number": 90,
+    "tags": [
+      "科幻與光效",
+      "全息圖",
+      "使用者介面",
+      "藍色的"
+    ],
+    "total": 49,
+    "name": "Hologram / UI / Blue",
+    "img": "assets/images/general-v2/ja/nano_246.png",
+    "name_zh": "全息圖 / 使用者介面 / 藍色的",
+    "tags_zh": [
+      "科幻與光效",
+      "全息圖",
+      "使用者介面",
+      "藍色的"
+    ]
+  },
+  {
+    "id": "nano_91",
+    "number": 91,
+    "tags": [
+      "科幻與光效",
+      "極簡風",
+      "漸層網格",
+      "極光"
+    ],
+    "total": 45,
+    "name": "Minimal / Gradient mesh / Aurora",
+    "img": "assets/images/general-v2/ja/nano_68.png",
+    "name_zh": "極簡風 / 漸層網格 / 極光",
+    "tags_zh": [
+      "科幻與光效",
+      "極簡風",
+      "漸層網格",
+      "極光"
+    ]
+  },
+  {
+    "id": "nano_92",
+    "number": 92,
+    "tags": [
+      "科幻與光效",
+      "千年蟲",
+      "鉻合金",
+      "液態金屬"
+    ],
+    "total": 46,
+    "name": "Y2K / Chrome / Liquid metal",
+    "img": "assets/images/general-v2/ja/nano_16.png",
+    "name_zh": "千年蟲 / 鉻合金 / 液態金屬",
+    "tags_zh": [
+      "科幻與光效",
+      "千年蟲",
+      "鉻合金",
+      "液態金屬"
+    ]
+  },
+  {
+    "id": "nano_93",
+    "number": 93,
+    "tags": [
+      "藝術與排版",
+      "包浩斯",
+      "建築學",
+      "具體的"
+    ],
+    "total": 50,
+    "name": "Bauhaus / Architecture / Concrete",
+    "img": "assets/images/general-v2/ja/nano_191.png",
+    "name_zh": "包浩斯 / 建築學 / 具體的",
+    "tags_zh": [
+      "藝術與排版",
+      "包浩斯",
+      "建築學",
+      "具體的"
+    ]
+  },
+  {
+    "id": "nano_94",
+    "number": 94,
+    "tags": [
+      "藝術與排版",
+      "瑞士排版風",
+      "字體排版",
+      "顏色"
+    ],
+    "total": 50,
+    "name": "Swiss Style / Typography / Color",
+    "img": "assets/images/general-v2/ja/nano_165.png",
+    "name_zh": "瑞士排版風 / 字體排版 / 顏色",
+    "tags_zh": [
+      "藝術與排版",
+      "瑞士排版風",
+      "字體排版",
+      "顏色"
+    ]
+  },
+  {
+    "id": "nano_95",
+    "number": 95,
+    "tags": [
+      "藝術與排版",
+      "包浩斯",
+      "原色",
+      "幾何圖形"
+    ],
+    "total": 50,
+    "name": "Bauhaus / Primary Colors / Geometric",
+    "img": "assets/images/general-v2/ja/nano_14.png",
+    "name_zh": "包浩斯 / 原色 / 幾何圖形",
+    "tags_zh": [
+      "藝術與排版",
+      "包浩斯",
+      "原色",
+      "幾何圖形"
+    ]
+  },
+  {
+    "id": "nano_96",
+    "number": 96,
+    "tags": [
+      "藝術與排版",
+      "抽象風",
+      "孟菲斯風",
+      "形狀"
+    ],
+    "total": 49,
+    "name": "Abstract / Memphis / Shape",
+    "img": "assets/images/general-v2/ja/nano_183.png",
+    "name_zh": "抽象風 / 孟菲斯風 / 形狀",
+    "tags_zh": [
+      "藝術與排版",
+      "抽象風",
+      "孟菲斯風",
+      "形狀"
+    ]
+  },
+  {
+    "id": "nano_97",
+    "number": 97,
+    "tags": [
+      "藝術與排版",
+      "裝飾藝術",
+      "蓋茲比",
+      "幾何圖形"
+    ],
+    "total": 49,
+    "name": "Art Deco / Gatsby / Geometric",
+    "img": "assets/images/general-v2/ja/nano_158.png",
+    "name_zh": "裝飾藝術 / 蓋茲比 / 幾何圖形",
+    "tags_zh": [
+      "藝術與排版",
+      "裝飾藝術",
+      "蓋茲比",
+      "幾何圖形"
+    ]
+  },
+  {
+    "id": "nano_98",
+    "number": 98,
+    "tags": [
+      "藝術與排版",
+      "社論",
+      "拼貼剪貼",
+      "襯線"
+    ],
+    "total": 49,
+    "name": "Editorial / Collage / Serif",
+    "img": "assets/images/general-v2/ja/nano_62.png",
+    "name_zh": "社論 / 拼貼剪貼 / 襯線",
+    "tags_zh": [
+      "藝術與排版",
+      "社論",
+      "拼貼剪貼",
+      "襯線"
+    ]
+  },
+  {
+    "id": "nano_99",
+    "number": 99,
+    "tags": [
+      "藝術與排版",
+      "建構主義",
+      "幾何圖形",
+      "拼貼剪貼"
+    ],
+    "total": 50,
+    "name": "Constructivism / Geometric / Collage",
+    "img": "assets/images/general-v2/ja/nano_77.png",
+    "name_zh": "建構主義 / 幾何圖形 / 拼貼剪貼",
+    "tags_zh": [
+      "藝術與排版",
+      "建構主義",
+      "幾何圖形",
+      "拼貼剪貼"
+    ]
+  },
+  {
+    "id": "nano_100",
+    "number": 100,
+    "tags": [
+      "藝術與排版",
+      "抽象風",
+      "形狀",
+      "顏色"
+    ],
+    "total": 49,
+    "name": "Abstract / Shape / Color",
+    "img": "assets/images/general-v2/ja/nano_291.png",
+    "name_zh": "抽象風 / 形狀 / 顏色",
+    "tags_zh": [
+      "藝術與排版",
+      "抽象風",
+      "形狀",
+      "顏色"
+    ]
+  },
+  {
+    "id": "nano_101",
+    "number": 101,
+    "tags": [
+      "藝術與排版",
+      "拼貼剪貼",
+      "超現實主義",
+      "夢幻般的"
+    ],
+    "total": 44,
+    "name": "Collage / Surrealism / Dreamy",
+    "img": "assets/images/general-v2/ja/nano_35.png",
+    "name_zh": "拼貼剪貼 / 超現實主義 / 夢幻般的",
+    "tags_zh": [
+      "藝術與排版",
+      "拼貼剪貼",
+      "超現實主義",
+      "夢幻般的"
+    ]
+  }
+]

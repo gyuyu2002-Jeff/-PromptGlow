@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="免費搜尋與複製 101 種簡報設計與 AI 圖像生成視覺提示詞風格。涵蓋 7 大經典設計類別。">
+    <title>PromptGlow | 簡報風格提示詞 (101種風格/5維度分析)</title>
+    
+    <!-- 引入高品質字型 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 原生 CSS 樣式表 -->
+    <link rel="stylesheet" href="index.css?v=1.0.4">
+    
+    <!-- 引入圖標庫 (Lucide) 與 圖表庫 (Chart.js) 與 動畫庫 (GSAP) -->
+    <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body>
+    <!-- 頂部磨砂玻璃導航欄 -->
+    <header class="navbar">
+        <div class="nav-left">
+            <div class="logo-area">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">Prompt<span>Glow</span></span>
+            </div>
+            <span class="version-tag">v2026</span>
+        </div>
+
+        <div class="nav-center">
+            <div class="search-wrapper">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="searchInput" placeholder="搜尋風格、標籤或編號 (如: Flat, Isometric, 01)..." autocomplete="off">
+                <button id="clearSearchBtn" class="clear-search-btn" title="清除搜尋" style="display: none;">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <!-- 視圖切換按鈕 -->
+            <div class="view-switch-group">
+                <button id="gridModeBtn" class="view-btn active" title="網格視圖">
+                    <i data-lucide="layout-grid"></i>
+                </button>
+                <button id="listModeBtn" class="view-btn" title="列表視圖">
+                    <i data-lucide="list"></i>
+                </button>
+            </div>
+            
+
+        </div>
+    </header>
+
+    <!-- 主容器 -->
+    <main class="main-container">
+        <!-- 英雄橫幅區 (Intro Hero) -->
+        <section class="hero-section">
+            <h1 class="hero-title">簡報風格提示詞</h1>
+            <p class="hero-subtitle">免費搜尋與複製 101 種簡報設計與視覺提示詞風格。可直接用於 NotebookLM 或 Gemini。</p>
+            <div class="stats-bar">
+                <div class="stat-item"><span class="stat-num">101種</span> 風格</div>
+                <div class="stat-item"><span class="stat-num">5</span> 視覺維度分析</div>
+                <div class="stat-item"><span class="stat-num">100%</span> 渲染參考</div>
+            </div>
+        </section>
+
+        <!-- 類別篩選滑動 Tab 欄 (Sticky Tabs) -->
+        <nav class="sticky-tabs-container">
+            <div class="tab-scroll-wrapper">
+                <button class="scroll-arrow arrow-left" id="scrollLeftBtn">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <div class="tab-scroll-content" id="tabArea">
+                    <button class="tab-btn active" data-category="all">全部風格</button>
+                    <button class="tab-btn" data-category="featured">🔥 流行推薦</button>
+                    <button class="tab-btn" data-category="business">💼 商業專區</button>
+                    <!-- 其他類別會由 JS 動態生成 -->
+                </div>
+                <button class="scroll-arrow arrow-right" id="scrollRightBtn">
+                    <i data-lucide="chevron-right"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- 熱門細分標籤區 -->
+        <div class="subtags-container" id="subtagsArea">
+            <!-- 標籤將由 JS 動態生成 -->
+        </div>
+
+        <!-- 骨架屏載入狀態 (Skeleton Screen) -->
+        <div class="skeleton-grid" id="skeletonGrid">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
+
+        <!-- 空狀態提示 (Empty State) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <i data-lucide="search-x" class="empty-icon"></i>
+            <h3>未找到符合條件的風格</h3>
+            <p>請嘗試使用其他搜尋關鍵字，或清除標籤過濾器。</p>
+            <button id="resetFiltersBtn" class="reset-btn">重置所有篩選</button>
+        </div>
+
+        <!-- 風格卡片容器 -->
+        <div class="cards-grid grid-mode" id="cardsGrid" style="display: none;">
+            <!-- 卡片由 JS 動態渲染 -->
+        </div>
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2026 PromptGlow | AI 視覺風格與圖像生成提示詞字典. Inspired by Open Source AI Style Guides.</p>
+            <div class="footer-links">
+                <a href="https://github.com/furoku" target="_blank" rel="noopener noreferrer">
+                    <i data-lucide="github" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i> furoku
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 詳情彈窗 (Modal) -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="modalCloseBtn" title="關閉視窗">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div class="modal-body">
+                <!-- 左側：圖片與評估圖表 -->
+                <div class="modal-left">
+                    <div class="modal-image-wrapper">
+                        <img id="modalImage" src="" alt="風格參考圖" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; document.getElementById('modalImageZoomOverlay').style.display='none';">
+                        <div class="card-image-placeholder-tc" id="modalImagePlaceholder" style="display: none; height: 350px;">
+                            <div class="placeholder-content">
+                                <div class="placeholder-title" style="font-size: 1.1rem;">思緒卡關時的 5 種切換方法</div>
+                                <div class="placeholder-list" style="font-size: 0.85rem; gap: 8px;">
+                                    <div>1. 走路能增加靈感</div>
+                                    <div>2. 調整呼吸沉澱思緒</div>
+                                    <div>3. 變換場所重置注意力</div>
+                                    <div>4. 寫下來整理腦袋</div>
+                                    <div>5. 短暫休息恢復專注力</div>
+                                </div>
+                                <div class="placeholder-footer" id="modalPlaceholderFooter" style="font-size: 0.75rem;">[ 繁中化中 ]</div>
+                            </div>
+                        </div>
+                        <div class="image-zoom-overlay" id="modalImageZoomOverlay">
+                            <i data-lucide="zoom-in"></i> 點擊放大
+                        </div>
+                    </div>
+                    
+                    <!-- 圖片內文對照組 (提供卡片排版內容的繁體中文純文字對照，便於閱讀) -->
+                    <div class="image-translation-card" id="imageTranslationCard">
+                        <div class="translation-header">
+                            <i data-lucide="languages"></i>
+                            <span>圖片排版文字對照（繁體中文）</span>
+                        </div>
+                        <ol class="translation-list">
+                            <li><span>1</span> 走路能增加靈感</li>
+                            <li><span>2</span> 調整呼吸沉澱思緒</li>
+                            <li><span>3</span> 變換場所重置注意力</li>
+                            <li><span>4</span> 寫下來整理腦袋</li>
+                            <li><span>5</span> 短暫休息恢復專注力</li>
+                        </ol>
+                    </div>
+                    
+                    <!-- 雷達圖評估區 -->
+                    <div class="modal-chart-area">
+                        <h4 class="section-title">五維度視覺評估</h4>
+                        <div class="chart-canvas-wrapper">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                        <div class="score-grid" id="scoreGrid">
+                            <!-- 由 JS 動態生成評分條 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側：細節、評語與 YAML 代碼複製 -->
+                <div class="modal-right">
+                    <div class="modal-header-info">
+                        <div class="modal-meta-line">
+                            <span class="style-number" id="modalNumber">#00</span>
+                            <span class="style-category" id="modalCategory">分類</span>
+                        </div>
+                        <h2 class="modal-style-title" id="modalTitle">風格名稱</h2>
+                    </div>
+
+                    <!-- 專家點評 -->
+                    <div class="modal-section comments-section">
+                        <h3 class="modal-section-title"><i data-lucide="message-square"></i> 視覺設計評估</h3>
+                        <div class="comments-list" id="modalComments">
+                            <!-- 評語由 JS 動態生成 -->
+                        </div>
+                    </div>
+
+                    <!-- YAML 提示詞複製區 -->
+                    <div class="modal-section prompt-section">
+                        <div class="prompt-header">
+                            <h3 class="modal-section-title"><i data-lucide="code-2"></i> 提示詞模式 (YAML)</h3>
+                            <button class="copy-prompt-btn" id="copyPromptBtn">
+                                <i data-lucide="copy"></i> <span>複製提示詞</span>
+                            </button>
+                        </div>
+                        <div class="prompt-code-wrapper">
+                            <pre><code id="modalPromptCode" class="language-yaml">提示詞加載中...</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 浮動 Toast 提示容器 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- 圖片放大預覽遮罩 -->
+    <div class="image-lightbox" id="imageLightbox">
+        <span class="lightbox-close"><i data-lucide="x"></i></span>
+        <img id="lightboxImg" src="" alt="放大視圖">
+    </div>
+
+    <!-- 引入應用腳本 -->
+    <script src="app.js?v=1.0.4"></script>
+</body>
+
+</html>
