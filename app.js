@@ -20,80 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let favorites = JSON.parse(localStorage.getItem('bx_favorites') || '[]');
     let historyList = JSON.parse(localStorage.getItem('bx_history') || '[]');
-    let actionStats = JSON.parse(localStorage.getItem('bx_action_stats') || '{"copy":0,"fav_add":0,"modal_open":0,"scroll_explore":0,"badges_earned":[]}');
+    let actionStats = JSON.parse(localStorage.getItem('bx_action_stats') || '{"copy":0,"fav_add":0,"modal_open":0,"scroll_explore":0}');
 
-
-    // --- 徽章定義 ---
-    const BADGES = {
-        first_copy: {
-            id: 'first_copy',
-            icon: 'clipboard-check',
-            color: '#4CAF50',
-            glow: 'rgba(76, 175, 80, 0.15)',
-            threshold: 1,
-            action: 'copy',
-            name: '初試身手',
-            desc: '首次複製風格提示詞！'
-        },
-        copy_master: {
-            id: 'copy_master',
-            icon: 'copy',
-            color: '#FFB300',
-            glow: 'rgba(255, 179, 0, 0.15)',
-            threshold: 10,
-            action: 'copy',
-            name: '複製達人',
-            desc: '累計複製風格提示詞達 10 次！'
-        },
-        collector: {
-            id: 'collector',
-            icon: 'heart',
-            color: '#E55039',
-            glow: 'rgba(229, 80, 57, 0.15)',
-            threshold: 5,
-            action: 'fav_add',
-            name: '美學收藏家',
-            desc: '收藏了 5 個風格提示詞！'
-        },
-        super_collector: {
-            id: 'super_collector',
-            icon: 'trophy',
-            color: '#9C27B0',
-            glow: 'rgba(156, 39, 176, 0.15)',
-            threshold: 15,
-            action: 'fav_add',
-            name: '傳奇收藏大師',
-            desc: '收藏了 15 個風格提示詞！'
-        },
-        explorer: {
-            id: 'explorer',
-            icon: 'compass',
-            color: '#2196F3',
-            glow: 'rgba(33, 150, 243, 0.15)',
-            threshold: 10,
-            action: 'modal_open',
-            name: '風格探索者',
-            desc: '詳細閱讀了 10 個風格的視覺評語！'
-        },
-        deep_diver: {
-            id: 'deep_diver',
-            icon: 'anchor',
-            color: '#00BCD4',
-            glow: 'rgba(0, 188, 212, 0.15)',
-            threshold: 3,
-            action: 'scroll_explore',
-            name: '深潛者',
-            desc: '滾動瀏覽頁面，沉浸於提示詞的海洋中！'
-        }
-    };
 
     // --- DOM 元素引用 ---
     const searchInput = document.getElementById('searchInput');
     const clearSearchBtn = document.getElementById('clearSearchBtn');
     const gridModeBtn = document.getElementById('gridModeBtn');
     const listModeBtn = document.getElementById('listModeBtn');
-    const badgeTriggerBtn = document.getElementById('badgeTriggerBtn');
-    const badgeCountDot = document.getElementById('badgeCountDot');
     
     const tabArea = document.getElementById('tabArea');
     const subtagsArea = document.getElementById('subtagsArea');
@@ -120,12 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lightbox & Drawer
     const imageLightbox = document.getElementById('imageLightbox');
     const lightboxImg = document.getElementById('lightboxImg');
-    const badgesDrawerOverlay = document.getElementById('badgesDrawerOverlay');
-    const badgesDrawer = document.getElementById('badgesDrawer');
     const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-    const badgesListGrid = document.getElementById('badgesListGrid');
-    const badgeProgressText = document.getElementById('badgeProgressText');
-    const badgeProgressBar = document.getElementById('badgeProgressBar');
     
     const toastContainer = document.getElementById('toastContainer');
 
@@ -155,10 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 顯示 Toast 彈窗
     function showToast(message, type = 'info') {
         const toast = document.createElement('div');
-        toast.className = `toast ${type === 'badge' ? 'badge-unlock' : ''}`;
+        toast.className = 'toast';
         
         const icon = document.createElement('i');
-        icon.setAttribute('data-lucide', type === 'badge' ? 'award' : 'check-circle');
+        icon.setAttribute('data-lucide', 'check-circle');
         icon.style.width = '16px';
         icon.style.height = '16px';
         
@@ -190,93 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // --- 徽章系統邏輯 ---
-    
-    // 更新解鎖數目與進度條
-    function updateBadgeUI() {
-        const unlockedCount = actionStats.badges_earned.length;
-        const totalCount = Object.keys(BADGES).length;
-        
-        if (badgeCountDot) {
-            badgeCountDot.textContent = unlockedCount;
-            badgeCountDot.style.display = unlockedCount > 0 ? 'flex' : 'none';
-        }
-        
-        if (badgeProgressText) {
-            badgeProgressText.textContent = `${unlockedCount} / ${totalCount}`;
-        }
-        
-        if (badgeProgressBar) {
-            badgeProgressBar.style.width = `${(unlockedCount / totalCount) * 100}%`;
-        }
-    }
-
-    // 增長某項行為的統計值，並判斷是否解鎖徽章
+    // --- 行為統計邏輯 ---
     function recordAction(actionType) {
         if (!actionStats[actionType] && actionStats[actionType] !== 0) {
             actionStats[actionType] = 0;
         }
         actionStats[actionType]++;
-        
-        // 檢查是否有尚未解鎖的徽章達到條件
-        Object.values(BADGES).forEach(badge => {
-            if (badge.action === actionType && !actionStats.badges_earned.includes(badge.id)) {
-                if (actionStats[actionType] >= badge.threshold) {
-                    // 解鎖徽章
-                    actionStats.badges_earned.push(badge.id);
-                    localStorage.setItem('bx_action_stats', JSON.stringify(actionStats));
-                    
-                    // 彈出慶祝 Toast
-                    showToast(`🏆 解鎖成就: 【${badge.name}】!`, 'badge');
-                    
-                    updateBadgeUI();
-                    renderBadgesList();
-                }
-            }
-        });
-        
         localStorage.setItem('bx_action_stats', JSON.stringify(actionStats));
-    }
-
-    // 渲染徽章看板列表
-    function renderBadgesList() {
-        if (!badgesListGrid) return;
-        badgesListGrid.innerHTML = '';
-        
-        Object.values(BADGES).forEach(badge => {
-            const isUnlocked = actionStats.badges_earned.includes(badge.id);
-            const item = document.createElement('div');
-            item.className = `badge-drawer-item ${isUnlocked ? 'unlocked' : 'locked'}`;
-            
-            if (isUnlocked) {
-                item.style.setProperty('--badge-color', badge.color);
-                item.style.setProperty('--badge-color-glow', badge.glow);
-            }
-            
-            item.innerHTML = `
-                <div class="badge-drawer-icon">
-                    <i data-lucide="${badge.icon}"></i>
-                </div>
-                <div class="badge-drawer-info">
-                    <span class="badge-drawer-name">${badge.name}</span>
-                    <span class="badge-drawer-desc">${badge.desc}</span>
-                </div>
-            `;
-            
-            // 點擊卡片彈出氣泡或微反饋
-            item.addEventListener('click', () => {
-                if (isUnlocked) {
-                    showToast(`⭐ 您已獲得「${badge.name}」成就！`);
-                } else {
-                    let progress = actionStats[badge.action] || 0;
-                    showToast(`🔒 未解鎖。當前進度: ${progress} / ${badge.threshold} (${badge.desc})`);
-                }
-            });
-            
-            badgesListGrid.appendChild(item);
-        });
-        
-        lucide.createIcons();
     }
         
     function getBusinessDesignCategory(id) {
@@ -456,10 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // 初始化渲染卡片流
             filterAndRenderCards();
             
-            // 初始化徽章
-            updateBadgeUI();
-            renderBadgesList();
-            
         } catch (error) {
             console.error('加載數據庫失敗:', error);
             showToast('加載字典數據失敗，請刷新重試！', 'error');
@@ -471,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let tagMap = {}; // category -> set of tags
 
     function generateCategoriesAndTags() {
-        categories.add('featured');
         categories.add('business');
         
         liteData.forEach(item => {
@@ -495,19 +339,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCategoryTabs() {
         // 先計算各分類的數量
         const allCount = liteData.length;
-        const featuredCount = rankingData && rankingData.order ? rankingData.order.length : 30;
         const businessCount = businessData.length;
         
-        // 先保留前三個固定 Tab (全部, 流行, 商業)
+        // 先保留固定 Tab (全部, 商業)
         tabArea.innerHTML = `
             <button class="tab-btn active" data-category="all">全部風格 (${allCount})</button>
-            <button class="tab-btn" data-category="featured">🔥 流行推薦 (${featuredCount})</button>
             <button class="tab-btn" data-category="business">商業專區 (${businessCount})</button>
         `;
         
         // 渲染動態大類
         categories.forEach(cat => {
-            if (cat !== 'featured' && cat !== 'business') {
+            if (cat !== 'business') {
                 const count = liteData.filter(item => item.tags && item.tags[0] === cat).length;
                 const btn = document.createElement('button');
                 btn.className = 'tab-btn';
@@ -620,24 +462,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. 基於大類篩選
         if (activeCategory === 'all') {
             displayList = liteData.map(item => ({ ...item, isBusiness: false }));
-        } else if (activeCategory === 'featured') {
-            // 根據流行榜排序提取前 30 名，如果沒有流行數據，提取前 30 個項目
-            if (rankingData && rankingData.order) {
-                const popIds = rankingData.order;
-                const map = new Map(liteData.map(item => [item.id, item]));
-                popIds.forEach(id => {
-                    const item = map.get(id);
-                    if (item) displayList.push(item);
-                });
-                // 補齊剩餘卡片直到 displayList 滿 40 個，防止空白
-                liteData.forEach(item => {
-                    if (!displayList.includes(item) && displayList.length < 40) {
-                        displayList.push(item);
-                    }
-                });
-            } else {
-                displayList = liteData.slice(0, 30);
-            }
         } else if (activeCategory === 'business') {
             // 商業大類使用獨立數據庫
             displayList = businessData.map(item => {
@@ -677,8 +501,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // 4. 排序處理 (流行榜優先)
-        if (activeCategory !== 'featured' && activeCategory !== 'business') {
+        // 4. 排序處理
+        if (activeCategory !== 'business') {
             displayList.sort((a, b) => (a.number || 0) - (b.number || 0));
         }
 
@@ -1077,28 +901,6 @@ document.addEventListener('DOMContentLoaded', () => {
     imageLightbox.addEventListener('click', () => {
         imageLightbox.classList.remove('active');
     });
-
-    // --- 成就徽章 Drawer 控制 ---
-    if (badgeTriggerBtn) {
-        badgeTriggerBtn.addEventListener('click', () => {
-            renderBadgesList();
-            if (badgesDrawerOverlay) badgesDrawerOverlay.classList.add('active');
-        });
-    }
-
-    if (drawerCloseBtn) {
-        drawerCloseBtn.addEventListener('click', () => {
-            if (badgesDrawerOverlay) badgesDrawerOverlay.classList.remove('active');
-        });
-    }
-
-    if (badgesDrawerOverlay) {
-        badgesDrawerOverlay.addEventListener('click', (e) => {
-            if (e.target === badgesDrawerOverlay) {
-                badgesDrawerOverlay.classList.remove('active');
-            }
-        });
-    }
 
     // --- Logo 點擊回到首頁功能 ---
     const logoArea = document.querySelector('.logo-area');
