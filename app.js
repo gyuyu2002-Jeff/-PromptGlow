@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeSubtag = null;
     let searchQuery = '';
     let viewMode = 'grid';
-    let activeComponent = 'background';
     
     let favorites = JSON.parse(localStorage.getItem('bx_favorites') || '[]');
     let historyList = JSON.parse(localStorage.getItem('bx_history') || '[]');
@@ -58,6 +57,129 @@ document.addEventListener('DOMContentLoaded', () => {
     const toastContainer = document.getElementById('toastContainer');
 
     // --- 輔助函數 (Helpers) ---
+
+    const SEARCH_SYNONYMS = {
+        '科技': ['科幻', '光效', '未來感', '未來科技', 'tech', 'sci-fi', 'neon', 'cyber', 'digital'],
+        '科幻': ['科技', '光效', '未來感', '霓虹', 'tech', 'sci-fi', 'neon', 'cyber'],
+        '光效': ['科技', '科幻', '霓虹', '螢光', 'neon', 'glow'],
+        '未來感': ['科技', '科幻', '光效', '未來科技', 'future', 'futuristic', 'tech'],
+        '商務': ['商業', '企業', '簡報', '提案', 'business', 'corporate'],
+        '商業': ['商務', '企業', '提案', '簡報', 'business', 'corporate'],
+        '資料': ['數據', '圖表', '資訊圖表', '報告', 'data', 'infographic', 'chart'],
+        '數據': ['資料', '圖表', '資訊圖表', '報告', 'data', 'infographic', 'chart'],
+        '極簡': ['簡約', '乾淨', '留白', '線條', 'minimal', 'clean'],
+        '簡約': ['極簡', '乾淨', '留白', '線條', 'minimal', 'clean'],
+        '手繪': ['塗鴉', '插畫', '麥克筆', '親切', 'doodle', 'marker', 'hand-drawn'],
+        '立體': ['3d', '三維', '黏土', 'isometric', 'solid'],
+        '復古': ['懷舊', '拼貼', '印藝', 'retro', 'vintage', 'collage']
+    };
+
+    function expandSearchTerms(query) {
+        const normalizedQuery = query.toLowerCase().trim();
+        const cleanQuery = normalizedQuery.startsWith('#') ? normalizedQuery.substring(1) : normalizedQuery;
+        const terms = new Set([normalizedQuery, cleanQuery]);
+
+        Object.entries(SEARCH_SYNONYMS).forEach(([keyword, synonyms]) => {
+            const group = [keyword, ...synonyms].map(term => term.toLowerCase());
+            if (group.some(term => term.includes(cleanQuery) || cleanQuery.includes(term))) {
+                group.forEach(term => terms.add(term));
+            }
+        });
+
+        return [...terms].filter(Boolean);
+    }
+
+    function getSearchScore(item, query, cleanQuery, searchTerms) {
+        const advice = getStyleUsageAdvice(item);
+        const directText = [
+            item.name || '',
+            item.id || '',
+            item.category || '',
+            item.category_zh || '',
+            ...(item.tags || [])
+        ].join(' ').toLowerCase();
+        const fitText = advice.fit.toLowerCase();
+        const paddedNum = item.number ? String(item.number).padStart(3, '0') : '';
+        let score = 0;
+
+        if (item.number && (String(item.number).includes(cleanQuery) || paddedNum.includes(cleanQuery))) score += 100;
+        if (directText.includes(query)) score += 80;
+
+        searchTerms.forEach(term => {
+            if (directText.includes(term)) score += 40;
+            if (fitText.includes(term)) score += 8;
+        });
+
+        return score;
+    }
+
+    function getStyleUsageAdvice(item) {
+        const text = [
+            item.name || '',
+            item.category || '',
+            item.category_zh || '',
+            ...(item.tags || [])
+        ].join(' ').toLowerCase();
+
+        if (text.includes('tech') || text.includes('sci-fi') || text.includes('neon') || text.includes('科幻') || text.includes('光效') || text.includes('科技')) {
+            return {
+                fit: '科技產品、AI、數位轉型、創新提案',
+                avoid: '溫馨人文、傳統產業、需要低調信任感的內容'
+            };
+        }
+        if (text.includes('infographic') || text.includes('data') || text.includes('圖表') || text.includes('數據') || text.includes('資訊')) {
+            return {
+                fit: '數據報告、研究摘要、流程說明、成效回顧',
+                avoid: '情緒故事、品牌形象片、需要大量留白的封面'
+            };
+        }
+        if (text.includes('minimal') || text.includes('mono') || text.includes('極簡') || text.includes('線條') || text.includes('簡約')) {
+            return {
+                fit: '高階商務、策略簡報、顧問報告、產品介紹',
+                avoid: '熱鬧促銷、兒童教育、需要強烈情緒的主題'
+            };
+        }
+        if (text.includes('doodle') || text.includes('marker') || text.includes('hand') || text.includes('手繪') || text.includes('塗鴉') || text.includes('麥克筆')) {
+            return {
+                fit: '工作坊、教學說明、創意發想、團隊溝通',
+                avoid: '正式財報、法遵文件、嚴肅政府標案'
+            };
+        }
+        if (text.includes('3d') || text.includes('isometric') || text.includes('solid') || text.includes('立體') || text.includes('三維') || text.includes('等距')) {
+            return {
+                fit: '產品功能、平台架構、服務流程、科技概念',
+                avoid: '文字密集報告、嚴肅政策說明、低成本草案'
+            };
+        }
+        if (text.includes('retro') || text.includes('vintage') || text.includes('collage') || text.includes('復古') || text.includes('拼貼') || text.includes('印藝')) {
+            return {
+                fit: '品牌故事、文化企劃、活動主視覺、創意提案',
+                avoid: '精準數據報告、金融法務、需要現代科技感的內容'
+            };
+        }
+        if (text.includes('premium') || text.includes('luxury') || text.includes('高端') || text.includes('奢華')) {
+            return {
+                fit: '品牌定位、高單價產品、精品服務、募資簡報',
+                avoid: '大量資訊教學、平價促銷、內部流程文件'
+            };
+        }
+        if (text.includes('business') || text.includes('corporate') || text.includes('商務') || text.includes('商業') || text.includes('企業')) {
+            return {
+                fit: '公司簡介、商業計劃、提案簡報、年度報告',
+                avoid: '實驗性藝術、輕鬆社群貼文、兒童向內容'
+            };
+        }
+        if (text.includes('flat') || text.includes('vector') || text.includes('扁平') || text.includes('向量') || text.includes('插畫')) {
+            return {
+                fit: '產品介紹、教學懶人包、服務流程、行銷簡報',
+                avoid: '高奢品牌、嚴肅財報、需要照片真實感的主題'
+            };
+        }
+        return {
+            fit: '視覺提案、主題封面、風格探索、一般簡報開場',
+            avoid: '高度法務、精密數據、需要固定品牌規範的正式文件'
+        };
+    }
 
     // 格式化圖片 URL，優先讀取本地批量生成的繁體中文參考圖
     function getFullImageUrl(item) {
@@ -490,18 +612,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (searchQuery) {
             const query = searchQuery.toLowerCase().trim();
             const cleanQuery = query.startsWith('#') ? query.substring(1) : query;
+            const searchTerms = expandSearchTerms(query);
             displayList = displayList.filter(item => {
-                const nameMatch = item.name && item.name.toLowerCase().includes(query);
-                const idMatch = item.id && item.id.toLowerCase().includes(query);
-                const paddedNum = item.number ? String(item.number).padStart(3, '0') : '';
-                const numberMatch = item.number && (String(item.number).includes(cleanQuery) || paddedNum.includes(cleanQuery));
-                const tagMatch = item.tags && item.tags.some(t => t.toLowerCase().includes(query));
-                return nameMatch || idMatch || numberMatch || tagMatch;
+                item._searchScore = getSearchScore(item, query, cleanQuery, searchTerms);
+                return item._searchScore > 0;
             });
         }
 
         // 4. 排序處理
-        if (activeCategory !== 'business') {
+        if (searchQuery) {
+            displayList.sort((a, b) => (b._searchScore || 0) - (a._searchScore || 0) || (a.number || 0) - (b.number || 0));
+        } else if (activeCategory !== 'business') {
             displayList.sort((a, b) => (a.number || 0) - (b.number || 0));
         }
 
@@ -540,6 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const displayId = `#${String(item.number).padStart(3, '0')}`;
             const category = item.tags && item.tags[0] ? item.tags[0] : '視覺風格';
             const imgUrl = getFullImageUrl(item);
+            const advice = getStyleUsageAdvice(item);
             
             card.innerHTML = `
                 <div class="card-image-box">
@@ -571,6 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="card-tags">
                         ${item.tags ? item.tags.slice(1, 4).map(t => `<span class="card-tag">${t}</span>`).join('') : ''}
                     </div>
+                    <p class="card-advice"><strong>適合</strong>${advice.fit}</p>
                     <div class="card-action-group">
                         <button class="card-btn btn-copy" title="複製 YAML 提示詞">
                             <i data-lucide="copy"></i> 複製
@@ -706,27 +829,22 @@ document.addEventListener('DOMContentLoaded', () => {
         modalNumber.textContent = `#${String(item.number).padStart(3, '0')}`;
         modalCategory.textContent = item.tags && item.tags[0] ? item.tags[0] : '分類';
         modalTitle.textContent = item.name;
+        const usageAdvice = getStyleUsageAdvice(item);
+        const modalUsageFit = document.getElementById('modalUsageFit');
+        const modalUsageAvoid = document.getElementById('modalUsageAvoid');
+        if (modalUsageFit) modalUsageFit.textContent = usageAdvice.fit;
+        if (modalUsageAvoid) modalUsageAvoid.textContent = usageAdvice.avoid;
         
         // 重設圖片與預覽占位卡的顯示狀態
         modalImage.style.display = 'block';
         const modalPH = document.getElementById('modalImagePlaceholder');
-        const modalZO = document.getElementById('modalImageZoomOverlay');
         const modalPHFooter = document.getElementById('modalPlaceholderFooter');
         if (modalPH) modalPH.style.display = 'none';
-        if (modalZO) modalZO.style.display = 'flex';
         if (modalPHFooter) modalPHFooter.textContent = `[ ${item.name} | 繁中化中 ]`;
         
         const imgUrl = getFullImageUrl(item);
         modalImage.src = imgUrl;
-        
-        const mockIllImg = document.getElementById('mockIllustrationImg');
-        if (mockIllImg) mockIllImg.src = imgUrl;
-        
-        for (let i = 1; i <= 4; i++) {
-            const mockIconImg = document.getElementById(`mockIconImg${i}`);
-            if (mockIconImg) mockIconImg.src = imgUrl;
-        }
-        
+
         modalPromptCode.textContent = '提示詞 YAML 代碼加載中...';
 
         // 記錄歷史記錄
@@ -737,42 +855,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         recordAction('modal_open');
 
-        // 初始化自訂器元件與狀態
-        activeComponent = 'background';
+        // 初始化自訂器狀態
         const customTopicInput = document.getElementById('customTopicInput');
         if (customTopicInput) customTopicInput.value = '';
         
         const compDescription = document.getElementById('compDescription');
         if (compDescription) {
-            compDescription.textContent = '適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。';
+            compDescription.textContent = '輸入簡報主題後，系統會把主題寫入此風格的 YAML 提示詞，方便直接複製到 AI 工具使用。';
         }
-        
-        const compTabs = document.querySelectorAll('.comp-tab');
-        compTabs.forEach(tab => {
-            tab.classList.remove('active');
-            if (tab.dataset.type === activeComponent) {
-                tab.classList.add('active');
-            }
-            
-            tab.onclick = () => {
-                compTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                activeComponent = tab.dataset.type;
-                
-                // 更新組件簡述
-                if (compDescription) {
-                    if (activeComponent === 'background') {
-                        compDescription.textContent = '適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。';
-                    } else if (activeComponent === 'illustration') {
-                        compDescription.textContent = '適合做投影片插圖：主題突出、畫面豐富，用以傳遞核心概念。';
-                    } else if (activeComponent === 'icons') {
-                        compDescription.textContent = '適合做投影片 Icon：一組 4 個同風格、去背扁平化的向量符號素材。';
-                    }
-                }
-                
-                updateModalPromptDisplay();
-            };
-        });
 
         const checkboxInput = document.getElementById('modalInstructionCheckbox');
         if (checkboxInput) checkboxInput.checked = true;
@@ -800,14 +890,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 構建自訂配置區塊
                 const displayTopic = topic || '思緒卡關時的 5 種切換方法';
                 let configBlock = `### 簡報自訂配置\n- 簡報主題: ${displayTopic}\n`;
-                
-                if (activeComponent === 'background') {
-                    configBlock += `- 生成類型: 簡報背景大圖 (Slide Background)\n- 構圖要求: 極簡構圖，畫面中心大面積留白，大量負空間以利文字排版，無任何占位文字，適合做PPT背景。\n`;
-                } else if (activeComponent === 'illustration') {
-                    configBlock += `- 生成類型: 簡報主題配圖 (Slide Illustration)\n- 構圖要求: 主題中心化構圖，高視覺衝擊力，生動展現核心概念，適合作為投影片插圖。\n`;
-                } else if (activeComponent === 'icons') {
-                    configBlock += `- 生成類型: 簡報套系圖標 (Slide Icons)\n- 構圖要求: 一組 4 個同風格的扁平向量圖標，均勻排版在乾淨單色背景上，高品質UI圖示素材。\n`;
-                }
+                configBlock += `- 生成類型: 簡報背景大圖 (Slide Background)\n- 構圖要求: 以目前參考圖的視覺風格為主，保留清楚風格特徵，避免在圖片上覆蓋示意文字或多餘圖層。\n`;
                 
                 // 注入配置區塊到第一行（"## 視覺風格:"）的後方
                 const lines = displayedYaml.split('\n');
@@ -833,38 +916,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     displayedYaml = prefix + displayedYaml;
                 } else {
                     displayedYaml = `# 提示詞模式：繁體中文呈現，字體運作流暢，無任何亂碼\n\n` + displayedYaml;
-                }
-            }
-            
-            // 控管左側模擬層的顯示與隱藏
-            const mockupBg = document.getElementById('mockupBg');
-            const mockupIllustration = document.getElementById('mockupIllustration');
-            const mockupIcons = document.getElementById('mockupIcons');
-            const topic = customTopicInput ? customTopicInput.value.trim() : '';
-            
-            if (mockupBg) mockupBg.style.display = 'none';
-            if (mockupIllustration) mockupIllustration.style.display = 'none';
-            if (mockupIcons) mockupIcons.style.display = 'none';
-            
-            if (activeComponent === 'background') {
-                if (mockupBg) {
-                    mockupBg.style.display = 'flex';
-                    const mockTitleEl = mockupBg.querySelector('.mock-title');
-                    if (mockTitleEl) {
-                        mockTitleEl.textContent = topic || '2026 商業計劃與策略';
-                    }
-                }
-            } else if (activeComponent === 'illustration') {
-                if (mockupIllustration) {
-                    mockupIllustration.style.display = 'flex';
-                    const illTitleEl = mockupIllustration.querySelector('.mock-text-side h2');
-                    if (illTitleEl) {
-                        illTitleEl.textContent = topic || '核心理念';
-                    }
-                }
-            } else if (activeComponent === 'icons') {
-                if (mockupIcons) {
-                    mockupIcons.style.display = 'flex';
                 }
             }
             

@@ -717,7 +717,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
     margin-top: auto;
 }
 
@@ -728,6 +728,23 @@ body {
     color: var(--text-secondary);
     padding: 2px 8px;
     border-radius: 4px;
+}
+
+.card-advice {
+    min-height: 3em;
+    margin: 0 0 16px 0;
+    color: var(--text-secondary);
+    font-size: 0.76rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-advice strong {
+    color: var(--accent);
+    margin-right: 6px;
 }
 
 /* 卡片按鈕組 */
@@ -1064,27 +1081,6 @@ body {
     display: block;
 }
 
-.image-zoom-overlay {
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    opacity: 0;
-    transition: var(--transition-fast);
-}
-
-.modal-image-wrapper:hover .image-zoom-overlay {
-    opacity: 1;
-}
-
-}
-
 /* 圖片內文對照卡片 */
 .image-translation-card {
     background-color: var(--bg-card);
@@ -1258,6 +1254,40 @@ body {
     font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1.3;
+}
+
+.usage-advice-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.usage-advice-item {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background-color: rgba(0, 0, 0, 0.015);
+    padding: 12px 14px;
+}
+
+.usage-advice-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--accent);
+    font-size: 0.76rem;
+    font-weight: 800;
+}
+
+.usage-advice-item p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+    line-height: 1.55;
+}
+
+@media(max-width: 640px) {
+    .usage-advice-panel {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* 模態窗章節標題 */
@@ -1508,47 +1538,6 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
-.component-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
-}
-
-.comp-tab {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 14px;
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    background-color: var(--bg-body);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    transition: var(--transition-fast);
-}
-
-.comp-tab:hover {
-    color: var(--text-primary);
-    border-color: var(--border-hover);
-}
-
-.comp-tab svg {
-    width: 14px;
-    height: 14px;
-}
-
-.comp-tab.active {
-    background-color: var(--accent);
-    color: #ffffff;
-    border-color: var(--accent);
-}
-
 .topic-input-wrapper {
     display: flex;
     flex-direction: column;
@@ -1586,220 +1575,4 @@ body {
 .topic-input-wrapper input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 2px rgba(229, 80, 57, 0.1);
-}
-
-/* --- 簡報預覽模擬層 (Slide Mockup Preview) --- */
-.mockup-overlay {
-    position: absolute;
-    inset: 0;
-    background-color: var(--bg-card);
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    padding: 24px;
-    box-sizing: border-box;
-    overflow: hidden;
-    animation: fadeIn 0.2s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* 背景大圖模擬 */
-.mockup-bg {
-    background-color: rgba(10, 10, 10, 0.4);
-    backdrop-filter: blur(1px);
-    -webkit-backdrop-filter: blur(1px);
-    color: #ffffff;
-    justify-content: center;
-    pointer-events: none; /* 點擊依然能觸發放大 */
-}
-
-.mock-slide-content {
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    text-align: left;
-}
-
-.mock-badge {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    padding: 4px 8px;
-    background-color: var(--accent);
-    color: #ffffff;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    width: fit-content;
-    text-shadow: none;
-}
-
-.mock-title {
-    font-size: 1.45rem;
-    font-weight: 800;
-    margin: 0 0 10px 0;
-    color: #ffffff;
-    line-height: 1.3;
-}
-
-.mock-line {
-    width: 50px;
-    height: 4px;
-    background-color: var(--accent);
-    margin-bottom: 16px;
-    border-radius: 2px;
-}
-
-.mock-bullets {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.mock-bullet {
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.mock-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--accent);
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-/* 主題配圖模擬 */
-.mockup-illustration {
-    background-color: var(--bg-card);
-}
-
-.mock-slide-split {
-    display: flex;
-    height: 100%;
-    gap: 20px;
-    text-align: left;
-}
-
-.mock-text-side {
-    flex: 1.1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.mock-text-side h2 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    margin: 0 0 8px 0;
-    color: var(--text-primary);
-}
-
-.mock-text-side p {
-    font-size: 0.8rem;
-    line-height: 1.5;
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-.mock-image-side {
-    flex: 0.9;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--bg-body);
-    border-radius: 8px;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-}
-
-.mock-img-frame {
-    width: 100%;
-    height: 130px;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-}
-
-.mock-img-clone {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.mock-caption {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-top: 8px;
-    font-weight: 700;
-}
-
-/* 套系圖標模擬 */
-.mockup-icons {
-    background-color: var(--bg-card);
-    justify-content: center;
-}
-
-.mock-slide-icons {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    text-align: left;
-    justify-content: center;
-}
-
-.mock-slide-icons h2 {
-    font-size: 1.15rem;
-    font-weight: 800;
-    margin: 0 0 16px 0;
-    color: var(--text-primary);
-}
-
-.mock-icon-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    align-items: center;
-}
-
-.mock-icon-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-.mock-icon-circle {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    background-color: var(--bg-body);
-}
-
-.mock-icon-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* 裁剪 4 個不同色塊與特徵 */
-#mockIconImg1 { object-position: 15% 15%; }
-#mockIconImg2 { object-position: 85% 15%; }
-#mockIconImg3 { object-position: 15% 85%; }
-#mockIconImg4 { object-position: 85% 85%; }
-
-.mock-icon-card span {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--text-secondary);
 }
