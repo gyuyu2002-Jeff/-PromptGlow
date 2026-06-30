@@ -716,7 +716,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modalZO) modalZO.style.display = 'flex';
         if (modalPHFooter) modalPHFooter.textContent = `[ ${item.name} | 繁中化中 ]`;
         
-        modalImage.src = getFullImageUrl(item);
+        const imgUrl = getFullImageUrl(item);
+        modalImage.src = imgUrl;
+        
+        const mockIllImg = document.getElementById('mockIllustrationImg');
+        if (mockIllImg) mockIllImg.src = imgUrl;
+        
+        for (let i = 1; i <= 4; i++) {
+            const mockIconImg = document.getElementById(`mockIconImg${i}`);
+            if (mockIconImg) mockIconImg.src = imgUrl;
+        }
         
         modalPromptCode.textContent = '提示詞 YAML 代碼加載中...';
 
@@ -826,6 +835,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     displayedYaml = `# 提示詞模式：繁體中文呈現，字體運作流暢，無任何亂碼\n\n` + displayedYaml;
                 }
             }
+            
+            // 控管左側模擬層的顯示與隱藏
+            const mockupBg = document.getElementById('mockupBg');
+            const mockupIllustration = document.getElementById('mockupIllustration');
+            const mockupIcons = document.getElementById('mockupIcons');
+            const topic = customTopicInput ? customTopicInput.value.trim() : '';
+            
+            if (mockupBg) mockupBg.style.display = 'none';
+            if (mockupIllustration) mockupIllustration.style.display = 'none';
+            if (mockupIcons) mockupIcons.style.display = 'none';
+            
+            if (activeComponent === 'background') {
+                if (mockupBg) {
+                    mockupBg.style.display = 'flex';
+                    const mockTitleEl = mockupBg.querySelector('.mock-title');
+                    if (mockTitleEl) {
+                        mockTitleEl.textContent = topic || '2026 商業計劃與策略';
+                    }
+                }
+            } else if (activeComponent === 'illustration') {
+                if (mockupIllustration) {
+                    mockupIllustration.style.display = 'flex';
+                    const illTitleEl = mockupIllustration.querySelector('.mock-text-side h2');
+                    if (illTitleEl) {
+                        illTitleEl.textContent = topic || '核心理念';
+                    }
+                }
+            } else if (activeComponent === 'icons') {
+                if (mockupIcons) {
+                    mockupIcons.style.display = 'flex';
+                }
+            }
+            
             modalPromptCode.textContent = displayedYaml;
         }
 

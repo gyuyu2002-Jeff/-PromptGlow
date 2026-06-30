@@ -143,6 +143,63 @@
                 <div class="modal-left">
                     <div class="modal-image-wrapper">
                         <img id="modalImage" src="" alt="風格參考圖" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; document.getElementById('modalImageZoomOverlay').style.display='none';">
+                        
+                        <!-- 1. 簡報背景模擬層 -->
+                        <div class="mockup-overlay mockup-bg" id="mockupBg" style="display: none;">
+                            <div class="mock-slide-content">
+                                <div class="mock-badge">MARKET OVERVIEW</div>
+                                <h1 class="mock-title">2026 商業計劃與策略</h1>
+                                <div class="mock-line"></div>
+                                <div class="mock-bullets">
+                                    <div class="mock-bullet"><span class="mock-dot"></span> 全球市場擴張戰略與實施路徑</div>
+                                    <div class="mock-bullet"><span class="mock-dot"></span> 核心數據指標與財務預估分析</div>
+                                    <div class="mock-bullet"><span class="mock-dot"></span> 跨部門協作與敏捷研發流程</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 2. 主題配圖模擬層 -->
+                        <div class="mockup-overlay mockup-illustration" id="mockupIllustration" style="display: none;">
+                            <div class="mock-slide-split">
+                                <div class="mock-text-side">
+                                    <div class="mock-badge" style="background-color: var(--accent);">CONCEPT VISUAL</div>
+                                    <h2>核心理念</h2>
+                                    <p>透過高質感視覺，精準傳遞品牌的核心價值與未來願景，讓聽眾留下深刻的第一印象。</p>
+                                </div>
+                                <div class="mock-image-side">
+                                    <div class="mock-img-frame">
+                                        <img class="mock-img-clone" id="mockIllustrationImg" src="" alt="配圖">
+                                    </div>
+                                    <div class="mock-caption">風格關鍵插圖 (Key Visual)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 3. 套系圖標模擬層 -->
+                        <div class="mockup-overlay mockup-icons" id="mockupIcons" style="display: none;">
+                            <div class="mock-slide-icons">
+                                <div class="mock-badge" style="background-color: var(--text-primary); color: var(--bg-card);">STYLE ICONS SET</div>
+                                <h2>套系圖標應用範例</h2>
+                                <div class="mock-icon-grid">
+                                    <div class="mock-icon-card">
+                                        <div class="mock-icon-circle"><img class="mock-icon-img" id="mockIconImg1" src="" alt="icon1"></div>
+                                        <span>項目分析</span>
+                                    </div>
+                                    <div class="mock-icon-card">
+                                        <div class="mock-icon-circle"><img class="mock-icon-img" id="mockIconImg2" src="" alt="icon2"></div>
+                                        <span>市場研究</span>
+                                    </div>
+                                    <div class="mock-icon-card">
+                                        <div class="mock-icon-circle"><img class="mock-icon-img" id="mockIconImg3" src="" alt="icon3"></div>
+                                        <span>策略規劃</span>
+                                    </div>
+                                    <div class="mock-icon-card">
+                                        <div class="mock-icon-circle"><img class="mock-icon-img" id="mockIconImg4" src="" alt="icon4"></div>
+                                        <span>數據回報</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-image-placeholder-tc" id="modalImagePlaceholder" style="display: none; height: 350px;">
                             <div class="placeholder-content">
                                 <div class="placeholder-title" style="font-size: 1.1rem;">思緒卡關時的 5 種切換方法</div>
