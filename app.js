@@ -733,6 +733,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const customTopicInput = document.getElementById('customTopicInput');
         if (customTopicInput) customTopicInput.value = '';
         
+        const compDescription = document.getElementById('compDescription');
+        if (compDescription) {
+            compDescription.textContent = '適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。';
+        }
+        
         const compTabs = document.querySelectorAll('.comp-tab');
         compTabs.forEach(tab => {
             tab.classList.remove('active');
@@ -744,6 +749,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 compTabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 activeComponent = tab.dataset.type;
+                
+                // 更新組件簡述
+                if (compDescription) {
+                    if (activeComponent === 'background') {
+                        compDescription.textContent = '適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。';
+                    } else if (activeComponent === 'illustration') {
+                        compDescription.textContent = '適合做投影片插圖：主題突出、畫面豐富，用以傳遞核心概念。';
+                    } else if (activeComponent === 'icons') {
+                        compDescription.textContent = '適合做投影片 Icon：一組 4 個同風格、去背扁平化的向量符號素材。';
+                    }
+                }
+                
                 updateModalPromptDisplay();
             };
         });
