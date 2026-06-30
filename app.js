@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeSubtag = null;
     let searchQuery = '';
     let viewMode = 'grid';
+    let activeComponent = 'background';
     
     let favorites = JSON.parse(localStorage.getItem('bx_favorites') || '[]');
     let historyList = JSON.parse(localStorage.getItem('bx_history') || '[]');
@@ -46,10 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalNumber = document.getElementById('modalNumber');
     const modalCategory = document.getElementById('modalCategory');
     const modalTitle = document.getElementById('modalTitle');
-    const modalComments = document.getElementById('modalComments');
     const modalPromptCode = document.getElementById('modalPromptCode');
     const copyPromptBtn = document.getElementById('copyPromptBtn');
-    const scoreGrid = document.getElementById('scoreGrid');
     
     // Lightbox & Drawer
     const imageLightbox = document.getElementById('imageLightbox');
@@ -645,58 +644,22 @@ document.addEventListener('DOMContentLoaded', () => {
     async function copyPromptContent(item, btnElement) {
         let yamlContent = '';
         
-        if (item.isBusiness && item.yaml) {
-            yamlContent = item.yaml;
+        if (btnElement && btnElement.id === 'copyPromptBtn') {
+            yamlContent = modalPromptCode.textContent;
         } else {
-            // 一般風格，需要延遲加載完整數據
-            const fullDetails = await loadFullDetailData(item.id);
-            if (fullDetails && fullDetails.yaml) {
-                yamlContent = fullDetails.yaml;
+            if (item.isBusiness && item.yaml) {
+                yamlContent = item.yaml;
             } else {
-                showToast('無法讀取提示詞，請重試！', 'error');
-                return;
-            }
-        }
-        
-        if (yamlContent) {
-            // 如果是從彈窗內的複製按鈕觸發，則加上自訂主題與 AI 引導詞
-            if (btnElement && btnElement.id === 'copyPromptBtn') {
-                const topicInput = document.getElementById('modalTopicInput');
-                const audienceInput = document.getElementById('modalAudienceInput');
-                const slidesInput = document.getElementById('modalSlidesInput');
-                const detailsInput = document.getElementById('modalDetailsInput');
-                const checkboxInput = document.getElementById('modalInstructionCheckbox');
-                
-                const topic = topicInput ? topicInput.value.trim() : '';
-                const audience = audienceInput ? audienceInput.value.trim() : '';
-                const slides = slidesInput ? slidesInput.value.trim() : '';
-                const detailsText = detailsInput ? detailsInput.value.trim() : '';
-                const addInstructions = checkboxInput ? checkboxInput.checked : true;
-                
-                if (addInstructions) {
-                    let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
-                    
-                    let hasConfig = topic || audience || slides || detailsText;
-                    if (hasConfig) {
-                        prefix += `[簡報配置資訊]\n`;
-                        if (topic) prefix += `- 簡報主題：${topic}\n`;
-                        if (audience) prefix += `- 簡報受眾：${audience}\n`;
-                        if (slides) prefix += `- 投影片張數：${slides}\n`;
-                        if (detailsText) {
-                            prefix += `- 簡報大綱與重點：\n  ${detailsText.replace(/\n/g, '\n  ')}\n`;
-                        }
-                        prefix += `\n`;
-                    }
-                    
-                    prefix += `---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
-                    yamlContent = prefix + yamlContent;
+                // 一般風格，需要延遲加載完整數據
+                const fullDetails = await loadFullDetailData(item.id);
+                if (fullDetails && fullDetails.yaml) {
+                    yamlContent = fullDetails.yaml;
                 } else {
-                    yamlContent = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + yamlContent;
+                    showToast('無法讀取提示詞，請重試！', 'error');
+                    return;
                 }
-            } else {
-                // 卡片快捷複製，使用基礎註記
-                yamlContent = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + yamlContent;
             }
+            yamlContent = `# 提示詞模式：繁體中文呈現，字體運作流暢，無任何亂碼\n\n` + yamlContent;
         }
         
         navigator.clipboard.writeText(yamlContent).then(() => {
@@ -740,15 +703,10 @@ document.addEventListener('DOMContentLoaded', () => {
         detailModal.classList.add('active');
         document.body.style.overflow = 'hidden'; // 禁止底層滾動
         
-        // 確保簡報設計內容配置面板可見
-        const configCard = document.getElementById('promptConfigCard');
-        if (configCard) {
-            configCard.style.display = 'block';
-        }
-        
         modalNumber.textContent = `#${String(item.number).padStart(3, '0')}`;
         modalCategory.textContent = item.tags && item.tags[0] ? item.tags[0] : '分類';
         modalTitle.textContent = item.name;
+        
         // 重設圖片與預覽占位卡的顯示狀態
         modalImage.style.display = 'block';
         const modalPH = document.getElementById('modalImagePlaceholder');
@@ -760,10 +718,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         modalImage.src = getFullImageUrl(item);
         
-        // 骨架屏載入提示
-        modalComments.innerHTML = '<div class="comment-item"><span class="comment-text">專家評語加載中...</span></div>';
         modalPromptCode.textContent = '提示詞 YAML 代碼加載中...';
-        if (scoreGrid) scoreGrid.innerHTML = '';
 
         // 記錄歷史記錄
         if (!historyList.includes(item.id)) {
@@ -773,17 +728,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         recordAction('modal_open');
 
-        // 重設與綁定提示詞產生器輸入項
-        const topicInput = document.getElementById('modalTopicInput');
-        const audienceInput = document.getElementById('modalAudienceInput');
-        const slidesInput = document.getElementById('modalSlidesInput');
-        const detailsInput = document.getElementById('modalDetailsInput');
-        const checkboxInput = document.getElementById('modalInstructionCheckbox');
+        // 初始化自訂器元件與狀態
+        activeComponent = 'background';
+        const customTopicInput = document.getElementById('customTopicInput');
+        if (customTopicInput) customTopicInput.value = '';
         
-        if (topicInput) topicInput.value = '';
-        if (audienceInput) audienceInput.value = '';
-        if (slidesInput) slidesInput.value = '';
-        if (detailsInput) detailsInput.value = '';
+        const compTabs = document.querySelectorAll('.comp-tab');
+        compTabs.forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.dataset.type === activeComponent) {
+                tab.classList.add('active');
+            }
+            
+            tab.onclick = () => {
+                compTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                activeComponent = tab.dataset.type;
+                updateModalPromptDisplay();
+            };
+        });
+
+        const checkboxInput = document.getElementById('modalInstructionCheckbox');
         if (checkboxInput) checkboxInput.checked = true;
 
         // 加載完整數據
@@ -795,7 +760,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (!details) {
-            modalComments.innerHTML = '<div class="comment-item"><span class="comment-text" style="color:var(--accent);">加載詳細評估數據失敗，請檢查網絡。</span></div>';
+            modalPromptCode.textContent = '加載詳細提示詞數據失敗，請刷新或重試。';
             return;
         }
         
@@ -803,74 +768,53 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateModalPromptDisplay() {
             let displayedYaml = details.yaml || '無提示詞數據';
             if (displayedYaml && displayedYaml !== '無提示詞數據') {
-                const topic = topicInput ? topicInput.value.trim() : '';
-                const audience = audienceInput ? audienceInput.value.trim() : '';
-                const slides = slidesInput ? slidesInput.value.trim() : '';
-                const detailsText = detailsInput ? detailsInput.value.trim() : '';
+                const topic = customTopicInput ? customTopicInput.value.trim() : '';
                 const addInstructions = checkboxInput ? checkboxInput.checked : true;
                 
+                // 構建自訂配置區塊
+                const displayTopic = topic || '思緒卡關時的 5 種切換方法';
+                let configBlock = `### 簡報自訂配置\n- 簡報主題: ${displayTopic}\n`;
+                
+                if (activeComponent === 'background') {
+                    configBlock += `- 生成類型: 簡報背景大圖 (Slide Background)\n- 構圖要求: 極簡構圖，畫面中心大面積留白，大量負空間以利文字排版，無任何占位文字，適合做PPT背景。\n`;
+                } else if (activeComponent === 'illustration') {
+                    configBlock += `- 生成類型: 簡報主題配圖 (Slide Illustration)\n- 構圖要求: 主題中心化構圖，高視覺衝擊力，生動展現核心概念，適合作為投影片插圖。\n`;
+                } else if (activeComponent === 'icons') {
+                    configBlock += `- 生成類型: 簡報套系圖標 (Slide Icons)\n- 構圖要求: 一組 4 個同風格的扁平向量圖標，均勻排版在乾淨單色背景上，高品質UI圖示素材。\n`;
+                }
+                
+                // 注入配置區塊到第一行（"## 視覺風格:"）的後方
+                const lines = displayedYaml.split('\n');
+                let headerIndex = -1;
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].startsWith('## 視覺風格:')) {
+                        headerIndex = i;
+                        break;
+                    }
+                }
+                
+                if (headerIndex !== -1) {
+                    lines.splice(headerIndex + 1, 0, '', configBlock);
+                    displayedYaml = lines.join('\n');
+                } else {
+                    displayedYaml = configBlock + '\n' + displayedYaml;
+                }
+                
+                // 附加導引指令
                 if (addInstructions) {
                     let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
-                    
-                    let hasConfig = topic || audience || slides || detailsText;
-                    if (hasConfig) {
-                        prefix += `[簡報配置資訊]\n`;
-                        if (topic) prefix += `- 簡報主題：${topic}\n`;
-                        if (audience) prefix += `- 簡報受眾：${audience}\n`;
-                        if (slides) prefix += `- 投影片張數：${slides}\n`;
-                        if (detailsText) {
-                            prefix += `- 簡報大綱與重點：\n  ${detailsText.replace(/\n/g, '\n  ')}\n`;
-                        }
-                        prefix += `\n`;
-                    }
-                    
-                    prefix += `---\n# 提示詞模式：繁體中文呈現，字體高清不變形\n`;
+                    prefix += `---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無任何亂碼\n`;
                     displayedYaml = prefix + displayedYaml;
                 } else {
-                    displayedYaml = `# 提示詞模式：繁體中文呈現，字體高清不變形\n\n` + displayedYaml;
+                    displayedYaml = `# 提示詞模式：繁體中文呈現，字體運作流暢，無任何亂碼\n\n` + displayedYaml;
                 }
             }
             modalPromptCode.textContent = displayedYaml;
         }
 
-        if (topicInput) topicInput.oninput = updateModalPromptDisplay;
-        if (audienceInput) audienceInput.oninput = updateModalPromptDisplay;
-        if (slidesInput) slidesInput.oninput = updateModalPromptDisplay;
-        if (detailsInput) detailsInput.oninput = updateModalPromptDisplay;
+        if (customTopicInput) customTopicInput.oninput = updateModalPromptDisplay;
         if (checkboxInput) checkboxInput.onchange = updateModalPromptDisplay;
         updateModalPromptDisplay();
-        
-        // 渲染專家點評 (Comments)
-        modalComments.innerHTML = '';
-        
-        const keyMap = {
-            'Legibility': '🔍 可讀性 (Legibility)',
-            'Hierarchy': '📐 視覺層級 (Hierarchy)',
-            'Consistency': '🎨 風格一致性 (Consistency)',
-            'Atmosphere': '✨ 畫面氛圍 (Atmosphere)',
-            'Theme Fit': '🎯 主題契合度 (Theme Fit)'
-        };
-        
-        if (details.comments) {
-            Object.entries(details.comments).forEach(([dimension, text]) => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'comment-item';
-                itemDiv.innerHTML = `
-                    <span class="comment-label">${keyMap[dimension] || dimension}</span>
-                    <span class="comment-text">${text}</span>
-                `;
-                modalComments.appendChild(itemDiv);
-            });
-        } else {
-            // 商業專區沒有標準 comments，提供默認點評
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'comment-item';
-            itemDiv.innerHTML = `
-                <span class="comment-label">💼 商業專區評估</span>
-                <span class="comment-text">此風格特別針對商業簡報、圖表、諮詢行銷場景進行了最佳化。具備極高的訊息清晰度與版面結構感，非常適合高階簡報與企業視覺化展示。</span>
-            `;
-            modalComments.appendChild(itemDiv);
-        }
         
         // 綁定彈窗內複製按鈕點擊
         copyPromptBtn.onclick = async () => {

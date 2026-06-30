@@ -161,36 +161,9 @@
                         </div>
                     </div>
                     
-                    <!-- 簡報設計內容配置 (提供輸入簡報相關資訊來完善提示詞) -->
-                    <div class="image-translation-card" id="promptConfigCard" style="padding: 16px; margin-bottom: 20px; text-align: left;">
-                        <div class="translation-header" style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                            <i data-lucide="sliders" style="width: 16px; height: 16px;"></i>
-                            <span style="font-weight: 700; font-size: 0.9rem;">簡報設計內容配置 (選填，自動融入提示詞)</span>
-                        </div>
-                        <div style="margin-bottom: 12px;">
-                            <label for="modalTopicInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">簡報主題 (Topic)</label>
-                            <input type="text" id="modalTopicInput" placeholder="例如：新創募資簡報、年度財務報告..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); box-sizing: border-box; transition: var(--transition-fast);">
-                        </div>
-                        <div class="config-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-                            <div>
-                                <label for="modalAudienceInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">簡報受眾 (Audience)</label>
-                                <input type="text" id="modalAudienceInput" placeholder="例如：投資人、主管、大眾..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); box-sizing: border-box; transition: var(--transition-fast);">
-                            </div>
-                            <div>
-                                <label for="modalSlidesInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">投影片張數 (Pages)</label>
-                                <input type="text" id="modalSlidesInput" placeholder="例如：10頁、15頁左右..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); box-sizing: border-box; transition: var(--transition-fast);">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="modalDetailsInput" style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">簡報大綱與重點描述 (Highlights)</label>
-                            <textarea id="modalDetailsInput" placeholder="請描述簡報的主要內容、關鍵數據或希望強調的痛點..." style="width: 100%; height: 70px; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background-color: var(--bg-card); color: var(--text-primary); resize: none; box-sizing: border-box; font-family: inherit; transition: var(--transition-fast);"></textarea>
-                        </div>
-                    </div>
-                    
-
                 </div>
 
-                <!-- 右側：細節、評語與 YAML 代碼複製 -->
+                <!-- 右側：自訂器與 YAML 代碼複製 -->
                 <div class="modal-right">
                     <div class="modal-header-info">
                         <div class="modal-meta-line">
@@ -200,11 +173,20 @@
                         <h2 class="modal-style-title" id="modalTitle">風格名稱</h2>
                     </div>
 
-                    <!-- 專家點評 -->
-                    <div class="modal-section comments-section">
-                        <h3 class="modal-section-title"><i data-lucide="message-square"></i> 視覺設計評估</h3>
-                        <div class="comments-list" id="modalComments">
-                            <!-- 評語由 JS 動態生成 -->
+                    <!-- 簡報提示詞自訂器面板 -->
+                    <div class="modal-section customizer-section">
+                        <div class="customizer-panel">
+                            <!-- 組件分頁切換 -->
+                            <div class="component-tabs">
+                                <button class="comp-tab active" data-type="background"><i data-lucide="image"></i> 簡報背景</button>
+                                <button class="comp-tab" data-type="illustration"><i data-lucide="palette"></i> 主題配圖</button>
+                                <button class="comp-tab" data-type="icons"><i data-lucide="layout-grid"></i> 套系圖標</button>
+                            </div>
+                            <!-- 簡報主題輸入框 -->
+                            <div class="topic-input-wrapper">
+                                <label for="customTopicInput"><i data-lucide="search"></i> 您的簡報主題 (Topic)</label>
+                                <input type="text" id="customTopicInput" placeholder="輸入主題以生成專屬提示詞 (例：2026年商業計劃)...">
+                            </div>
                         </div>
                     </div>
 
