@@ -856,49 +856,13 @@ document.addEventListener('DOMContentLoaded', () => {
         recordAction('modal_open');
 
         // 初始化自訂器狀態
-        let activeComponent = 'background';
         const customTopicInput = document.getElementById('customTopicInput');
         if (customTopicInput) customTopicInput.value = '';
         
         const compDescription = document.getElementById('compDescription');
         if (compDescription) {
-            compDescription.textContent = '適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。';
+            compDescription.textContent = '簡報背景模式：輸入主題後，系統會產生適合投影片背景使用的 YAML 提示詞。';
         }
-        
-        // 綁定模擬克隆圖片
-        const mockIllImg = document.getElementById('mockIllustrationImg');
-        if (mockIllImg) mockIllImg.src = imgUrl;
-        
-        const mockAgeImg = document.getElementById('mockAgendaImg');
-        if (mockAgeImg) mockAgeImg.src = imgUrl;
-
-        // 綁定頁籤切換事件
-        const compTabs = document.querySelectorAll('.comp-tab');
-        compTabs.forEach(tab => {
-            tab.classList.remove('active');
-            if (tab.dataset.type === activeComponent) {
-                tab.classList.add('active');
-            }
-            
-            tab.onclick = () => {
-                compTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                activeComponent = tab.dataset.type;
-                
-                // 更新組件簡述
-                if (compDescription) {
-                    if (activeComponent === 'background') {
-                        compDescription.textContent = '適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。';
-                    } else if (activeComponent === 'illustration') {
-                        compDescription.textContent = '適合做投影片插圖：主題突出、畫面豐富，用以傳遞核心概念。';
-                    } else if (activeComponent === 'agenda') {
-                        compDescription.textContent = '適合做目錄與章節頁：以風格圖片做為側邊裝飾，搭配清爽大氣的章節條列。';
-                    }
-                }
-                
-                updateModalPromptDisplay();
-            };
-        });
 
         const checkboxInput = document.getElementById('modalInstructionCheckbox');
         if (checkboxInput) checkboxInput.checked = true;
@@ -926,14 +890,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 構建自訂配置區塊
                 const displayTopic = topic || '思緒卡關時的 5 種切換方法';
                 let configBlock = `### 簡報自訂配置\n- 簡報主題: ${displayTopic}\n`;
-                
-                if (activeComponent === 'background') {
-                    configBlock += `- 生成類型: 簡報背景大圖 (Slide Background)\n- 構圖要求: 極簡構圖，畫面中心大面積留白，大量負空間以利文字排版，無任何占位文字，適合做PPT背景。\n`;
-                } else if (activeComponent === 'illustration') {
-                    configBlock += `- 生成類型: 簡報主題配圖 (Slide Illustration)\n- 構圖要求: 主題中心化構圖，高視覺衝擊力，生動展現核心概念，適合作為投影片插圖。\n`;
-                } else if (activeComponent === 'agenda') {
-                    configBlock += `- 生成類型: 簡報目錄與過渡頁 (Slide Agenda / Transition Page)\n- 構圖要求: 乾淨的左右雙欄排版，一側展示具風格特色的垂直裝飾插圖，另一側大面積留白，利於章節標題與數字大綱排版。\n`;
-                }
+                configBlock += `- 生成類型: 簡報背景大圖 (Slide Background)\n- 構圖要求: 極簡構圖，畫面中心大面積留白，大量負空間以利文字排版，無任何占位文字，適合做PPT背景。\n`;
                 
                 // 注入配置區塊到第一行（"## 視覺風格:"）的後方
                 const lines = displayedYaml.split('\n');
@@ -955,49 +912,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 附加導引指令
                 if (addInstructions) {
                     let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
-                    prefix += `---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n`;
+                    prefix += `---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無任何亂碼\n`;
                     displayedYaml = prefix + displayedYaml;
                 } else {
-                    displayedYaml = `# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n\n` + displayedYaml;
+                    displayedYaml = `# 提示詞模式：繁體中文呈現，字體運作流暢，無任何亂碼\n\n` + displayedYaml;
                 }
             }
-            
-            // 控管左側模擬層的顯示與隱藏
-            const mockupBg = document.getElementById('mockupBg');
-            const mockupIllustration = document.getElementById('mockupIllustration');
-            const mockupAgenda = document.getElementById('mockupAgenda');
-            const topic = customTopicInput ? customTopicInput.value.trim() : '';
-            
-            if (mockupBg) mockupBg.style.display = 'none';
-            if (mockupIllustration) mockupIllustration.style.display = 'none';
-            if (mockupAgenda) mockupAgenda.style.display = 'none';
-            
-            if (activeComponent === 'background') {
-                if (mockupBg) {
-                    mockupBg.style.display = 'flex';
-                    const mockTitleEl = mockupBg.querySelector('.mock-title');
-                    if (mockTitleEl) {
-                        mockTitleEl.textContent = topic || '2026 商業計劃與策略';
-                    }
-                }
-            } else if (activeComponent === 'illustration') {
-                if (mockupIllustration) {
-                    mockupIllustration.style.display = 'flex';
-                    const illTitleEl = mockupIllustration.querySelector('.mock-text-side h2');
-                    if (illTitleEl) {
-                        illTitleEl.textContent = topic || '核心理念';
-                    }
-                }
-            } else if (activeComponent === 'agenda') {
-                if (mockupAgenda) {
-                    mockupAgenda.style.display = 'flex';
-                    const ageTitleEl = mockupAgenda.querySelector('.mock-agenda-title');
-                    if (ageTitleEl) {
-                        ageTitleEl.textContent = topic ? `${topic} 大綱目錄` : '簡報大綱目錄';
-                    }
-                }
-            }
-            
+
             modalPromptCode.textContent = displayedYaml;
         }
 
