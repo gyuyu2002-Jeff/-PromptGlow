@@ -143,6 +143,65 @@
                 <div class="modal-left">
                     <div class="modal-image-wrapper" title="點擊放大風格參考圖">
                         <img id="modalImage" src="" alt="風格參考圖" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        
+                        <!-- 1. 簡報背景模擬層 -->
+                        <div class="mockup-overlay mockup-bg" id="mockupBg" style="display: none;">
+                            <div class="mock-slide-content">
+                                <div class="mock-badge">MARKET OVERVIEW</div>
+                                <h1 class="mock-title">2026 商業計劃與策略</h1>
+                                <div class="mock-line"></div>
+                                <div class="mock-bullets">
+                                    <div class="mock-bullet"><span class="mock-dot"></span> 全球市場擴張戰略與實施路徑</div>
+                                    <div class="mock-bullet"><span class="mock-dot"></span> 核心數據指標與財務預估分析</div>
+                                    <div class="mock-bullet"><span class="mock-dot"></span> 跨部門協作與敏捷研發流程</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 2. 主題配圖模擬層 -->
+                        <div class="mockup-overlay mockup-illustration" id="mockupIllustration" style="display: none;">
+                            <div class="mock-slide-split">
+                                <div class="mock-text-side">
+                                    <div class="mock-badge" style="background-color: var(--accent);">CONCEPT VISUAL</div>
+                                    <h2>核心理念</h2>
+                                    <p>透過高質感視覺，精準傳遞品牌的核心價值與未來願景，讓聽眾留下深刻的第一印象。</p>
+                                </div>
+                                <div class="mock-image-side">
+                                    <div class="mock-img-frame">
+                                        <img class="mock-img-clone" id="mockIllustrationImg" src="" alt="配圖">
+                                    </div>
+                                    <div class="mock-caption">風格關鍵插圖 (Key Visual)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 3. 目錄章節模擬層 -->
+                        <div class="mockup-overlay mockup-agenda" id="mockupAgenda" style="display: none;">
+                            <div class="mock-slide-agenda">
+                                <div class="mock-agenda-sidebar">
+                                    <img class="mock-agenda-img-clone" id="mockAgendaImg" src="" alt="章節飾條">
+                                </div>
+                                <div class="mock-agenda-content">
+                                    <div class="mock-badge" style="background-color: var(--accent);">AGENDA</div>
+                                    <h2 class="mock-agenda-title">簡報大綱目錄</h2>
+                                    <div class="mock-agenda-list">
+                                        <div class="mock-agenda-item">
+                                            <span class="mock-agenda-num">01</span>
+                                            <span class="mock-agenda-text">項目背景與市場痛點</span>
+                                        </div>
+                                        <div class="mock-agenda-item">
+                                            <span class="mock-agenda-num">02</span>
+                                            <span class="mock-agenda-text">核心技術與解決方案</span>
+                                        </div>
+                                        <div class="mock-agenda-item">
+                                            <span class="mock-agenda-num">03</span>
+                                            <span class="mock-agenda-text">未來增長與財務預測</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="card-image-placeholder-tc" id="modalImagePlaceholder" style="display: none; height: 350px;">
                             <div class="placeholder-content">
                                 <div class="placeholder-title" style="font-size: 1.1rem;">思緒卡關時的 5 種切換方法</div>
@@ -184,9 +243,16 @@
                     <!-- 簡報提示詞自訂器面板 -->
                     <div class="modal-section customizer-section">
                         <div class="customizer-panel">
+                            <!-- 組件分頁切換 -->
+                            <div class="component-tabs">
+                                <button class="comp-tab active" data-type="background"><i data-lucide="image"></i> 簡報背景</button>
+                                <button class="comp-tab" data-type="illustration"><i data-lucide="palette"></i> 主題配圖</button>
+                                <button class="comp-tab" data-type="agenda"><i data-lucide="list"></i> 目錄章節</button>
+                            </div>
+                            <!-- 組件簡述 -->
                             <div class="comp-desc-wrapper" style="margin-bottom: 16px; font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary); background-color: var(--bg-body); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; gap: 8px;">
                                 <i data-lucide="info" style="width: 14px; height: 14px; color: var(--accent); flex-shrink: 0;"></i>
-                                <span id="compDescription">輸入簡報主題後，系統會把主題寫入此風格的 YAML 提示詞，方便直接複製到 AI 工具使用。</span>
+                                <span id="compDescription">適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。</span>
                             </div>
                             <!-- 簡報主題輸入框 -->
                             <div class="topic-input-wrapper">
