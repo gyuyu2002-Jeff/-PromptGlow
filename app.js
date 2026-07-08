@@ -895,6 +895,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 綁定平台適配切換按鈕事件
         const formatBtns = document.querySelectorAll('.preset-format-btn');
+        const formatHelpText = document.getElementById('formatHelpText');
         formatBtns.forEach(btn => {
             btn.classList.remove('active');
             if (btn.dataset.format === activeFormat) {
@@ -904,6 +905,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 formatBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 activeFormat = btn.dataset.format;
+                
+                // 動態更新說明文字
+                if (formatHelpText) {
+                    if (activeFormat === 'general') {
+                        formatHelpText.textContent = '使用方法：複製下方提示詞貼給 ChatGPT，讓 AI 依據此視覺風格為您編寫簡報文字。';
+                    } else if (activeFormat === 'notebooklm') {
+                        formatHelpText.textContent = '使用方法：將下方提示詞連同您「自備的簡報大綱」一起貼給 NotebookLM，AI 將會依大綱架構與此風格擴寫內容。';
+                    } else if (activeFormat === 'gamma') {
+                        formatHelpText.textContent = '使用方法：此代碼提供 Gamma 自訂主題所需要的色碼 HEX 與版面設定，複製並填入 Gamma 編輯器即可。';
+                    } else if (activeFormat === 'midjourney') {
+                        formatHelpText.textContent = '使用方法：複製下方 /imagine 指令到 Midjourney 中生成，即可獲得完美適配此風格的簡報背景或概念插圖。';
+                    }
+                }
+                
                 updateModalPromptDisplay();
             };
         });
@@ -995,7 +1010,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                 } else if (activeFormat === 'notebooklm') {
-                    // --- NotebookLM 專用模式 ---
+                    // --- NotebookLM 專用擴寫模式 (自備大綱) ---
                     let typeText = '簡報背景大圖 (Slide Background)';
                     let typeReq = '極簡構圖，畫面中心大面積留白，大量負空間以利文字排版';
                     if (activeComponent === 'illustration') {
@@ -1006,31 +1021,42 @@ document.addEventListener('DOMContentLoaded', () => {
                         typeReq = '乾淨的左右雙欄排版，一側展示具風格特色的垂直裝飾插圖，另一側大面積留白';
                     }
 
-                    displayedYaml = `# NotebookLM 簡報寫作與內容規劃指引
-請依據我所上傳的「資料來源 (Sources)」，為我規劃並撰寫一份簡報大綱與各頁詳細內容。請在寫作與排版規劃中，嚴格遵守以下「視覺設計風格」與「頁面排版架構」規範：
+                    displayedYaml = `# NotebookLM 簡報風格控制與內容擴寫指引
+我已經準備好了我的「簡報大綱」（請見對話中我提供的內容）。
+請依據我提供的簡報大綱，為我擴寫各頁投影片的詳細內容。在撰寫過程中，請嚴格遵守以下「視覺設計風格」與「頁面排版架構」規範：
 
 ---
 ## 一、 簡報視覺風格規約 (Visual Style Configuration)
-本份簡報採用【${item.name}】視覺風格。請將以下風格色彩配對與設計元素特徵，融入簡報段落大綱與配詞的氛圍中：
+本份簡報採用【${item.name}】視覺風格。請將以下風格色彩配對與設計元素特徵，融入簡報各頁內容的文字語調與配詞氛圍中：
 
 ${displayedYaml}
 
 ---
 ## 二、 頁面版面排版規則 (Pacing & Layout Templates)
-本次生成目標為：【${typeText}】。
-請將生成內容合理分配，並嚴格遵守以下構圖要求：
-- 當前頁面任務目標：${displayTopic}
-- 畫面構圖與留白要求：${typeReq}。
-- 請確保每一頁腳本均標記適合的版型，文字精煉，不得有多餘廢話。
+擴寫時請依據我的大綱結構，合理套用以下三種核心簡報版型：
+1. **[背景大圖 (Slide Background)]**
+   - **適用情境**：簡報封面頁、大字金句強調頁。
+   - **排版要求**：文字極度精簡，保留大面積的留白以突顯背景美感。
+
+2. **[主題配圖 (Slide Illustration)]**
+   - **適用情境**：核心概念闡述頁、產品功能介紹頁。
+   - **排版要求**：採用左右雙欄排版。一側放重點，另一側放一個高視覺衝擊力的核心插圖描述。
+
+3. **[目錄章節 (Slide Agenda)]**
+   - **適用情境**：大綱目錄頁或段落過渡分頁。
+   - **排版要求**：側邊飾條排版，條列呈現主要章節標題。
+
+當前頁面任務目標：${displayTopic}
+當前頁面版型目標：【${typeText}】
+當前頁面構圖與留白要求：${typeReq}。
 
 ---
 ## 三、 簡報腳本輸出格式要求 (Slide-by-Slide Script)
-請按以下格式輸出每一頁投影片的草稿：
-- **頁碼**：第 X 頁
+請按以下格式輸出我大綱中每一頁投影片的草稿：
+- **頁碼與大綱對應標題**：第 X 頁 - [大綱標題]
 - **套用版型**：[背景大圖 / 主題配圖 / 目錄過渡頁]
-- **單頁標題**：[大標題]
 - **簡報內文**：[條列式重點文字，不超過3行，每行不超過20字]
-- **AI 繪圖提示詞**：（若使用主題配圖或背景大圖，請為 AI 繪圖工具寫一段 50 字以內的英文 Midjourney 提示詞，包含主體、色調，並加上防跑板參數 \`--ar 16:9 --no text, font, labels\`）
+- **AI 繪圖提示詞**：（若使用主題配圖或背景大圖，請寫一段 50 字以內的英文 Midjourney 提示詞，包含主體與色調，並加上防跑板參數 \`--ar 16:9 --no text, font, labels\`）
 `;
                 } else if (activeFormat === 'gamma') {
                     // --- Gamma 佈局模式 ---
