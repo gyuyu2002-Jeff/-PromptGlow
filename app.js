@@ -909,11 +909,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 動態更新說明文字
                 if (formatHelpText) {
                     if (activeFormat === 'general') {
-                        formatHelpText.textContent = '使用方法：複製下方提示詞貼給 ChatGPT，讓 AI 依據此視覺風格為您編寫簡報文字。';
+                        formatHelpText.textContent = '使用方法：複製下方提示詞貼給 ChatGPT、Gemini 或 Claude，讓 AI 依據此視覺風格為您引導與編寫簡報文字。';
                     } else if (activeFormat === 'notebooklm') {
                         formatHelpText.textContent = '使用方法：將下方提示詞連同您「自備的簡報大綱」一起貼給 NotebookLM，AI 將會依大綱架構與此風格擴寫內容。';
                     } else if (activeFormat === 'gamma') {
-                        formatHelpText.textContent = '使用方法：此代碼提供 Gamma 自訂主題所需要的色碼 HEX 與版面設定，複製並填入 Gamma 編輯器即可。';
+                        formatHelpText.textContent = '使用方法：此代碼提供 Gamma、Tome、Beautiful.ai 等簡報工具自訂主題所需要的色碼 HEX 與版面設定，複製填入對應編輯器即可。';
                     } else if (activeFormat === 'midjourney') {
                         formatHelpText.textContent = '使用方法：複製下方 /imagine 指令到 Midjourney 中生成，即可獲得完美適配此風格的簡報背景或概念插圖。';
                     }
@@ -1067,15 +1067,15 @@ ${displayedYaml}
                         layoutRule = '採用垂直側邊條裝飾。左側 32% 顯示垂直彩色背景裝飾，右側 68% 條列 Agenda 章節大綱。';
                     }
 
-                    displayedYaml = `### Gamma 簡報自訂主題與排版配置 (Gamma Style Tokens)
-請在 Gamma 的主題編輯器 (Theme Settings) 中，配置以下數值與佈局引導，以完美匹配【${item.name}】的視覺特徵：
+                    displayedYaml = `### Gamma / Tome / Beautiful.ai 簡報自訂主題配置 (Theme Style Tokens)
+請在簡報軟體（如 Gamma、Tome 等）的自訂主題編輯器 (Theme Settings) 中，配置以下數值與佈局引導，以完美匹配【${item.name}】的視覺特徵：
 
-#### 1. 色彩角色配置 (Theme Color Roles)
+#### 1. 色彩配對代碼 (Theme Color Roles)
 - 主背景色 (Page Background): ${hexColors[0] || '#0A0E17'}
-- 大標題文字色 (Primary Text): ${hexColors[1] || '#FFFFFF'}
-- 正文與弱化色 (Secondary Text): ${hexColors[2] || '#94A3B8'}
-- 品牌高亮與點綴色 (Accent Color): ${hexColors[3] || hexColors[0] || '#FF5E3A'}
-- 容器背景/邊框色 (Card Bg/Border): ${hexColors[4] || '#1E293B'}
+- 主標題文字色 (Primary Text): ${hexColors[1] || '#FFFFFF'}
+- 正文與弱化文字色 (Secondary Text): ${hexColors[2] || '#94A3B8'}
+- 品牌點綴與強烈高亮色 (Accent Color): ${hexColors[3] || hexColors[0] || '#FF5E3A'}
+- 卡片容器背景/邊框色 (Card Bg/Border): ${hexColors[4] || '#1E293B'}
 
 #### 2. 版面佈局與留白規則 (Layout Grid Setup)
 - 簡報主題任務: ${displayTopic}
