@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- 原生 CSS 樣式表 -->
-    <link rel="stylesheet" href="index.css?v=1.1.2">
+    <link rel="stylesheet" href="index.css?v=1.1.3">
     
     <!-- 引入圖標庫 (Lucide) 與 圖表庫 (Chart.js) 與 動畫庫 (GSAP) -->
     <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
@@ -79,6 +79,25 @@
                 <div class="stat-item"><span class="stat-num">101種</span> 風格</div>
                 <div class="stat-item"><span class="stat-num">8項</span> 分類</div>
                 <div class="stat-item"><span class="stat-num">100%</span> 渲染參考</div>
+            </div>
+
+            <!-- 風格分析引導橫幅 -->
+            <div class="analyzer-hero-banner" id="analyzerHeroBannerEntry">
+                <div class="banner-content">
+                    <div class="banner-left">
+                        <div class="banner-icon-wrapper">
+                            <i data-lucide="wand-2"></i>
+                        </div>
+                        <div class="banner-text">
+                            <h4>✨ 找不到想要的風格？點此「上傳風格圖片」！</h4>
+                            <p>只需上傳您喜歡的簡報樣照，Gemini 2.5 AI 就會立刻幫您逆向產出適配 ChatGPT/NotebookLM/Gamma 的提示詞與配色。</p>
+                        </div>
+                    </div>
+                    <button class="banner-action-btn">
+                        <span>立即體驗 AI 分析</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -384,7 +403,7 @@
     </div>
 
     <!-- 引入應用腳本 -->
-    <script src="app.js?v=1.1.2"></script>
+    <script src="app.js?v=1.1.3"></script>
 </body>
 
 </html>

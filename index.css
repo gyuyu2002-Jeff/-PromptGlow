@@ -2006,3 +2006,145 @@ body {
         box-shadow: 0 0 0 0 rgba(229, 80, 57, 0);
     }
 }
+
+/* --- 風格分析儀首頁引導橫幅 (Hero Banner Entry) --- */
+.analyzer-hero-banner {
+    position: relative;
+    max-width: 720px;
+    margin: 2.5rem auto 0 auto;
+    padding: 16px 24px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(229,80,57,0.12) 0%, rgba(30,41,59,0.4) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(229, 80, 57, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.analyzer-hero-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(229,80,57,0.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.analyzer-hero-banner:hover {
+    transform: translateY(-4px) scale(1.015);
+    border-color: rgba(229, 80, 57, 0.6);
+    box-shadow: 0 12px 40px 0 rgba(229, 80, 57, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.analyzer-hero-banner:hover::before {
+    opacity: 1;
+}
+
+.analyzer-hero-banner .banner-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    z-index: 2;
+    text-align: left;
+}
+
+.analyzer-hero-banner .banner-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.analyzer-hero-banner .banner-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: rgba(229, 80, 57, 0.2);
+    border: 1px solid rgba(229, 80, 57, 0.4);
+    color: var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(229, 80, 57, 0.2);
+}
+
+.analyzer-hero-banner .banner-icon-wrapper svg {
+    width: 20px;
+    height: 20px;
+    animation: banner-float 3s ease-in-out infinite;
+}
+
+@keyframes banner-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(8deg); }
+}
+
+.analyzer-hero-banner .banner-text h4 {
+    margin: 0 0 4px 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 0.03em;
+}
+
+.analyzer-hero-banner .banner-text p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.analyzer-hero-banner .banner-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--accent);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(229, 80, 57, 0.3);
+}
+
+.analyzer-hero-banner:hover .banner-action-btn {
+    background-color: #ffffff;
+    color: var(--accent);
+    transform: translateX(2px);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.analyzer-hero-banner .banner-action-btn svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.analyzer-hero-banner:hover .banner-action-btn svg {
+    transform: translateX(2px);
+}
+
+@media (max-width: 680px) {
+    .analyzer-hero-banner .banner-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .analyzer-hero-banner .banner-action-btn {
+        align-self: flex-end;
+    }
+}

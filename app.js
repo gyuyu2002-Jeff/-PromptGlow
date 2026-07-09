@@ -1304,18 +1304,25 @@ ${displayedYaml}
         };
     });
 
+    function openAnalyzer() {
+        const key = localStorage.getItem('gemini_api_key') ? localStorage.getItem('gemini_api_key').trim() : '';
+        if (!key) {
+            showToast('請先設定您的 Gemini API 金鑰！');
+            if (apiSettingsModal) apiSettingsModal.classList.add('active');
+            return;
+        }
+        // 重設分析器內部狀態
+        resetAnalyzerUI();
+        imageAnalyzerModal.classList.add('active');
+    }
+
     if (imageAnalyzerBtn && imageAnalyzerModal) {
-        imageAnalyzerBtn.addEventListener('click', () => {
-            const key = localStorage.getItem('gemini_api_key');
-            if (!key) {
-                showToast('請先設定您的 Gemini API 金鑰！');
-                if (apiSettingsModal) apiSettingsModal.classList.add('active');
-                return;
-            }
-            // 重設分析器內部狀態
-            resetAnalyzerUI();
-            imageAnalyzerModal.classList.add('active');
-        });
+        imageAnalyzerBtn.addEventListener('click', openAnalyzer);
+    }
+
+    const analyzerHeroBannerEntry = document.getElementById('analyzerHeroBannerEntry');
+    if (analyzerHeroBannerEntry && imageAnalyzerModal) {
+        analyzerHeroBannerEntry.addEventListener('click', openAnalyzer);
     }
 
     if (imageAnalyzerCloseBtn && imageAnalyzerModal) {
