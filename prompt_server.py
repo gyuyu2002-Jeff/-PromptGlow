@@ -66,7 +66,7 @@ class AutoGeneratingHandler(http.server.SimpleHTTPRequestHandler):
                     raise Exception("Missing API Key")
                 
                 # 向 Google Gemini 官方 API 發送請求
-                gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+                gemini_url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={api_key}"
                 
                 req = urllib.request.Request(
                     gemini_url,
