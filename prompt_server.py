@@ -48,6 +48,54 @@ class AutoGeneratingHandler(http.server.SimpleHTTPRequestHandler):
             
         super().do_GET()
 
+    def do_POST(self):
+        url_path = urllib.parse.unquote(self.path)
+        clean_path = url_path.split('?')[0]
+
+        if clean_path == '/api/analyze':
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            
+            try:
+                # 解析請求數據
+                req_payload = json.loads(post_data.decode('utf-8'))
+                api_key = req_payload.get('apiKey')
+                gemini_payload = req_payload.get('payload')
+                
+                if not api_key:
+                    raise Exception("Missing API Key")
+                
+                # 向 Google Gemini 官方 API 發送請求
+                gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+                
+                req = urllib.request.Request(
+                    gemini_url,
+                    data=json.dumps(gemini_payload).encode('utf-8'),
+                    headers={'Content-Type': 'application/json'},
+                    method='POST'
+                )
+                
+                with urllib.request.urlopen(req) as response:
+                    res_data = response.read()
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
+                    # 支援本地開發 CORS
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    self.wfile.write(res_data)
+                    return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+                return
+                
+        # 預設 POST 處理
+        self.send_response(404)
+        self.end_headers()
+
 # Force UTF-8 encoding headers for served files to prevent browser decoding bugs on localized systems
 AutoGeneratingHandler.extensions_map.update({
     '.json': 'application/json; charset=utf-8',

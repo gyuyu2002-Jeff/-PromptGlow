@@ -1436,14 +1436,35 @@ ${displayedYaml}
                 }]
             };
 
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+            let response;
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            
+            if (isLocalhost) {
+                // 本地開發模式：使用 Python 伺服器代理繞過瀏覽器 CORS 限制
+                response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        apiKey: apiKey,
+                        payload: payload
+                    })
+                });
+            } else {
+                // 線上部署模式（GitHub Pages）：直接發送給 Google
+                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            }
 
             if (!response.ok) {
-                throw new Error(`API 請求錯誤: ${response.status}`);
+                let errorMsg = `API 請求錯誤: ${response.status}`;
+                try {
+                    const errData = await response.json();
+                    if (errData && errData.error) errorMsg += ` (${errData.error})`;
+                } catch(e) {}
+                throw new Error(errorMsg);
             }
 
             const data = await response.json();
@@ -1483,7 +1504,12 @@ ${displayedYaml}
         } catch (error) {
             console.error('Gemini Analysis Failed:', error);
             if (analyzerLoading) analyzerLoading.style.display = 'none';
-            showToast(`分析失敗：${error.message}，請檢查金鑰或網路連線。`);
+            
+            let displayError = error.message;
+            if (error.message.includes('Failed to fetch')) {
+                displayError = '連線失敗：因 Google 官方跨域限制 (CORS)，在 GitHub Pages 等公開網頁中不支援前端直連。請在本地端執行 python prompt_server.py 啟動伺服器，並開啟 http://localhost:8080 來體驗代理分析！';
+            }
+            showToast(`分析失敗：${displayError}`, 'error');
             resetAnalyzerUI();
         }
     }
