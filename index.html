@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- 原生 CSS 樣式表 -->
-    <link rel="stylesheet" href="index.css?v=1.1.1">
+    <link rel="stylesheet" href="index.css?v=1.1.2">
     
     <!-- 引入圖標庫 (Lucide) 與 圖表庫 (Chart.js) 與 動畫庫 (GSAP) -->
     <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
@@ -295,10 +295,10 @@
 
     <!-- 圖片風格分析彈窗 -->
     <div class="modal-overlay" id="imageAnalyzerModal" style="z-index: 999;">
-        <div class="modal-card" style="max-width: 800px; width: 90%; height: 80vh; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
+        <div class="modal-card" style="max-width: 1020px; width: 92%; height: 85vh; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
             <button class="modal-close-btn" id="imageAnalyzerCloseBtn" title="關閉視窗" style="top: 16px; right: 16px; z-index: 10;"><i data-lucide="x"></i></button>
             
-            <div style="display: flex; height: 100%; width: 100%;">
+            <div class="analyzer-container">
                 <!-- 左側：圖片上傳與預覽區 -->
                 <div style="width: 50%; height: 100%; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; background-color: var(--bg-body); padding: 24px; box-sizing: border-box; justify-content: center; position: relative;">
                     <div class="upload-dropzone" id="uploadDropzone" style="border: 2px dashed var(--border-color); border-radius: 8px; padding: 40px 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; height: 100%; transition: all 0.2s ease;">
@@ -384,7 +384,7 @@
     </div>
 
     <!-- 引入應用腳本 -->
-    <script src="app.js?v=1.1.1"></script>
+    <script src="app.js?v=1.1.2"></script>
 </body>
 
 </html>

@@ -1846,24 +1846,58 @@ body {
     color: var(--text-secondary);
 }
 
+/* --- 風格分析儀彈窗雙欄自適應排版容器 (Responsive Grid Container) --- */
+.analyzer-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .analyzer-container {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    .analyzer-container > div {
+        width: 100% !important;
+        height: auto !important;
+    }
+    .analyzer-container > div:first-child {
+        height: 320px !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .analyzer-container > div:last-child {
+        height: auto !important;
+        overflow-y: visible !important;
+    }
+    #imageAnalyzerModal .modal-card {
+        max-height: 90vh !important;
+        height: auto !important;
+        overflow-y: auto !important;
+    }
+}
+
 /* --- AI 平台適配預設切換列 (Preset Formats Bar) --- */
 .preset-formats-bar {
     display: flex;
+    flex-wrap: wrap; /* 支援視窗縮小時自動換行 */
     gap: 6px;
     margin-bottom: 16px;
     background-color: var(--bg-body);
-    padding: 4px;
+    padding: 6px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
 }
 
 .preset-format-btn {
-    flex: 1;
+    flex: 1 1 calc(50% - 6px); /* 寬度不足時自動拆分為 2x2 排列，充裕且不擁擠 */
+    min-width: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 6px 10px;
+    gap: 6px;
+    padding: 8px 10px;
     font-size: 0.72rem;
     font-weight: 700;
     color: var(--text-secondary);
