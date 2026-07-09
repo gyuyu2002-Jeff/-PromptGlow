@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- 原生 CSS 樣式表 -->
-    <link rel="stylesheet" href="index.css?v=1.0.5">
+    <link rel="stylesheet" href="index.css?v=1.0.6">
     
     <!-- 引入圖標庫 (Lucide) 與 圖表庫 (Chart.js) 與 動畫庫 (GSAP) -->
     <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
@@ -255,7 +255,7 @@
     </div>
 
     <!-- API 金鑰設定彈窗 -->
-    <div class="modal-overlay" id="apiSettingsModal" style="display: none; align-items: center; justify-content: center; z-index: 1000;">
+    <div class="modal-overlay" id="apiSettingsModal">
         <div class="modal-card" style="max-width: 450px; padding: 28px;">
             <button class="modal-close-btn" id="apiSettingsCloseBtn" title="關閉視窗"><i data-lucide="x"></i></button>
             <h3 style="margin: 0 0 8px 0; font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--text-primary);"><i data-lucide="settings" style="color: var(--accent);"></i> Gemini API 金鑰設定</h3>
@@ -294,7 +294,7 @@
     </div>
 
     <!-- 圖片風格分析彈窗 -->
-    <div class="modal-overlay" id="imageAnalyzerModal" style="display: none; align-items: center; justify-content: center; z-index: 999;">
+    <div class="modal-overlay" id="imageAnalyzerModal" style="z-index: 999;">
         <div class="modal-card" style="max-width: 800px; width: 90%; height: 80vh; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
             <button class="modal-close-btn" id="imageAnalyzerCloseBtn" title="關閉視窗" style="top: 16px; right: 16px; z-index: 10;"><i data-lucide="x"></i></button>
             
@@ -384,7 +384,7 @@
     </div>
 
     <!-- 引入應用腳本 -->
-    <script src="app.js?v=1.0.5"></script>
+    <script src="app.js?v=1.0.6"></script>
 </body>
 
 </html>

@@ -1237,13 +1237,13 @@ ${displayedYaml}
     if (apiSettingsBtn && apiSettingsModal) {
         apiSettingsBtn.addEventListener('click', () => {
             geminiApiKeyInput.value = localStorage.getItem('gemini_api_key') || '';
-            apiSettingsModal.style.display = 'flex';
+            apiSettingsModal.classList.add('active');
         });
     }
 
     if (apiSettingsCloseBtn && apiSettingsModal) {
         apiSettingsCloseBtn.addEventListener('click', () => {
-            apiSettingsModal.style.display = 'none';
+            apiSettingsModal.classList.remove('active');
         });
     }
 
@@ -1258,7 +1258,7 @@ ${displayedYaml}
                 showToast('API 金鑰已清除！');
             }
             checkApiKeyPulse();
-            apiSettingsModal.style.display = 'none';
+            apiSettingsModal.classList.remove('active');
         });
     }
 
@@ -1309,18 +1309,18 @@ ${displayedYaml}
             const key = localStorage.getItem('gemini_api_key');
             if (!key) {
                 showToast('請先設定您的 Gemini API 金鑰！');
-                if (apiSettingsModal) apiSettingsModal.style.display = 'flex';
+                if (apiSettingsModal) apiSettingsModal.classList.add('active');
                 return;
             }
             // 重設分析器內部狀態
             resetAnalyzerUI();
-            imageAnalyzerModal.style.display = 'flex';
+            imageAnalyzerModal.classList.add('active');
         });
     }
 
     if (imageAnalyzerCloseBtn && imageAnalyzerModal) {
         imageAnalyzerCloseBtn.addEventListener('click', () => {
-            imageAnalyzerModal.style.display = 'none';
+            imageAnalyzerModal.classList.remove('active');
         });
     }
 
