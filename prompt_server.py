@@ -84,6 +84,18 @@ class AutoGeneratingHandler(http.server.SimpleHTTPRequestHandler):
                     self.end_headers()
                     self.wfile.write(res_data)
                     return
+            except urllib.error.HTTPError as e:
+                try:
+                    res_data = e.read()
+                    self.send_response(e.code)
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    self.wfile.write(res_data)
+                except Exception as ex:
+                    self.send_response(e.code)
+                    self.end_headers()
+                return
             except Exception as e:
                 self.send_response(500)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')

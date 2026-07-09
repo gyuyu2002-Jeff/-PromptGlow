@@ -1439,23 +1439,38 @@ ${displayedYaml}
             let response;
             const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
             
-            if (isLocalhost) {
-                // 本地開發模式：使用 Python 伺服器代理繞過瀏覽器 CORS 限制
-                response = await fetch('/api/analyze', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        apiKey: apiKey,
-                        payload: payload
-                    })
-                });
-            } else {
-                // 線上部署模式（GitHub Pages）：直接發送給 Google
-                response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+            let retries = 3; // 最多重試 3 次，防止 Google 503 暫時性超載
+            let delayMs = 1500;
+            
+            while (retries >= 0) {
+                if (isLocalhost) {
+                    // 本地開發模式：使用 Python 伺服器代理繞過瀏覽器 CORS 限制
+                    response = await fetch('/api/analyze', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            apiKey: apiKey,
+                            payload: payload
+                        })
+                    });
+                } else {
+                    // 線上部署模式（GitHub Pages）：直接發送給 Google
+                    response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                }
+                
+                // 如果是 503 暫時性繁忙，且還有重試次數，則等待後重試
+                if (response.status === 503 && retries > 0) {
+                    retries--;
+                    showToast(`伺服器繁忙 (503)，將於 ${delayMs/1000} 秒後重試...`);
+                    await new Promise(resolve => setTimeout(resolve, delayMs));
+                    delayMs += 1500; // 指數遞增延遲
+                    continue;
+                }
+                break;
             }
 
             if (!response.ok) {
