@@ -59,7 +59,7 @@ class AutoGeneratingHandler(http.server.SimpleHTTPRequestHandler):
             try:
                 # 解析請求數據
                 req_payload = json.loads(post_data.decode('utf-8'))
-                api_key = req_payload.get('apiKey')
+                api_key = req_payload.get('apiKey').strip() if req_payload.get('apiKey') else ''
                 gemini_payload = req_payload.get('payload')
                 
                 if not api_key:

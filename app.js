@@ -1394,7 +1394,7 @@ ${displayedYaml}
 
     // 發送多模態 Gemini 風格逆向工程分析
     async function triggerImageAnalysis() {
-        const apiKey = localStorage.getItem('gemini_api_key');
+        const apiKey = localStorage.getItem('gemini_api_key') ? localStorage.getItem('gemini_api_key').trim() : '';
         if (!apiKey) {
             showToast('未檢測到 API 金鑰，請先進行設定。');
             return;
@@ -1462,7 +1462,10 @@ ${displayedYaml}
                 let errorMsg = `API 請求錯誤: ${response.status}`;
                 try {
                     const errData = await response.json();
-                    if (errData && errData.error) errorMsg += ` (${errData.error})`;
+                    if (errData && errData.error) {
+                        const errMsg = typeof errData.error === 'object' ? (errData.error.message || JSON.stringify(errData.error)) : errData.error;
+                        errorMsg += ` (${errMsg})`;
+                    }
                 } catch(e) {}
                 throw new Error(errorMsg);
             }
