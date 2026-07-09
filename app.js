@@ -848,50 +848,9 @@ document.addEventListener('DOMContentLoaded', () => {
         modalPromptCode.textContent = '提示詞 YAML 代碼加載中...';
 
         // 初始化自訂器與平台選取器狀態
-        let activeComponent = 'background';
         let activeFormat = 'general';
         const customTopicInput = document.getElementById('customTopicInput');
         if (customTopicInput) customTopicInput.value = '';
-        
-        const compDescription = document.getElementById('compDescription');
-        if (compDescription) {
-            compDescription.textContent = '適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。';
-        }
-        
-        // 綁定模擬克隆圖片
-        const mockIllImg = document.getElementById('mockIllustrationImg');
-        if (mockIllImg) mockIllImg.src = imgUrl;
-        
-        const mockAgeImg = document.getElementById('mockAgendaImg');
-        if (mockAgeImg) mockAgeImg.src = imgUrl;
-
-        // 綁定頁籤切換事件
-        const compTabs = document.querySelectorAll('.comp-tab');
-        compTabs.forEach(tab => {
-            tab.classList.remove('active');
-            if (tab.dataset.type === activeComponent) {
-                tab.classList.add('active');
-            }
-            
-            tab.onclick = () => {
-                compTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                activeComponent = tab.dataset.type;
-                
-                // 更新組件簡述
-                if (compDescription) {
-                    if (activeComponent === 'background') {
-                        compDescription.textContent = '適合做投影片底圖：低視覺干擾、中心留白，利於文字排版。';
-                    } else if (activeComponent === 'illustration') {
-                        compDescription.textContent = '適合做投影片插圖：主題突出、畫面豐富，用以傳遞核心概念。';
-                    } else if (activeComponent === 'agenda') {
-                        compDescription.textContent = '適合做目錄與章節頁：以風格圖片做為側邊裝飾，搭配清爽大氣的章節條列。';
-                    }
-                }
-                
-                updateModalPromptDisplay();
-            };
-        });
 
         // 綁定平台適配切換按鈕事件
         const formatBtns = document.querySelectorAll('.preset-format-btn');
@@ -975,13 +934,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (activeFormat === 'general') {
                     // --- 通用/ChatGPT 模式 ---
                     let configBlock = `### 簡報自訂配置\n- 簡報主題: ${displayTopic}\n`;
-                    if (activeComponent === 'background') {
-                        configBlock += `- 生成類型: 簡報背景大圖 (Slide Background)\n- 構圖要求: 極簡構圖，畫面中心大面積留白，大量負空間以利文字排版，無任何占位文字，適合做PPT背景。\n`;
-                    } else if (activeComponent === 'illustration') {
-                        configBlock += `- 生成類型: 簡報主題配圖 (Slide Illustration)\n- 構圖要求: 主題中心化構圖，高視覺衝擊力，生動展現核心概念，適合作為投影片插圖。\n`;
-                    } else if (activeComponent === 'agenda') {
-                        configBlock += `- 生成類型: 簡報目錄與過渡頁 (Slide Agenda / Transition Page)\n- 構圖要求: 乾淨的左右雙欄排版，一側展示具風格特色的垂直裝飾插圖，另一側大面積留白，利於章節標題與數字大綱排版。\n`;
-                    }
+                    configBlock += `- 生成類型: 簡報背景大圖 (Slide Background)\n- 構圖要求: 極簡構圖，畫面中心大面積留白，大量負空間以利文字排版，無任何占位文字，適合做PPT背景。\n`;
                     
                     // 注入配置區塊到第一行（"## 視覺風格:"）的後方
                     const lines = displayedYaml.split('\n');
@@ -1013,13 +966,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     // --- NotebookLM 專用擴寫模式 (自備大綱) ---
                     let typeText = '簡報背景大圖 (Slide Background)';
                     let typeReq = '極簡構圖，畫面中心大面積留白，大量負空間以利文字排版';
-                    if (activeComponent === 'illustration') {
-                        typeText = '簡報主題配圖 (Slide Illustration)';
-                        typeReq = '主題中心化構圖，高視覺衝擊力，生動展現核心概念';
-                    } else if (activeComponent === 'agenda') {
-                        typeText = '簡報目錄與過渡頁 (Slide Agenda / Transition Page)';
-                        typeReq = '乾淨的左右雙欄排版，一側展示具風格特色的垂直裝飾插圖，另一側大面積留白';
-                    }
 
                     displayedYaml = `# NotebookLM 簡報風格控制與內容擴寫指引
 我已經準備好了我的「簡報大綱」（請見對話中我提供的內容）。
@@ -1033,18 +979,9 @@ ${displayedYaml}
 
 ---
 ## 二、 頁面版面排版規則 (Pacing & Layout Templates)
-擴寫時請依據我的大綱結構，合理套用以下三種核心簡報版型：
-1. **[背景大圖 (Slide Background)]**
-   - **適用情境**：簡報封面頁、大字金句強調頁。
-   - **排版要求**：文字極度精簡，保留大面積的留白以突顯背景美感。
-
-2. **[主題配圖 (Slide Illustration)]**
-   - **適用情境**：核心概念闡述頁、產品功能介紹頁。
-   - **排版要求**：採用左右雙欄排版。一側放重點，另一側放一個高視覺衝擊力的核心插圖描述。
-
-3. **[目錄章節 (Slide Agenda)]**
-   - **適用情境**：大綱目錄頁或段落過渡分頁。
-   - **排版要求**：側邊飾條排版，條列呈現主要章節標題。
+擴寫時請依據我的大綱結構，套用簡報背景底圖排版型：
+- **[背景大圖 (Slide Background)]**
+   - **排版要求**：文字極度精簡，保留大面積的留白以突顯背景美感，適合做背景。
 
 當前頁面任務目標：${displayTopic}
 當前頁面版型目標：【${typeText}】
@@ -1054,18 +991,13 @@ ${displayedYaml}
 ## 三、 簡報腳本輸出格式要求 (Slide-by-Slide Script)
 請按以下格式輸出我大綱中每一頁投影片的草稿：
 - **頁碼與大綱對應標題**：第 X 頁 - [大綱標題]
-- **套用版型**：[背景大圖 / 主題配圖 / 目錄過渡頁]
+- **套用版型**：[背景大圖]
 - **簡報內文**：[條列式重點文字，不超過3行，每行不超過20字]
-- **AI 繪圖提示詞**：（若使用主題配圖或背景大圖，請寫一段 50 字以內的英文 Midjourney 提示詞，包含主體與色調，並加上防跑板參數 \`--ar 16:9 --no text, font, labels\`）
+- **AI 繪圖提示詞**：（請寫一段 50 字以內的英文 Midjourney 提示詞，包含主體與色調，並加上防跑板參數 \`--ar 16:9 --no text, font, labels\`）
 `;
                 } else if (activeFormat === 'gamma') {
                     // --- Gamma 佈局模式 ---
                     let layoutRule = '以極簡與大面積中心留白為特徵。文字排版置中。';
-                    if (activeComponent === 'illustration') {
-                        layoutRule = '採用左右雙欄非對稱排版。60% 寬度用於條列優勢文字，40% 用於核心插圖卡片。';
-                    } else if (activeComponent === 'agenda') {
-                        layoutRule = '採用垂直側邊條裝飾。左側 32% 顯示垂直彩色背景裝飾，右側 68% 條列 Agenda 章節大綱。';
-                    }
 
                     displayedYaml = `### Gamma / Tome / Beautiful.ai 簡報自訂主題配置 (Theme Style Tokens)
 請在簡報軟體（如 Gamma、Tome 等）的自訂主題編輯器 (Theme Settings) 中，配置以下數值與佈局引導，以完美匹配【${item.name}】的視覺特徵：
@@ -1099,11 +1031,6 @@ ${displayedYaml}
                     if (!styleAttr) styleAttr = `${item.name} style, vector illustration, clean background, negative space`;
                     
                     let imageType = 'A premium slide template background';
-                    if (activeComponent === 'illustration') {
-                        imageType = 'A premium concept illustration for presentation slide';
-                    } else if (activeComponent === 'agenda') {
-                        imageType = 'A premium slide table of contents layout decorative sidebar banner';
-                    }
 
                     displayedYaml = `### Midjourney 簡報背景與插圖生成提示詞
 
@@ -1113,36 +1040,12 @@ ${displayedYaml}
             
             // 控管左側模擬層的顯示與隱藏
             const mockupBg = document.getElementById('mockupBg');
-            const mockupIllustration = document.getElementById('mockupIllustration');
-            const mockupAgenda = document.getElementById('mockupAgenda');
             
-            if (mockupBg) mockupBg.style.display = 'none';
-            if (mockupIllustration) mockupIllustration.style.display = 'none';
-            if (mockupAgenda) mockupAgenda.style.display = 'none';
-            
-            if (activeComponent === 'background') {
-                if (mockupBg) {
-                    mockupBg.style.display = 'flex';
-                    const mockTitleEl = mockupBg.querySelector('.mock-title');
-                    if (mockTitleEl) {
-                        mockTitleEl.textContent = topic || '2026 商業計劃與策略';
-                    }
-                }
-            } else if (activeComponent === 'illustration') {
-                if (mockupIllustration) {
-                    mockupIllustration.style.display = 'flex';
-                    const illTitleEl = mockupIllustration.querySelector('.mock-text-side h2');
-                    if (illTitleEl) {
-                        illTitleEl.textContent = topic || '核心理念';
-                    }
-                }
-            } else if (activeComponent === 'agenda') {
-                if (mockupAgenda) {
-                    mockupAgenda.style.display = 'flex';
-                    const ageTitleEl = mockupAgenda.querySelector('.mock-agenda-title');
-                    if (ageTitleEl) {
-                        ageTitleEl.textContent = topic ? `${topic} 大綱目錄` : '簡報大綱目錄';
-                    }
+            if (mockupBg) {
+                mockupBg.style.display = 'flex';
+                const mockTitleEl = mockupBg.querySelector('.mock-title');
+                if (mockTitleEl) {
+                    mockTitleEl.textContent = topic || '2026 商業計劃與策略';
                 }
             }
             
@@ -1291,6 +1194,406 @@ ${displayedYaml}
             }, 60000);
         }
     }, { passive: true });
+
+    // --- API 金鑰與風格分析儀功能實作 ---
+    let analyzerUploadedBase64 = null;
+    let analyzerResultDetails = { yaml: '' };
+    let analyzerActiveFormat = 'general';
+
+    // 1. API 金鑰設定元件與事件
+    const apiSettingsModal = document.getElementById('apiSettingsModal');
+    const apiSettingsCloseBtn = document.getElementById('apiSettingsCloseBtn');
+    const apiSettingsBtn = document.getElementById('apiSettingsBtn');
+    const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
+    const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
+
+    // 初始載入 API Key
+    if (geminiApiKeyInput) {
+        geminiApiKeyInput.value = localStorage.getItem('gemini_api_key') || '';
+    }
+
+    if (apiSettingsBtn && apiSettingsModal) {
+        apiSettingsBtn.addEventListener('click', () => {
+            geminiApiKeyInput.value = localStorage.getItem('gemini_api_key') || '';
+            apiSettingsModal.style.display = 'flex';
+        });
+    }
+
+    if (apiSettingsCloseBtn && apiSettingsModal) {
+        apiSettingsCloseBtn.addEventListener('click', () => {
+            apiSettingsModal.style.display = 'none';
+        });
+    }
+
+    if (saveApiKeyBtn && apiSettingsModal) {
+        saveApiKeyBtn.addEventListener('click', () => {
+            const key = geminiApiKeyInput.value.trim();
+            if (key) {
+                localStorage.setItem('gemini_api_key', key);
+                showToast('Gemini API 金鑰已安全儲存！');
+            } else {
+                localStorage.removeItem('gemini_api_key');
+                showToast('API 金鑰已清除！');
+            }
+            apiSettingsModal.style.display = 'none';
+        });
+    }
+
+    // 2. 圖片風格分析彈窗元件與事件
+    const imageAnalyzerModal = document.getElementById('imageAnalyzerModal');
+    const imageAnalyzerCloseBtn = document.getElementById('imageAnalyzerCloseBtn');
+    const imageAnalyzerBtn = document.getElementById('imageAnalyzerBtn');
+    const uploadDropzone = document.getElementById('uploadDropzone');
+    const analyzerFileInput = document.getElementById('analyzerFileInput');
+    const analyzerPreviewWrapper = document.getElementById('analyzerPreviewWrapper');
+    const analyzerPreviewImg = document.getElementById('analyzerPreviewImg');
+    const analyzerResetBtn = document.getElementById('analyzerResetBtn');
+    const analyzerLoading = document.getElementById('analyzerLoading');
+    const analyzerResultEmpty = document.getElementById('analyzerResultEmpty');
+    const analyzerResultWrapper = document.getElementById('analyzerResultWrapper');
+    const analyzerColorSwatches = document.getElementById('analyzerColorSwatches');
+    const analyzerTopicInput = document.getElementById('analyzerTopicInput');
+    const analyzerHelpText = document.getElementById('analyzerHelpText');
+    const analyzerCopyBtn = document.getElementById('analyzerCopyBtn');
+    const analyzerPromptCode = document.getElementById('analyzerPromptCode');
+
+    // 格式按鈕切換
+    const analyzerFormatBtns = document.querySelectorAll('#imageAnalyzerModal .preset-format-btn');
+    analyzerFormatBtns.forEach(btn => {
+        btn.onclick = () => {
+            analyzerFormatBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            analyzerActiveFormat = btn.dataset.format;
+
+            // 更新使用說明
+            if (analyzerHelpText) {
+                if (analyzerActiveFormat === 'general') {
+                    analyzerHelpText.textContent = '使用方法：複製下方提示詞貼給 ChatGPT、Gemini 或 Claude，讓 AI 依據此視覺風格為您引導與編寫簡報文字。';
+                } else if (analyzerActiveFormat === 'notebooklm') {
+                    analyzerHelpText.textContent = '使用方法：將下方提示詞連同您「自備的簡報大綱」一起貼給 NotebookLM，AI 將會依大綱架構與此風格擴寫內容。';
+                } else if (analyzerActiveFormat === 'gamma') {
+                    analyzerHelpText.textContent = '使用方法：此代碼提供 Gamma、Tome、Beautiful.ai 等簡報工具自訂主題所需要的色碼 HEX 與版面設定，複製填入對應編輯器即可。';
+                } else if (analyzerActiveFormat === 'midjourney') {
+                    analyzerHelpText.textContent = '使用方法：複製下方 /imagine 指令到 Midjourney 中生成，即可獲得完美適配此風格的簡報背景或概念插圖。';
+                }
+            }
+            updateAnalyzerPromptDisplay();
+        };
+    });
+
+    if (imageAnalyzerBtn && imageAnalyzerModal) {
+        imageAnalyzerBtn.addEventListener('click', () => {
+            const key = localStorage.getItem('gemini_api_key');
+            if (!key) {
+                showToast('請先設定您的 Gemini API 金鑰！');
+                if (apiSettingsModal) apiSettingsModal.style.display = 'flex';
+                return;
+            }
+            // 重設分析器內部狀態
+            resetAnalyzerUI();
+            imageAnalyzerModal.style.display = 'flex';
+        });
+    }
+
+    if (imageAnalyzerCloseBtn && imageAnalyzerModal) {
+        imageAnalyzerCloseBtn.addEventListener('click', () => {
+            imageAnalyzerModal.style.display = 'none';
+        });
+    }
+
+    function resetAnalyzerUI() {
+        analyzerUploadedBase64 = null;
+        analyzerResultDetails = { yaml: '' };
+        if (analyzerPreviewWrapper) analyzerPreviewWrapper.style.display = 'none';
+        if (uploadDropzone) uploadDropzone.style.display = 'flex';
+        if (analyzerLoading) analyzerLoading.style.display = 'none';
+        if (analyzerResultEmpty) analyzerResultEmpty.style.display = 'flex';
+        if (analyzerResultWrapper) analyzerResultWrapper.style.display = 'none';
+        if (analyzerFileInput) analyzerFileInput.value = '';
+        if (analyzerTopicInput) analyzerTopicInput.value = '';
+    }
+
+    // 拖曳上傳與檔案讀取
+    if (uploadDropzone) {
+        uploadDropzone.addEventListener('click', () => {
+            if (analyzerFileInput) analyzerFileInput.click();
+        });
+
+        uploadDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadDropzone.classList.add('dragover');
+        });
+
+        uploadDropzone.addEventListener('dragleave', () => {
+            uploadDropzone.classList.remove('dragover');
+        });
+
+        uploadDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadDropzone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                processAnalyzerFile(files[0]);
+            }
+        });
+    }
+
+    if (analyzerFileInput) {
+        analyzerFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                processAnalyzerFile(e.target.files[0]);
+            }
+        });
+    }
+
+    if (analyzerResetBtn) {
+        analyzerResetBtn.addEventListener('click', resetAnalyzerUI);
+    }
+
+    function processAnalyzerFile(file) {
+        if (!file.type.startsWith('image/')) {
+            showToast('請上傳正確的圖片格式檔案！');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            analyzerUploadedBase64 = e.target.result;
+            if (analyzerPreviewImg) analyzerPreviewImg.src = analyzerUploadedBase64;
+            if (uploadDropzone) uploadDropzone.style.display = 'none';
+            if (analyzerPreviewWrapper) analyzerPreviewWrapper.style.display = 'block';
+            
+            // 開始向 Gemini API 發送風格逆向工程分析
+            triggerImageAnalysis();
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // 發送多模態 Gemini 風格逆向工程分析
+    async function triggerImageAnalysis() {
+        const apiKey = localStorage.getItem('gemini_api_key');
+        if (!apiKey) {
+            showToast('未檢測到 API 金鑰，請先進行設定。');
+            return;
+        }
+
+        if (analyzerLoading) {
+            analyzerLoading.style.display = 'flex';
+        }
+
+        const systemPrompt = `你是一位簡報視覺設計專家與 Prompt 工程師。
+請仔細分析這張簡報背景圖片的視覺特徵，逆向推導出其「風格配方」，並以 YAML 格式輸出。
+
+請嚴格遵守以下輸出規範：
+1. 僅輸出 YAML 程式碼區塊本身，不需要任何輔助 Markdown 標記（例如 \`\`\`yaml 或 \`\`\`）或前後引言。
+2. 結構必須包含以下欄位：
+   視覺風格: [簡述這張圖的風格，如扁平插畫、新微光、擬真 3D、極簡商務...]
+   風格標籤: [以逗號分隔的 5-8 個標籤，如 Minimalist, Soft Colors, Modern...]
+   配色分析: [簡述配色與配色理念，必須包含至少 4 個十六進位色碼，如 #FFFFFF, #E55039 等]
+   字體推薦: [標題與內文的字體建議對應]
+   排版特徵: [留白、圓角、間距特徵]
+   構圖要求: [底圖負空間設計特點，確保適合做投影片背景使用]
+`;
+
+        try {
+            const base64Data = analyzerUploadedBase64.split(',')[1];
+            const mimeType = analyzerUploadedBase64.split(';')[0].split(':')[1];
+            
+            const payload = {
+                contents: [{
+                    parts: [
+                        { text: systemPrompt },
+                        {
+                            inlineData: {
+                                mimeType: mimeType,
+                                data: base64Data
+                            }
+                        }
+                    ]
+                }]
+            };
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API 請求錯誤: ${response.status}`);
+            }
+
+            const data = await response.json();
+            let rawYaml = data.candidates[0].content.parts[0].text;
+            
+            // 清理可能被模型多餘添加的 markdown block 標籤
+            rawYaml = rawYaml.replace(/```yaml/g, '').replace(/```/g, '').trim();
+            analyzerResultDetails.yaml = rawYaml;
+
+            // 動態提取色碼並渲染色塊
+            if (analyzerColorSwatches) {
+                analyzerColorSwatches.innerHTML = '';
+                const hexColors = [...new Set(rawYaml.match(/#[0-9A-Fa-f]{6}/g) || [])];
+                hexColors.forEach(color => {
+                    const swatch = document.createElement('div');
+                    swatch.className = 'color-swatch';
+                    swatch.style.backgroundColor = color;
+                    swatch.title = `點擊複製色碼: ${color}`;
+                    swatch.onclick = (e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(color).then(() => {
+                            showToast(`已複製色碼: ${color}`);
+                        });
+                    };
+                    analyzerColorSwatches.appendChild(swatch);
+                });
+            }
+
+            // 更新與呈現結果介面
+            if (analyzerLoading) analyzerLoading.style.display = 'none';
+            if (analyzerResultEmpty) analyzerResultEmpty.style.display = 'none';
+            if (analyzerResultWrapper) analyzerResultWrapper.style.display = 'flex';
+
+            updateAnalyzerPromptDisplay();
+            showToast('圖片風格逆向分析完成！');
+
+        } catch (error) {
+            console.error('Gemini Analysis Failed:', error);
+            if (analyzerLoading) analyzerLoading.style.display = 'none';
+            showToast(`分析失敗：${error.message}，請檢查金鑰或網路連線。`);
+            resetAnalyzerUI();
+        }
+    }
+
+    // 渲染與更新風格分析儀的複製提示詞
+    function updateAnalyzerPromptDisplay() {
+        let displayedYaml = analyzerResultDetails.yaml || '無提示詞數據';
+        const topic = analyzerTopicInput ? analyzerTopicInput.value.trim() : '';
+        const displayTopic = topic || '自訂簡報專案主題';
+        
+        const hexColors = [...new Set(displayedYaml.match(/#[0-9A-Fa-f]{6}/g) || [])];
+
+        if (displayedYaml && displayedYaml !== '無提示詞數據') {
+            if (analyzerActiveFormat === 'general') {
+                // 通用模式
+                let configBlock = `### 簡報自訂配置\n- 簡報主題: ${displayTopic}\n`;
+                configBlock += `- 生成類型: 簡報背景大圖 (Slide Background)\n- 構圖要求: 極簡構圖，畫面中心大面積留白，大量負空間以利文字排版，無任何占位文字，適合做PPT背景。\n`;
+                
+                const lines = displayedYaml.split('\n');
+                let headerIndex = -1;
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].includes('視覺風格:')) {
+                        headerIndex = i;
+                        break;
+                    }
+                }
+                
+                if (headerIndex !== -1) {
+                    lines.splice(headerIndex, 0, configBlock, '');
+                    displayedYaml = lines.join('\n');
+                } else {
+                    displayedYaml = configBlock + '\n' + displayedYaml;
+                }
+                
+                displayedYaml = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n` + displayedYaml;
+
+            } else if (analyzerActiveFormat === 'notebooklm') {
+                // NotebookLM
+                displayedYaml = `# NotebookLM 簡報風格控制與內容擴寫指引
+我已經準備好了我的「簡報大綱」（請見對話中我提供的內容）。
+請依據我提供的簡報大綱，為我擴寫各頁投影片的詳細內容。在撰寫過程中，請嚴格遵守以下「視覺設計風格」與「頁面排版架構」規範：
+
+---
+## 一、 簡報視覺風格規約 (Visual Style Configuration)
+本份簡報採用自定義視覺風格。請將以下風格色彩配對與設計元素特徵，融入簡報各頁內容的文字語調與配詞氛圍中：
+
+${displayedYaml}
+
+---
+## 二、 頁面版面排版規則 (Pacing & Layout Templates)
+擴寫時請依據我的大綱結構，套用簡報背景底圖排版型：
+- **[背景大圖 (Slide Background)]**
+   - **排版要求**：文字極度精簡，保留大面積的留白以突顯背景美感，適合做背景。
+
+當前頁面任務目標：${displayTopic}
+當前頁面版型目標：【簡報背景大圖 (Slide Background)】
+當前頁面構圖與留白要求：極簡構圖，畫面中心大面積留白，大量負空間以利文字排版。
+
+---
+## 三、 簡報腳本輸出格式要求 (Slide-by-Slide Script)
+請按以下格式輸出我大綱中每一頁投影片的草稿：
+- **頁碼與大綱對應標題**：第 X 頁 - [大綱標題]
+- **套用版型**：[背景大圖]
+- **簡報內文**：[條列式重點文字，不超過3行，每行不超過20字]
+- **AI 繪圖提示詞**：（請寫一段 50 字以內的英文 Midjourney 提示詞，包含主體與色調，並加上防跑板參數 \`--ar 16:9 --no text, font, labels\`）
+`;
+            } else if (analyzerActiveFormat === 'gamma') {
+                // Gamma
+                displayedYaml = `### Gamma / Tome / Beautiful.ai 簡報自訂主題配置 (Theme Style Tokens)
+請在簡報軟體（如 Gamma、Tome 等）的自訂主題編輯器 (Theme Settings) 中，配置以下數值與佈局引導，以完美匹配此圖片所屬的視覺特徵：
+
+#### 1. 色彩配對代碼 (Theme Color Roles)
+- 主背景色 (Page Background): ${hexColors[0] || '#FFFFFF'}
+- 主標題文字色 (Primary Text): ${hexColors[1] || '#111111'}
+- 正文與弱化文字色 (Secondary Text): ${hexColors[2] || '#666666'}
+- 品牌點綴與強烈高亮色 (Accent Color): ${hexColors[3] || hexColors[0] || '#E55039'}
+- 卡片容器背景/邊框色 (Card Bg/Border): ${hexColors[4] || '#E2E8F0'}
+
+#### 2. 版面佈局與留白規則 (Layout Grid Setup)
+- 簡報主題任務: ${displayTopic}
+- 頁面留白 (Padding): Spacious (寬敞邊距，至少保留 8% 的左右安全空間)
+- 容器圓角 (Border Radius): 8px (微圓角)
+- 版型結構要求: 以極簡與大面積中心留白為特徵。文字排版置中。
+
+#### 3. 字體建議配對 (Google Fonts Pairings)
+- 標題字體 (Header Font): Noto Sans TC / Outfit (Font-weight: 800)
+- 內文字體 (Body Font): Noto Sans TC / Inter (Line-height: 1.6)
+`;
+            } else if (analyzerActiveFormat === 'midjourney') {
+                // Midjourney
+                let styleAttr = '';
+                const lines = displayedYaml.split('\n');
+                for (let line of lines) {
+                    if (line.includes('視覺風格:') || line.includes('風格標籤:') || line.includes('構圖要求:')) {
+                        styleAttr += line.replace(/##|-|視覺風格:|風格標籤:|構圖要求:/g, '').trim() + ', ';
+                    }
+                }
+                if (!styleAttr) styleAttr = `vector illustration, clean background, negative space`;
+
+                displayedYaml = `### Midjourney 簡報背景生成提示詞
+
+/imagine prompt: A premium slide template background, ${styleAttr} themed for ${displayTopic}, color palette inspired by ${hexColors.join(' ')}, flat design, minimalist composition, spacious negative space in center for text layout, clean edges, studio lighting, vector style, no human figure --ar 16:9 --style raw --v 6.0 --no text, font, characters, words, labels, letters, watermark, low quality, sketch`;
+            }
+        }
+        analyzerPromptCode.textContent = displayedYaml;
+    }
+
+    if (analyzerTopicInput) analyzerTopicInput.oninput = updateAnalyzerPromptDisplay;
+
+    if (analyzerCopyBtn) {
+        analyzerCopyBtn.onclick = async () => {
+            const codeText = analyzerPromptCode.textContent;
+            try {
+                await navigator.clipboard.writeText(codeText);
+                showToast('已複製 AI 提示詞到剪貼簿！');
+                
+                // 動態特效
+                const copySpan = analyzerCopyBtn.querySelector('span');
+                const copyIcon = analyzerCopyBtn.querySelector('i');
+                if (copySpan) copySpan.textContent = '已複製！';
+                if (copyIcon) copyIcon.setAttribute('data-lucide', 'check');
+                lucide.createIcons();
+                
+                setTimeout(() => {
+                    if (copySpan) copySpan.textContent = '複製 AI 提示詞';
+                    if (copyIcon) copyIcon.setAttribute('data-lucide', 'copy');
+                    lucide.createIcons();
+                }, 2000);
+            } catch (err) {
+                showToast('複製失敗，請手動複製程式碼。');
+            }
+        };
+    }
 
     // --- 初始化啟動 ---
     loadData();
