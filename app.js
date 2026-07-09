@@ -1207,24 +1207,55 @@ ${displayedYaml}
     const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
     const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
 
-    // 初始載入 API Key 與呼吸燈檢查
-    function checkApiKeyPulse() {
-        if (!apiSettingsBtn) return;
-        const key = localStorage.getItem('gemini_api_key');
-        let dot = apiSettingsBtn.querySelector('.api-pulse-dot');
-        if (!key) {
-            // 沒有金鑰，顯示紅色呼吸燈
-            if (!dot) {
-                dot = document.createElement('span');
-                dot.className = 'api-pulse-dot';
-                dot.style.cssText = 'position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; background-color: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 rgba(229,80,57,0.7); animation: pulse 1.6s infinite;';
-                apiSettingsBtn.style.position = 'relative';
-                apiSettingsBtn.appendChild(dot);
+    // 初始載入 API Key 與狀態更新
+    function updateApiStateUX() {
+        const key = localStorage.getItem('gemini_api_key') ? localStorage.getItem('gemini_api_key').trim() : '';
+        const banner = document.getElementById('analyzerHeroBannerEntry');
+        
+        // 1. 右上角設定按鈕呼吸燈 (Pulse Dot)
+        if (apiSettingsBtn) {
+            let dot = apiSettingsBtn.querySelector('.api-pulse-dot');
+            if (!key) {
+                if (!dot) {
+                    dot = document.createElement('span');
+                    dot.className = 'api-pulse-dot';
+                    dot.style.cssText = 'position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; background-color: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 rgba(229,80,57,0.7); animation: pulse 1.6s infinite;';
+                    apiSettingsBtn.style.position = 'relative';
+                    apiSettingsBtn.appendChild(dot);
+                }
+            } else {
+                if (dot) dot.remove();
             }
-        } else {
-            // 已有金鑰，移除呼吸燈
-            if (dot) {
-                dot.remove();
+        }
+        
+        // 2. 首頁引導橫幅 (Hero Banner) 狀態更新
+        if (banner) {
+            const h4 = banner.querySelector('.banner-text h4');
+            const actionSpan = banner.querySelector('.banner-action-btn span');
+            
+            // 清除現有 badge
+            const oldBadge = banner.querySelector('.key-required-badge');
+            if (oldBadge) oldBadge.remove();
+            
+            if (!key) {
+                if (h4) {
+                    h4.innerHTML = `✨ 找不到想要的風格？點此「上傳風格圖片」！`;
+                    const badge = document.createElement('span');
+                    badge.className = 'key-required-badge';
+                    badge.style.cssText = 'margin-left: 8px; font-size: 0.65rem; background-color: rgba(229,80,57,0.2); color: var(--accent); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(229,80,57,0.4); font-weight: 800; vertical-align: middle; display: inline-block;';
+                    badge.innerHTML = `🔑 需先設定金鑰`;
+                    h4.appendChild(badge);
+                }
+                if (actionSpan) {
+                    actionSpan.textContent = '免費設定金鑰';
+                }
+            } else {
+                if (h4) {
+                    h4.textContent = `✨ 找不到想要的風格？點此「上傳風格圖片」！`;
+                }
+                if (actionSpan) {
+                    actionSpan.textContent = '立即體驗 AI 分析';
+                }
             }
         }
     }
@@ -1232,7 +1263,7 @@ ${displayedYaml}
     if (geminiApiKeyInput) {
         geminiApiKeyInput.value = localStorage.getItem('gemini_api_key') || '';
     }
-    checkApiKeyPulse();
+    updateApiStateUX();
 
     if (apiSettingsBtn && apiSettingsModal) {
         apiSettingsBtn.addEventListener('click', () => {
@@ -1257,7 +1288,7 @@ ${displayedYaml}
                 localStorage.removeItem('gemini_api_key');
                 showToast('API 金鑰已清除！');
             }
-            checkApiKeyPulse();
+            updateApiStateUX();
             apiSettingsModal.classList.remove('active');
         });
     }
@@ -1307,8 +1338,25 @@ ${displayedYaml}
     function openAnalyzer() {
         const key = localStorage.getItem('gemini_api_key') ? localStorage.getItem('gemini_api_key').trim() : '';
         if (!key) {
-            showToast('請先設定您的 Gemini API 金鑰！');
-            if (apiSettingsModal) apiSettingsModal.classList.add('active');
+            showToast('啟用分析功能前，請先在此輸入您的免費 API 金鑰！');
+            if (apiSettingsModal) {
+                apiSettingsModal.classList.add('active');
+                // 延遲後聚焦於輸入框並產生發光提示
+                setTimeout(() => {
+                    if (geminiApiKeyInput) {
+                        geminiApiKeyInput.focus();
+                        geminiApiKeyInput.style.borderColor = 'var(--accent)';
+                        geminiApiKeyInput.style.boxShadow = '0 0 12px rgba(229, 80, 57, 0.5)';
+                        geminiApiKeyInput.style.transition = 'all 0.3s ease';
+                        
+                        // 2 秒後恢復原樣，但保持游標聚焦
+                        setTimeout(() => {
+                            geminiApiKeyInput.style.borderColor = '';
+                            geminiApiKeyInput.style.boxShadow = '';
+                        }, 2000);
+                    }
+                }, 300);
+            }
             return;
         }
         // 重設分析器內部狀態
