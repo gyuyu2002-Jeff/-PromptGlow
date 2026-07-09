@@ -1207,10 +1207,32 @@ ${displayedYaml}
     const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
     const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
 
-    // 初始載入 API Key
+    // 初始載入 API Key 與呼吸燈檢查
+    function checkApiKeyPulse() {
+        if (!apiSettingsBtn) return;
+        const key = localStorage.getItem('gemini_api_key');
+        let dot = apiSettingsBtn.querySelector('.api-pulse-dot');
+        if (!key) {
+            // 沒有金鑰，顯示紅色呼吸燈
+            if (!dot) {
+                dot = document.createElement('span');
+                dot.className = 'api-pulse-dot';
+                dot.style.cssText = 'position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; background-color: var(--accent); border-radius: 50%; box-shadow: 0 0 0 0 rgba(229,80,57,0.7); animation: pulse 1.6s infinite;';
+                apiSettingsBtn.style.position = 'relative';
+                apiSettingsBtn.appendChild(dot);
+            }
+        } else {
+            // 已有金鑰，移除呼吸燈
+            if (dot) {
+                dot.remove();
+            }
+        }
+    }
+
     if (geminiApiKeyInput) {
         geminiApiKeyInput.value = localStorage.getItem('gemini_api_key') || '';
     }
+    checkApiKeyPulse();
 
     if (apiSettingsBtn && apiSettingsModal) {
         apiSettingsBtn.addEventListener('click', () => {
@@ -1235,6 +1257,7 @@ ${displayedYaml}
                 localStorage.removeItem('gemini_api_key');
                 showToast('API 金鑰已清除！');
             }
+            checkApiKeyPulse();
             apiSettingsModal.style.display = 'none';
         });
     }
