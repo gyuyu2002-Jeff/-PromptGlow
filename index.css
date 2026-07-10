@@ -120,6 +120,15 @@ body {
     padding: 2px 6px;
     border-radius: 4px;
     letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.version-tag:hover {
+    background-color: var(--accent);
+    color: #ffffff !important;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
 }
 
 .designer-tag {
