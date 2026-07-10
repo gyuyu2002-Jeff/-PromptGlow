@@ -5,8 +5,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 版本更新日誌與自動化管理 ---
-    const APP_VERSION = 'v1.1.10';
+    const APP_VERSION = 'v1.2.0';
     const CHANGELOG = [
+        {
+            version: 'v1.2.0',
+            date: '2026-07-10',
+            title: 'AI 可編輯 PPT 平台一鍵套用提示詞',
+            desc: '針對可生成可編輯 PPT 的 AI 平台（如 Gamma、Mindshow、AIPPT、Tome 等），將原先的手動自訂配置變更為一鍵複製即可直接使用的 AI 提示詞。提示詞精準融合了色彩代碼 (HEX)、版面留白與圓角設定，讓使用者直接貼上即可一鍵生成該風格簡報。'
+        },
         {
             version: 'v1.1.10',
             date: '2026-07-10',
@@ -1039,7 +1045,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (activeFormat === 'notebooklm') {
                         formatHelpText.textContent = '使用方法：將下方提示詞連同您「自備的簡報大綱」一起貼給 NotebookLM，AI 將會依大綱架構與此風格擴寫內容。';
                     } else if (activeFormat === 'gamma') {
-                        formatHelpText.textContent = '使用方法：此代碼提供 Gamma、Tome、Beautiful.ai 等簡報工具自訂主題所需要的色碼 HEX 與版面設定，複製填入對應編輯器即可。';
+                        formatHelpText.textContent = '使用方法：複製下方提示詞，直接貼入可編輯 PPT 平台 (如 Gamma、Mindshow、AIPPT) 的 AI 生成對話框中，即可一鍵生成該風格的簡報！';
                     } else if (activeFormat === 'midjourney') {
                         formatHelpText.textContent = '使用方法：複製下方 /imagine 指令到 Midjourney 中生成，即可獲得完美適配此風格的簡報背景或概念插圖。';
                     }
@@ -1163,29 +1169,29 @@ ${displayedYaml}
 - **AI 繪圖提示詞**：（請寫一段 50 字以內的英文 Midjourney 提示詞，包含主體與色調，並加上防跑板參數 \`--ar 16:9 --no text, font, labels\`）
 `;
                 } else if (activeFormat === 'gamma') {
-                    // --- Gamma 佈局模式 ---
+                    // --- AI 可編輯 PPT 平台模式 (Gamma/Mindshow/AIPPT) ---
                     let layoutRule = '以極簡與大面積中心留白為特徵。文字排版置中。';
 
-                    displayedYaml = `### Gamma / Tome / Beautiful.ai 簡報自訂主題配置 (Theme Style Tokens)
-我已經在簡報軟體（如 Gamma、Tome 等）中匯入了我的「簡報內容大綱」。為了將此大綱的簡報視覺風格套用並切換為【${item.name}】風格，請依據以下數值與佈局引導來設定自訂主題與配色：
+                    displayedYaml = `# AI 可編輯 PPT 平台一鍵生成提示詞 (適用於 Gamma / Mindshow / AIPPT / Tome)
+我現在要在您的平台上生成一份關於【${displayTopic}】的可編輯簡報。
+請嚴格使用以下【${item.name}】視覺風格配色與排版規範來生成此簡報：
 
-#### 1. 色彩配對代碼 (Theme Color Roles)
-- 主背景色 (Page Background): ${hexColors[0] || '#0A0E17'}
-- 主標題文字色 (Primary Text): ${hexColors[1] || '#FFFFFF'}
-- 正文與弱化文字色 (Secondary Text): ${hexColors[2] || '#94A3B8'}
-- 品牌點綴與強烈高亮色 (Accent Color): ${hexColors[3] || hexColors[0] || '#FF5E3A'}
-- 卡片容器背景/邊框色 (Card Bg/Border): ${hexColors[4] || '#1E293B'}
+1. 🎨 核心配色代碼 (Color Palette HEX)：
+   - 主背景色 (Page Background): ${hexColors[0] || '#0A0E17'}
+   - 主標題文字色 (Primary Text): ${hexColors[1] || '#FFFFFF'}
+   - 正文與弱化文字色 (Secondary Text): ${hexColors[2] || '#94A3B8'}
+   - 品牌點綴與強烈高亮色 (Accent Color): ${hexColors[3] || hexColors[0] || '#FF5E3A'}
+   - 卡片與容器背景色 (Card Background): ${hexColors[4] || '#1E293B'}
 
-#### 2. 版面佈局與留白規則 (Layout Grid Setup)
-- 簡報主題任務: ${displayTopic}
-- 頁面留白 (Padding): Spacious (寬敞邊距，至少保留 8% 的左右安全空間)
-- 容器圓角 (Border Radius): 8px (微圓角)
-- 版型結構要求: ${layoutRule}
+2. 📐 版面佈局與留白規則 (Layout & Spacing Grid)：
+   - 頁面留白 (Padding): 寬敞邊距 (Spacious)，左右至少保留 8% 安全空間以利文字視覺排版。
+   - 容器與卡片圓角 (Border Radius): 8px (微圓角)。
+   - 構圖特徵: ${layoutRule}
 
-#### 3. 字體建議配對 (Google Fonts Pairings)
-- 標題字體 (Header Font): Noto Sans TC / Outfit (Font-weight: 800)
-- 內文字體 (Body Font): Noto Sans TC / Inter (Line-height: 1.6)
-`;
+3. 📝 內文精簡要求 (Text Optimization)：
+   - 文字極度精簡，保留大面積的留白以突顯背景美感，每頁重點不超過 3 條，每條不超過 20 字。
+
+請依據上述的色彩配方與排版規範，為我生成這份簡報的完整投影片頁面。`;
                 } else if (activeFormat === 'midjourney') {
                     // --- Midjourney 模式 ---
                     let styleAttr = '';
@@ -1834,27 +1840,27 @@ ${displayedYaml}
 - **AI 繪圖提示詞**：（請寫一段 50 字以內的英文 Midjourney 提示詞，包含主體與色調，並加上防跑板參數 \`--ar 16:9 --no text, font, labels\`）
 `;
             } else if (analyzerActiveFormat === 'gamma') {
-                // Gamma
-                displayedYaml = `### Gamma / Tome / Beautiful.ai 簡報自訂主題配置 (Theme Style Tokens)
-我已經在簡報軟體（如 Gamma、Tome 等）中匯入了我的「簡報內容大綱」。為了將此大綱的簡報視覺風格套用並切換為此圖片所屬的風格，請依據以下數值與佈局引導來設定自訂主題與配色：
+                // --- AI 可編輯 PPT 平台模式 (Gamma/Mindshow/AIPPT) ---
+                displayedYaml = `# AI 可編輯 PPT 平台一鍵生成提示詞 (適用於 Gamma / Mindshow / AIPPT / Tome)
+我現在要在您的平台上生成一份關於【${displayTopic}】的可編輯簡報。
+請嚴格使用以下視覺風格配色與排版規範來生成此簡報：
 
-#### 1. 色彩配對代碼 (Theme Color Roles)
-- 主背景色 (Page Background): ${hexColors[0] || '#FFFFFF'}
-- 主標題文字色 (Primary Text): ${hexColors[1] || '#111111'}
-- 正文與弱化文字色 (Secondary Text): ${hexColors[2] || '#666666'}
-- 品牌點綴與強烈高亮色 (Accent Color): ${hexColors[3] || hexColors[0] || '#E55039'}
-- 卡片容器背景/邊框色 (Card Bg/Border): ${hexColors[4] || '#E2E8F0'}
+1. 🎨 核心配色代碼 (Color Palette HEX)：
+   - 主背景色 (Page Background): ${hexColors[0] || '#FFFFFF'}
+   - 主標題文字色 (Primary Text): ${hexColors[1] || '#111111'}
+   - 正文與弱化文字色 (Secondary Text): ${hexColors[2] || '#666666'}
+   - 品牌點綴與強烈高亮色 (Accent Color): ${hexColors[3] || hexColors[0] || '#E55039'}
+   - 卡片與容器背景色 (Card Background): ${hexColors[4] || '#E2E8F0'}
 
-#### 2. 版面佈局與留白規則 (Layout Grid Setup)
-- 簡報主題任務: ${displayTopic}
-- 頁面留白 (Padding): Spacious (寬敞邊距，至少保留 8% 的左右安全空間)
-- 容器圓角 (Border Radius): 8px (微圓角)
-- 版型結構要求: 以極簡與大面積中心留白為特徵。文字排版置中。
+2. 📐 版面佈局與留白規則 (Layout & Spacing Grid)：
+   - 頁面留白 (Padding): 寬敞邊距 (Spacious)，左右至少保留 8% 安全空間以利文字視覺排版。
+   - 容器與卡片圓角 (Border Radius): 8px (微圓角)。
+   - 構圖特徵: 以極簡與大面積中心留白為特徵。文字排版置中。
 
-#### 3. 字體建議配對 (Google Fonts Pairings)
-- 標題字體 (Header Font): Noto Sans TC / Outfit (Font-weight: 800)
-- 內文字體 (Body Font): Noto Sans TC / Inter (Line-height: 1.6)
-`;
+3. 📝 內文精簡要求 (Text Optimization)：
+   - 文字極度精簡，保留大面積的留白以突顯背景美感，每頁重點不超過 3 條，每條不超過 20 字。
+
+請依據上述的色彩配方與排版規範，為我生成這份簡報的完整投影片頁面。`;
             } else if (analyzerActiveFormat === 'midjourney') {
                 // Midjourney
                 let styleAttr = '';
