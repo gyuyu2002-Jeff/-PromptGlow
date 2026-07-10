@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // 一般風格，直接讀取我們本地批量下載的繁體中文範例圖片！
-        return `assets/images/${item.id}.png`;
+        return `assets/images/${item.id}.webp`;
     }
 
     // 顯示 Toast 彈窗
