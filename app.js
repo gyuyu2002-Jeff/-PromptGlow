@@ -5,8 +5,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 版本更新日誌與自動化管理 ---
-    const APP_VERSION = 'v1.1.8';
+    const APP_VERSION = 'v1.1.10';
     const CHANGELOG = [
+        {
+            version: 'v1.1.10',
+            date: '2026-07-10',
+            title: '風格預覽模擬卡片主題動態化',
+            desc: '依據 101 種風格所屬分類，自動配對最合適的簡報模擬內容（如商業簡報、產品發布、手繪旅行手帳、極簡建築、科幻元宇宙等），並動態替換徽章、標題與條列重點，顯著提升風格感知度。'
+        },
         {
             version: 'v1.1.8',
             date: '2026-07-10',
@@ -899,6 +905,88 @@ document.addEventListener('DOMContentLoaded', () => {
         return detailData.find(x => x.id === id);
     }
 
+    // --- 取得不同風格分類對應的模擬簡報內容 (Category-based Mockup Contents) ---
+    function getMockupContentForStyle(item) {
+        const category = item.tags && item.tags[0] ? item.tags[0] : '';
+        const defaultContent = {
+            badge: 'BUSINESS PERFORMANCE',
+            title: '2026 核心業務與季度營收報告',
+            bullets: [
+                '季度營業收入、利潤率及市場份額分析',
+                '核心業務增長點與未來三年戰略佈局'
+            ]
+        };
+
+        if (!category) return defaultContent;
+
+        if (category.includes('商業')) {
+            return {
+                badge: 'BUSINESS PERFORMANCE',
+                title: '2026 核心業務與季度營收報告',
+                bullets: [
+                    '季度營業收入、利潤率及市場份額分析',
+                    '核心業務增長點與未來三年戰略佈局'
+                ]
+            };
+        } else if (category.includes('向量') || category.includes('扁平')) {
+            return {
+                badge: 'PRODUCT LAUNCH',
+                title: '智能家居產品發布與設計理念',
+                bullets: [
+                    '扁平化 UI 設計與簡約用戶體驗交互',
+                    '核心硬體指標與智慧互聯生態系統'
+                ]
+            };
+        } else if (category.includes('復古') || category.includes('印藝')) {
+            return {
+                badge: 'RETRO & VINYL',
+                title: '黃金年代的復古音樂與文化浪潮',
+                bullets: [
+                    '經典黑膠唱片印藝與復古字體排版',
+                    '跨越半個世紀的懷舊藝術與色彩美學'
+                ]
+            };
+        } else if (category.includes('手繪') || category.includes('塗鴉')) {
+            return {
+                badge: 'CREATIVE JOURNAL',
+                title: '我的週末旅行手帳與靈感隨筆',
+                bullets: [
+                    '溫暖治癒的手繪插畫與日常點滴記錄',
+                    '用塗鴉留住生活中的美好瞬間與奇思妙想'
+                ]
+            };
+        } else if (category.includes('極簡') || category.includes('線條')) {
+            return {
+                badge: 'LESS IS MORE',
+                title: '現代極簡主義建築與空間減法',
+                bullets: [
+                    '以純粹的幾何線條勾勒空間的無限可能',
+                    '剔除冗餘裝飾，尋求光影與負空間的平衡'
+                ]
+            };
+        } else if (category.includes('立體') || category.includes('3D')) {
+            return {
+                badge: 'DIMENSIONAL ART',
+                title: '3D 擬真渲染與空間立體建模',
+                bullets: [
+                    '探索立體浮雕材質與光澤質感的碰撞',
+                    '沉浸式 3D 擬真世界與虛實交錯的張力'
+                ]
+            };
+        } else if (category.includes('科幻') || category.includes('未來')) {
+            return {
+                badge: 'FUTURE FRONTIER',
+                title: '元宇宙生態與未來科技生活想像',
+                bullets: [
+                    '霓虹科幻風格、塞博朋克配色與數據流',
+                    '人工智慧與人機協同的下一代網路想像'
+                ]
+            };
+        }
+
+        return defaultContent;
+    }
+
     // --- 詳情彈窗控制與圖表渲染 ---
     async function openDetailModal(item) {
         // 先顯示模態窗口並填入 Lite 數據
@@ -1123,9 +1211,24 @@ ${displayedYaml}
             
             if (mockupBg) {
                 mockupBg.style.display = 'flex';
+                
+                const mockContent = getMockupContentForStyle(item);
+                const mockBadgeEl = mockupBg.querySelector('.mock-badge');
                 const mockTitleEl = mockupBg.querySelector('.mock-title');
+                const mockBulletsEl = mockupBg.querySelector('.mock-bullets');
+                
+                if (mockBadgeEl) {
+                    mockBadgeEl.textContent = mockContent.badge;
+                }
+                
                 if (mockTitleEl) {
-                    mockTitleEl.textContent = topic || '2026 商業計劃與策略';
+                    mockTitleEl.textContent = topic || mockContent.title;
+                }
+                
+                if (mockBulletsEl) {
+                    mockBulletsEl.innerHTML = mockContent.bullets.map(b => `
+                        <div class="mock-bullet"><span class="mock-dot"></span> ${b}</div>
+                    `).join('');
                 }
             }
             
