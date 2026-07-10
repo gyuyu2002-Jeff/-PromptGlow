@@ -5,8 +5,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 版本更新日誌與自動化管理 ---
-    const APP_VERSION = 'v1.2.0';
+    const APP_VERSION = 'v1.2.1';
     const CHANGELOG = [
+        {
+            version: 'v1.2.1',
+            date: '2026-07-10',
+            title: '風格卡片佔位符 (Placeholder) 內容分類同步化',
+            desc: '修復並重構卡片加載失敗或尚未完成載入時顯示的 CSS 佔位模擬圖。現在佔位圖的簡報標題與列表文字也會依照該風格的 8 大分類進行動態配對（如手繪、極簡、科幻、商業等），徹底解決原先全站一律顯示「思緒卡關五種切換方法」的不協調感。'
+        },
         {
             version: 'v1.2.0',
             date: '2026-07-10',
@@ -754,18 +760,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const imgUrl = getFullImageUrl(item);
             const advice = getStyleUsageAdvice(item);
             
+            // 取得該風格分類對應的模擬簡報內容 (使 Placeholder 也能顯示合適主題)
+            const mockContent = getMockupContentForStyle(item);
+            const bulletsHtml = mockContent.bullets.map((b, idx) => `<div>${idx + 1}. ${b}</div>`).join('');
+            
             card.innerHTML = `
                 <div class="card-image-box">
                     <img src="${imgUrl}" alt="${item.name}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="card-image-placeholder-tc" style="display: none;">
                         <div class="placeholder-content">
-                            <div class="placeholder-title">思緒卡關時的 5 種切換方法</div>
+                            <div class="placeholder-title">${mockContent.title}</div>
                             <div class="placeholder-list">
-                                <div>1. 走路能增加靈感</div>
-                                <div>2. 調整呼吸沉澱思緒</div>
-                                <div>3. 變換場所重置注意力</div>
-                                <div>4. 寫下來整理腦袋</div>
-                                <div>5. 短暫休息恢復專注力</div>
+                                ${bulletsHtml}
                             </div>
                             <div class="placeholder-footer">[ ${item.name} | 繁中化中 ]</div>
                         </div>
