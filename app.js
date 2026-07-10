@@ -5,8 +5,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 版本更新日誌與自動化管理 ---
-    const APP_VERSION = 'v1.2.1';
+    const APP_VERSION = 'v1.2.2';
     const CHANGELOG = [
+        {
+            version: 'v1.2.2',
+            date: '2026-07-10',
+            title: 'ChatGPT/通用模式新增 VBA 一鍵生成簡報指令',
+            desc: '為了解決 ChatGPT (GPT) 僅能輸出 Markdown 文本而無法直接生成 PPT 檔案的限制，我們在「ChatGPT/Gemini/Claude」通用提示詞中，額外注入了自動化 VBA 程式碼生成指令。AI 將會依據該風格的 HEX 色碼自動計算並編寫出對應的 PowerPoint VBA 巨集，使用者只需在 PPT 中執行該 VBA，即可瞬間建立套用該視覺配色的大綱簡報。'
+        },
         {
             version: 'v1.2.1',
             date: '2026-07-10',
@@ -917,6 +923,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return detailData.find(x => x.id === id);
     }
 
+    // --- HEX 色碼轉 RGB 格式，供 VBA 提示詞生成使用 (HEX to RGB converter for VBA) ---
+    function hexToRgbString(hex) {
+        if (!hex || !hex.startsWith('#')) return 'RGB(255, 255, 255)';
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `RGB(${r}, ${g}, ${b})`;
+    }
+
     // --- 取得不同風格分類對應的模擬簡報內容 (Category-based Mockup Contents) ---
     function getMockupContentForStyle(item) {
         const category = item.tags && item.tags[0] ? item.tags[0] : '';
@@ -1135,6 +1150,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // 附加導引指令
                     if (addInstructions) {
                         let prefix = `你現在是一位專業的簡報設計專家。我已經自備好了簡報的內容大綱，以下我會提供給您。請依據我提供的大綱內容，並嚴格套用以下 YAML 格式的視覺風格規範，為我規劃並撰寫各頁投影片的內文。請確保投影片的配色、字體、版面配置與插圖描述完全符合此視覺風格規範。\n\n`;
+                        prefix += `【重要要求】為了方便我直接在 PowerPoint 中編輯，請在規劃完簡報文字內文後，【同時為我生成一段 PowerPoint VBA 巨集程式碼】。該 VBA 程式碼須將簡報尺寸設定為 16:9，投影片背景顏色設定為 ${hexToRgbString(hexColors[0])}，主標題文字顏色設定為 ${hexToRgbString(hexColors[1])}，正文與清單文字顏色設定為 ${hexToRgbString(hexColors[2])}，並將所有頁面的文字內文用 VBA 程式碼自動寫入 PowerPoint 中，方便我一鍵執行直接生成可編輯簡報。\n\n`;
                         prefix += `---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n`;
                         displayedYaml = prefix + displayedYaml;
                     } else {
@@ -1813,7 +1829,10 @@ ${displayedYaml}
                     displayedYaml = configBlock + '\n' + displayedYaml;
                 }
                 
-                displayedYaml = `你現在是一位專業的簡報設計專家。我已經自備好了簡報的內容大綱，以下我會提供給您。請依據我提供的大綱內容，並嚴格套用以下 YAML 格式的視覺風格規範，為我規劃並撰寫各頁投影片的內文。請確保投影片的配色、字體、版面配置與插圖描述完全符合此視覺風格規範。\n\n---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n` + displayedYaml;
+                let prefix = `你現在是一位專業的簡報設計專家。我已經自備好了簡報的內容大綱，以下我會提供給您。請依據我提供的大綱內容，並嚴格套用以下 YAML 格式的視覺風格規範，為我規劃並撰寫各頁投影片的內文。請確保投影片的配色、字體、版面配置與插圖描述完全符合此視覺風格規範。\n\n`;
+                prefix += `【重要要求】為了方便我直接在 PowerPoint 中編輯，請在規劃完簡報文字內文後，【同時為我生成一段 PowerPoint VBA 巨集程式碼】。該 VBA 程式碼須將簡報尺寸設定為 16:9，投影片背景顏色設定為 ${hexToRgbString(hexColors[0])}，主標題文字顏色設定為 ${hexToRgbString(hexColors[1])}，正文與清單文字顏色設定為 ${hexToRgbString(hexColors[2])}，並將所有頁面的文字內文用 VBA 程式碼自動寫入 PowerPoint 中，方便我一鍵執行直接生成可編輯簡報。\n\n`;
+                prefix += `---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n`;
+                displayedYaml = prefix + displayedYaml;
 
             } else if (analyzerActiveFormat === 'notebooklm') {
                 // NotebookLM
