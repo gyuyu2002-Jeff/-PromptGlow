@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- 原生 CSS 樣式表 -->
-    <link rel="stylesheet" href="index.css?v=1.1.8">
+    <link rel="stylesheet" href="index.css?v=1.1.9">
     
     <!-- 引入圖標庫 (Lucide) 與 圖表庫 (Chart.js) 與 動畫庫 (GSAP) -->
     <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
@@ -33,7 +33,7 @@
                 <span class="logo-icon">✨</span>
                 <span class="logo-text">101種簡報風格</span>
             </div>
-            <a href="#changelogSection" class="version-tag" title="點擊檢視版本更新日誌">v1.1.7</a>
+            <a href="#changelogSection" class="version-tag" id="topVersionTag" title="點擊檢視版本更新日誌">v1.1.8</a>
             <span class="designer-tag">製作-吳漢君</span>
         </div>
 
@@ -157,42 +157,8 @@
                 <h4 style="font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; justify-content: center; letter-spacing: 0.05em;">
                     <i data-lucide="history" style="width: 15px; height: 15px; color: var(--accent);"></i> 重大更新日誌 (Changelog)
                 </h4>
-                <div style="display: flex; flex-direction: column; gap: 14px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px 20px;">
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background-color: var(--accent); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;">v1.1.4</span>
-                        <div>
-                            <b style="color: var(--text-primary);">主動式金鑰引導與視覺警示</b> (2026-07-09)
-                            <p style="margin: 3px 0 0 0; color: var(--text-muted);">首頁 AI 分析橫幅加入金鑰未設定警示標籤，點選會自動跳轉至設定視窗，並以紅光發光動畫引導聚焦金鑰輸入框。</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background-color: var(--accent); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;">v1.1.2</span>
-                        <div>
-                            <b style="color: var(--text-primary);">風格分析儀排版擴寬與響應式雙欄佈局</b> (2026-07-09)
-                            <p style="margin: 3px 0 0 0; color: var(--text-muted);">擴寬分析儀彈窗至 1020px，新增行動端/窄螢幕垂直自動堆疊，並將平台按鈕調整為 2x2 排列，解決文字擠壓重疊問題。</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background-color: var(--accent); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;">v1.1.0</span>
-                        <div>
-                            <b style="color: var(--text-primary);">Gemini 2.5 Flash 新主力模型升級與 503 自動重試</b> (2026-07-09)
-                            <p style="margin: 3px 0 0 0; color: var(--text-muted);">因應 1.5 模型對新金鑰關閉，全面升級為 2.5 Flash。新增 503 伺服器繁忙指數退避自動重試，極大提高免費額度分析成功率。</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background-color: var(--accent); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;">v1.0.3</span>
-                        <div>
-                            <b style="color: var(--text-primary);">AI 圖片風格分析儀實裝與金鑰去空白</b> (2026-07-09)
-                            <p style="margin: 3px 0 0 0; color: var(--text-muted);">新增風格上傳解析功能。自動偵測本地 Python 反向代理（繞過瀏覽器 CORS），金鑰輸入自動修剪前後空白防範 404。</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background-color: var(--accent); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;">v1.0.0</span>
-                        <div>
-                            <b style="color: var(--text-primary);">PromptGlow 簡報風格字典發布</b> (2026-06-29)
-                            <p style="margin: 3px 0 0 0; color: var(--text-muted);">收錄 101 種設計風格與 5 維度雷達圖，支持 4 大平台（ChatGPT/Gemini、NotebookLM、Gamma、Midjourney）一鍵複製。</p>
-                        </div>
-                    </div>
+                <div id="changelogListContainer" style="display: flex; flex-direction: column; gap: 14px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px 20px;">
+                    <!-- 由 JS 動態渲染，保證每次更新功能時自動生成版本說明 -->
                 </div>
             </div>
             
@@ -449,7 +415,7 @@
     </div>
 
     <!-- 引入應用腳本 -->
-    <script src="app.js?v=1.1.8"></script>
+    <script src="app.js?v=1.1.9"></script>
 </body>
 
 </html>

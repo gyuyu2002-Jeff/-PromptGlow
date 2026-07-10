@@ -4,6 +4,85 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // --- 版本更新日誌與自動化管理 ---
+    const APP_VERSION = 'v1.1.8';
+    const CHANGELOG = [
+        {
+            version: 'v1.1.8',
+            date: '2026-07-10',
+            title: '版本號與首頁日誌連動導航',
+            desc: '最上方版本號與更新日誌版本同名，點選後會平滑滾動 (Smooth Scroll) 至底部對應的重大日誌說明區。'
+        },
+        {
+            version: 'v1.1.7',
+            date: '2026-07-10',
+            title: '大綱套用式平台提示詞重塑',
+            desc: '重新改寫 ChatGPT、NotebookLM、Gamma、Midjourney 的提示詞結構，以使用者自備大綱並套用風格外觀的角度為 AI 指引。'
+        },
+        {
+            version: 'v1.1.6',
+            date: '2026-07-10',
+            title: '首頁核心副標題更新',
+            desc: '重塑首頁的核心副標題，使其簡單扼要地呈現 101 種風格搜尋、AI 逆向分析、以及多平台適配一鍵生成提示詞功能。'
+        },
+        {
+            version: 'v1.1.5',
+            date: '2026-07-10',
+            title: '製作人署名變更為吳漢君',
+            desc: '將網頁頂部導航欄與底部頁尾的作者署名統一更改為「製作-吳漢君」，並新增頁尾重大更新日誌區塊。'
+        },
+        {
+            version: 'v1.1.4',
+            date: '2026-07-09',
+            title: '主動式金鑰引導與視覺警示',
+            desc: '首頁 AI 分析橫幅加入金鑰未設定警示標籤，點選會自動跳轉至設定視窗，並以紅光發光動畫引導聚焦金鑰輸入框。'
+        },
+        {
+            version: 'v1.1.2',
+            date: '2026-07-09',
+            title: '風格分析儀排版擴寬與響應式雙欄佈局',
+            desc: '擴寬分析儀彈窗至 1020px，新增行動端/窄螢幕垂直自動堆疊，並將平台按鈕調整為 2x2 排列，解決文字擠壓重疊問題。'
+        },
+        {
+            version: 'v1.1.0',
+            date: '2026-07-09',
+            title: 'Gemini 2.5 Flash 新主力模型升級與 503 自動重試',
+            desc: '因應 1.5 模型對新金鑰關閉，全面升級為 2.5 Flash。新增 503 伺服器繁忙指數退避自動重試，極大提高免費額度分析成功率。'
+        },
+        {
+            version: 'v1.0.3',
+            date: '2026-07-09',
+            title: 'AI 圖片風格分析儀實裝與金鑰去空白',
+            desc: '新增風格上傳解析功能。自動偵測本地 Python 反向代理（繞過瀏覽器 CORS），金鑰輸入自動修剪前後空白防範 404。'
+        },
+        {
+            version: 'v1.0.0',
+            date: '2026-06-29',
+            title: 'PromptGlow 簡報風格字典發布',
+            desc: '收錄 101 種設計風格與 5 維度雷達圖，支持 4 大平台（ChatGPT/Gemini、NotebookLM、Gamma、Midjourney）一鍵複製。'
+        }
+    ];
+
+    function renderChangelogUX() {
+        const topVersionTag = document.getElementById('topVersionTag');
+        if (topVersionTag) {
+            topVersionTag.textContent = APP_VERSION;
+        }
+
+        const changelogListContainer = document.getElementById('changelogListContainer');
+        if (changelogListContainer) {
+            changelogListContainer.innerHTML = CHANGELOG.map(item => `
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <span style="background-color: var(--accent); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;">${item.version}</span>
+                    <div style="text-align: left;">
+                        <b style="color: var(--text-primary); font-size: 0.78rem;">${item.title}</b> <span style="color: var(--text-muted); font-size: 0.7rem; margin-left: 4px;">(${item.date})</span>
+                        <p style="margin: 4px 0 0 0; color: var(--text-secondary); font-size: 0.72rem; line-height: 1.4;">${item.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
     // --- 常量定義 ---
     const BASE_IMAGE_URL = 'https://furoku.github.io/bananaX/projects/infographic-evaluation/';
     
@@ -1265,6 +1344,7 @@ ${displayedYaml}
         geminiApiKeyInput.value = localStorage.getItem('gemini_api_key') || '';
     }
     updateApiStateUX();
+    renderChangelogUX();
 
     if (apiSettingsBtn && apiSettingsModal) {
         apiSettingsBtn.addEventListener('click', () => {
