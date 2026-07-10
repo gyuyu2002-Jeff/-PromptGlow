@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- 原生 CSS 樣式表 -->
-    <link rel="stylesheet" href="index.css?v=1.2.2">
+    <link rel="stylesheet" href="index.css?v=1.2.3">
     
     <!-- 引入圖標庫 (Lucide) 與 圖表庫 (Chart.js) 與 動畫庫 (GSAP) -->
     <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
@@ -258,6 +258,18 @@
                             <button class="preset-format-btn" data-format="midjourney"><i data-lucide="image"></i> Midjourney 簡報繪圖</button>
                         </div>
 
+                        <!-- 設計師工作流聯動指引 -->
+                        <div class="workflow-guide-banner" style="margin-bottom: 12px; font-size: 0.72rem; line-height: 1.5; color: var(--text-primary); background-color: rgba(229, 80, 57, 0.05); border: 1px solid rgba(229, 80, 57, 0.2); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                            <div style="display: flex; align-items: center; gap: 6px; font-weight: 800; color: var(--accent);">
+                                <i data-lucide="info" style="width: 14px; height: 14px; color: var(--accent);"></i> 💡 簡報設計黃金二步聯動工作流 (完美視覺指引)
+                            </div>
+                            <p style="margin: 0; color: var(--text-secondary);">
+                                由於現有 AI 簡報工具 (如 Gamma) 是「排版引擎」無法自行手繪風格插圖，建議：  
+                                1. 使用 <b>Gamma/VBA 生成</b> ➡️ 建立簡報文字內容、字型與色彩骨架。  
+                                2. 使用 <b>Midjourney 簡報繪圖</b> ➡️ 生成對應風格的高質感背景圖並置入，即可 100% 達到範例的完美視覺效果！
+                            </p>
+                        </div>
+
                         <!-- 平台格式使用說明區 -->
                         <div class="format-help-banner" id="formatHelpBanner" style="margin-bottom: 16px; font-size: 0.75rem; line-height: 1.4; color: var(--text-secondary); background-color: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border-color); border-radius: 6px; padding: 10px 12px; display: flex; align-items: flex-start; gap: 8px;">
                             <i data-lucide="help-circle" style="width: 14px; height: 14px; color: var(--accent); flex-shrink: 0; margin-top: 2px;"></i>
@@ -384,6 +396,18 @@
                             <button class="preset-format-btn" id="analyzerFormatMJ" data-format="midjourney"><i data-lucide="image"></i> Midjourney 繪圖</button>
                         </div>
                         
+                        <!-- 設計師工作流聯動指引 -->
+                        <div class="workflow-guide-banner" style="margin-bottom: 12px; font-size: 0.72rem; line-height: 1.5; color: var(--text-primary); background-color: rgba(229, 80, 57, 0.05); border: 1px solid rgba(229, 80, 57, 0.2); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                            <div style="display: flex; align-items: center; gap: 6px; font-weight: 800; color: var(--accent);">
+                                <i data-lucide="info" style="width: 14px; height: 14px; color: var(--accent);"></i> 💡 簡報設計黃金二步聯動工作流 (完美視覺指引)
+                            </div>
+                            <p style="margin: 0; color: var(--text-secondary);">
+                                由於現有 AI 簡報工具 (如 Gamma) 是「排版引擎」無法自行手繪風格插圖，建議：  
+                                1. 使用 <b>Gamma/VBA 生成</b> ➡️ 建立簡報文字內容、字型與色彩骨架。  
+                                2. 使用 <b>Midjourney 簡報繪圖</b> ➡️ 生成對應風格的高質感背景圖並置入，即可 100% 達到範例的完美視覺效果！
+                            </p>
+                        </div>
+                        
                         <!-- 使用說明 -->
                         <div class="format-help-banner" id="analyzerHelpBanner" style="margin-bottom: 12px; font-size: 0.72rem; padding: 8px 10px;">
                             <i data-lucide="help-circle" style="width: 12px; height: 12px; color: var(--accent); flex-shrink: 0;"></i>
@@ -415,7 +439,7 @@
     </div>
 
     <!-- 引入應用腳本 -->
-    <script src="app.js?v=1.2.2"></script>
+    <script src="app.js?v=1.2.3"></script>
 </body>
 
 </html>

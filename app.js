@@ -5,8 +5,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 版本更新日誌與自動化管理 ---
-    const APP_VERSION = 'v1.2.2';
+    const APP_VERSION = 'v1.2.3';
     const CHANGELOG = [
+        {
+            version: 'v1.2.3',
+            date: '2026-07-10',
+            title: '新增「設計師完美聯動工作流」引導指南',
+            desc: '為了解決 AI 簡報工具 (如 Gamma) 因其排版引擎性質無法一次性繪製特定風格藝術插畫的問題，我們在風格詳情彈窗與風格分析儀彈窗中，永久新增了醒目的「簡報設計黃金二步聯動工作流」使用指南，詳細說明如何結合排版工具與 Midjourney 達到範例圖 100% 的完美設計。'
+        },
         {
             version: 'v1.2.2',
             date: '2026-07-10',
