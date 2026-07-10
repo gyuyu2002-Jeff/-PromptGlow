@@ -955,7 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // 附加導引指令
                     if (addInstructions) {
-                        let prefix = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n`;
+                        let prefix = `你現在是一位專業的簡報設計專家。我已經自備好了簡報的內容大綱，以下我會提供給您。請依據我提供的大綱內容，並嚴格套用以下 YAML 格式的視覺風格規範，為我規劃並撰寫各頁投影片的內文。請確保投影片的配色、字體、版面配置與插圖描述完全符合此視覺風格規範。\n\n`;
                         prefix += `---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n`;
                         displayedYaml = prefix + displayedYaml;
                     } else {
@@ -968,7 +968,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     let typeReq = '極簡構圖，畫面中心大面積留白，大量負空間以利文字排版';
 
                     displayedYaml = `# NotebookLM 簡報風格控制與內容擴寫指引
-我已經準備好了我的「簡報大綱」（請見對話中我提供的內容）。
+我已經自備好了我的「簡報內容大綱」（請見對話中我提供的內容）。我想將這份大綱套用我從網站選定的【${item.name}】視覺風格，改變並塑造其簡報風格。
 請依據我提供的簡報大綱，為我擴寫各頁投影片的詳細內容。在撰寫過程中，請嚴格遵守以下「視覺設計風格」與「頁面排版架構」規範：
 
 ---
@@ -1000,7 +1000,7 @@ ${displayedYaml}
                     let layoutRule = '以極簡與大面積中心留白為特徵。文字排版置中。';
 
                     displayedYaml = `### Gamma / Tome / Beautiful.ai 簡報自訂主題配置 (Theme Style Tokens)
-請在簡報軟體（如 Gamma、Tome 等）的自訂主題編輯器 (Theme Settings) 中，配置以下數值與佈局引導，以完美匹配【${item.name}】的視覺特徵：
+我已經在簡報軟體（如 Gamma、Tome 等）中匯入了我的「簡報內容大綱」。為了將此大綱的簡報視覺風格套用並切換為【${item.name}】風格，請依據以下數值與佈局引導來設定自訂主題與配色：
 
 #### 1. 色彩配對代碼 (Theme Color Roles)
 - 主背景色 (Page Background): ${hexColors[0] || '#0A0E17'}
@@ -1033,6 +1033,7 @@ ${displayedYaml}
                     let imageType = 'A premium slide template background';
 
                     displayedYaml = `### Midjourney 簡報背景與插圖生成提示詞
+我已經自備了簡報內容大綱。為了生成完美匹配大綱主題【${displayTopic}】且符合選定【${item.name}】風格的簡報背景底圖，請使用以下 Midjourney 提示詞：
 
 /imagine prompt: ${imageType}, ${styleAttr} themed for ${displayTopic}, color palette inspired by ${hexColors.join(' ')}, flat design, minimalist composition, spacious negative space in center for text layout, clean edges, studio lighting, vector style, no human figure --ar 16:9 --style raw --v 6.0 --no text, font, characters, words, labels, letters, watermark, low quality, sketch`;
                 }
@@ -1617,12 +1618,12 @@ ${displayedYaml}
                     displayedYaml = configBlock + '\n' + displayedYaml;
                 }
                 
-                displayedYaml = `你現在是一位專業的簡報設計專家。請依據以下 YAML 格式的視覺風格規範，為我規劃並撰寫簡報內容。請嚴格遵守規範中的配色、字體、版面與插圖風格。\n\n---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n` + displayedYaml;
+                displayedYaml = `你現在是一位專業的簡報設計專家。我已經自備好了簡報的內容大綱，以下我會提供給您。請依據我提供的大綱內容，並嚴格套用以下 YAML 格式的視覺風格規範，為我規劃並撰寫各頁投影片的內文。請確保投影片的配色、字體、版面配置與插圖描述完全符合此視覺風格規範。\n\n---\n# 提示詞模式：繁體中文呈現，字體運作流暢，無 any 亂碼\n` + displayedYaml;
 
             } else if (analyzerActiveFormat === 'notebooklm') {
                 // NotebookLM
                 displayedYaml = `# NotebookLM 簡報風格控制與內容擴寫指引
-我已經準備好了我的「簡報大綱」（請見對話中我提供的內容）。
+我已經自備好了我的「簡報內容大綱」（請見對話中我提供的內容）。我想將這份大綱套用我上傳並分析的視覺風格，改變並塑造其簡報風格。
 請依據我提供的簡報大綱，為我擴寫各頁投影片的詳細內容。在撰寫過程中，請嚴格遵守以下「視覺設計風格」與「頁面排版架構」規範：
 
 ---
@@ -1652,7 +1653,7 @@ ${displayedYaml}
             } else if (analyzerActiveFormat === 'gamma') {
                 // Gamma
                 displayedYaml = `### Gamma / Tome / Beautiful.ai 簡報自訂主題配置 (Theme Style Tokens)
-請在簡報軟體（如 Gamma、Tome 等）的自訂主題編輯器 (Theme Settings) 中，配置以下數值與佈局引導，以完美匹配此圖片所屬的視覺特徵：
+我已經在簡報軟體（如 Gamma、Tome 等）中匯入了我的「簡報內容大綱」。為了將此大綱的簡報視覺風格套用並切換為此圖片所屬的風格，請依據以下數值與佈局引導來設定自訂主題與配色：
 
 #### 1. 色彩配對代碼 (Theme Color Roles)
 - 主背景色 (Page Background): ${hexColors[0] || '#FFFFFF'}
@@ -1683,6 +1684,7 @@ ${displayedYaml}
                 if (!styleAttr) styleAttr = `vector illustration, clean background, negative space`;
 
                 displayedYaml = `### Midjourney 簡報背景生成提示詞
+我已經自備了簡報內容大綱。為了生成完美匹配大綱主題【${displayTopic}】且符合此分析風格的簡報背景底圖，請使用以下 Midjourney 提示詞：
 
 /imagine prompt: A premium slide template background, ${styleAttr} themed for ${displayTopic}, color palette inspired by ${hexColors.join(' ')}, flat design, minimalist composition, spacious negative space in center for text layout, clean edges, studio lighting, vector style, no human figure --ar 16:9 --style raw --v 6.0 --no text, font, characters, words, labels, letters, watermark, low quality, sketch`;
             }
