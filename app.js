@@ -5,8 +5,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 版本更新日誌與自動化管理 ---
-    const APP_VERSION = 'v1.2.4';
+    const APP_VERSION = 'v1.2.5';
     const CHANGELOG = [
+        {
+            version: 'v1.2.5',
+            date: '2026-07-11',
+            title: '修復詳情彈窗佔位符與提示詞預設簡報主題動態同步',
+            desc: '解決當前兩個重要細節問題：1. 修復了詳情彈窗在圖片加載失敗顯示預留 CSS 佔位符時，依然顯示靜態「思緒卡關」標題的錯誤，現在已與其所屬的風格分類主題動態同步；2. 提示詞生成器（YAML）中的預設簡報主題不再統一強制為「思緒卡關」，而是智慧配對該風格分類對應的簡報大綱主題（如極簡建築、智能家居等），以提升示範品質。'
+        },
         {
             version: 'v1.2.4',
             date: '2026-07-11',
@@ -1045,7 +1051,17 @@ document.addEventListener('DOMContentLoaded', () => {
         modalImage.style.display = 'block';
         const modalPH = document.getElementById('modalImagePlaceholder');
         const modalPHFooter = document.getElementById('modalPlaceholderFooter');
-        if (modalPH) modalPH.style.display = 'none';
+        if (modalPH) {
+            modalPH.style.display = 'none';
+            // 動態更新詳情彈窗佔位符內容
+            const mockContent = getMockupContentForStyle(item);
+            const phTitle = modalPH.querySelector('.placeholder-title');
+            const phList = modalPH.querySelector('.placeholder-list');
+            if (phTitle) phTitle.textContent = mockContent.title;
+            if (phList) {
+                phList.innerHTML = mockContent.bullets.map((b, idx) => `<div>${idx + 1}. ${b}</div>`).join('');
+            }
+        }
         if (modalPHFooter) modalPHFooter.textContent = `[ ${item.name} | 繁中化中 ]`;
         
         const imgUrl = getFullImageUrl(item);
@@ -1130,7 +1146,8 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateModalPromptDisplay() {
             let displayedYaml = details.yaml || '無提示詞數據';
             const topic = customTopicInput ? customTopicInput.value.trim() : '';
-            const displayTopic = topic || '思緒卡關時的 5 種切換方法';
+            const mockContent = getMockupContentForStyle(item);
+            const displayTopic = topic || mockContent.title;
             const addInstructions = checkboxInput ? checkboxInput.checked : true;
             
             // 當前選取的 HEX 色碼列表
