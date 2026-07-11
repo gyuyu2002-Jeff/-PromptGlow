@@ -5,8 +5,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 版本更新日誌與自動化管理 ---
-    const APP_VERSION = 'v1.2.3';
+    const APP_VERSION = 'v1.2.4';
     const CHANGELOG = [
+        {
+            version: 'v1.2.4',
+            date: '2026-07-11',
+            title: '新增折疊式「新手指南：黃金三步驟」互動教學橫幅',
+            desc: '為了解決原先工作流提示對新手而言過於抽象、不易理解的問題，我們將引導橫幅升級為互動折疊式的新手指南。預設為隱藏以保持介面清爽，使用者點擊「展開詳細步驟」即可看到完全口語化、免技術術語的「文字骨架生成 ➡️ Midjourney 風格繪圖 ➡️ 圖片背景替換」黃金三步驟動態教學，極大降低新手上手門檻。'
+        },
         {
             version: 'v1.2.3',
             date: '2026-07-10',
@@ -1303,6 +1309,43 @@ ${displayedYaml}
 
     imageLightbox.addEventListener('click', () => {
         imageLightbox.classList.remove('active');
+    });
+
+    // --- 新手指南展開/收合點擊事件 ---
+    document.addEventListener('click', (e) => {
+        const header = e.target.closest('#guideHeader');
+        if (header) {
+            const banner = header.closest('.workflow-guide-banner');
+            const content = banner.querySelector('#guideContent');
+            const toggleIcon = header.querySelector('#guideToggleIcon');
+            
+            if (content.style.display === 'none' || !content.style.display) {
+                content.style.display = 'block';
+                toggleIcon.innerHTML = `收合步驟 <i data-lucide="chevron-up" style="width: 14px; height: 14px;"></i>`;
+            } else {
+                content.style.display = 'none';
+                toggleIcon.innerHTML = `展開詳細步驟 <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>`;
+            }
+            if (window.lucide) window.lucide.createIcons();
+            return;
+        }
+
+        const analyzerHeader = e.target.closest('#analyzerGuideHeader');
+        if (analyzerHeader) {
+            const banner = analyzerHeader.closest('.workflow-guide-banner');
+            const content = banner.querySelector('#analyzerGuideContent');
+            const toggleIcon = analyzerHeader.querySelector('#analyzerGuideToggleIcon');
+            
+            if (content.style.display === 'none' || !content.style.display) {
+                content.style.display = 'block';
+                toggleIcon.innerHTML = `收合步驟 <i data-lucide="chevron-up" style="width: 14px; height: 14px;"></i>`;
+            } else {
+                content.style.display = 'none';
+                toggleIcon.innerHTML = `展開詳細步驟 <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>`;
+            }
+            if (window.lucide) window.lucide.createIcons();
+            return;
+        }
     });
 
     // --- Logo 點擊回到首頁功能 ---

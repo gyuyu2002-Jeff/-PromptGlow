@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- 原生 CSS 樣式表 -->
-    <link rel="stylesheet" href="index.css?v=1.2.3">
+    <link rel="stylesheet" href="index.css?v=1.2.4">
     
     <!-- 引入圖標庫 (Lucide) 與 圖表庫 (Chart.js) 與 動畫庫 (GSAP) -->
     <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
@@ -259,15 +259,42 @@
                         </div>
 
                         <!-- 設計師工作流聯動指引 -->
-                        <div class="workflow-guide-banner" style="margin-bottom: 12px; font-size: 0.72rem; line-height: 1.5; color: var(--text-primary); background-color: rgba(229, 80, 57, 0.05); border: 1px solid rgba(229, 80, 57, 0.2); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; text-align: left;">
-                            <div style="display: flex; align-items: center; gap: 6px; font-weight: 800; color: var(--accent);">
-                                <i data-lucide="info" style="width: 14px; height: 14px; color: var(--accent);"></i> 💡 簡報設計黃金二步聯動工作流 (完美視覺指引)
+                        <div class="workflow-guide-banner" style="margin-bottom: 12px; font-size: 0.72rem; line-height: 1.5; color: var(--text-primary); background-color: rgba(229, 80, 57, 0.05); border: 1px solid rgba(229, 80, 57, 0.2); border-radius: 6px; padding: 10px 12px; text-align: left;">
+                            <div id="guideHeader" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; font-weight: 800; color: var(--accent);">
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <i data-lucide="help-circle" style="width: 15px; height: 15px; color: var(--accent);"></i>
+                                    <span>💡 新手指南：如何做出和範例一樣好看的簡報？</span>
+                                </div>
+                                <span id="guideToggleIcon" style="font-size: 0.72rem; display: flex; align-items: center; gap: 4px; font-weight: 400; color: var(--text-secondary);">
+                                    展開詳細步驟 <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
+                                </span>
                             </div>
-                            <p style="margin: 0; color: var(--text-secondary);">
-                                由於現有 AI 簡報工具 (如 Gamma) 是「排版引擎」無法自行手繪風格插圖，建議：  
-                                1. 使用 <b>Gamma/VBA 生成</b> ➡️ 建立簡報文字內容、字型與色彩骨架。  
-                                2. 使用 <b>Midjourney 簡報繪圖</b> ➡️ 生成對應風格的高質感背景圖並置入，即可 100% 達到範例的完美視覺效果！
-                            </p>
+                            <div id="guideContent" style="display: none; margin-top: 10px; border-top: 1px solid rgba(229, 80, 57, 0.15); padding-top: 8px;">
+                                <p style="margin: 0 0 8px 0; color: var(--text-secondary); font-size: 0.72rem;">
+                                    由於 Gamma 等 AI 簡報工具只會「自動排版」，無法像畫家一樣憑空畫出 3D 或手繪插圖，若要達到範例的完美視覺，請遵循以下<b>黃金三步驟</b>：
+                                </p>
+                                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.72rem;">
+                                    <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 3px solid var(--accent);">
+                                        <b style="color: var(--accent);">第一步：生成簡報骨架與文字（二選一）</b>
+                                        <div style="margin-top: 4px; color: var(--text-secondary); padding-left: 8px;">
+                                            • <b>用 AI 簡報軟體</b>：切換至【Gamma/Mindshow 生成】頁籤 ➡️ 複製提示詞貼給 Gamma ➡️ 一鍵自動排版與配色。<br>
+                                            • <b>用傳統 PPT 軟體</b>：切換至【ChatGPT/Gemini/Claude】頁籤 ➡️ 複製提示詞貼給 AI ➡️ AI 會在文案下方附上一段 <b>VBA 程式碼</b> ➡️ 複製它並貼入 PPT 執行即可一鍵建檔。
+                                        </div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 3px solid #38bdf8;">
+                                        <b style="color: #38bdf8;">第二步：用 AI 畫出風格背景圖</b>
+                                        <div style="margin-top: 4px; color: var(--text-secondary); padding-left: 8px;">
+                                            • 切換至【Midjourney 簡報繪圖】頁籤 ➡️ 複製 `/imagine` 繪圖指令 ➡️ 貼給 Midjourney 機器人，即可獲得適配此風格的高質感插圖背景。
+                                        </div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 3px solid #34d399;">
+                                        <b style="color: #34d399;">第三步：圖片上傳與替換，大功告成！</b>
+                                        <div style="margin-top: 4px; color: var(--text-secondary); padding-left: 8px;">
+                                            • 將 Midjourney 生成的背景圖，上傳並設定為 PPT 或 Gamma 簡報的「投影片背景」，文字就會完美疊加在精美圖案上！
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- 平台格式使用說明區 -->
@@ -397,15 +424,42 @@
                         </div>
                         
                         <!-- 設計師工作流聯動指引 -->
-                        <div class="workflow-guide-banner" style="margin-bottom: 12px; font-size: 0.72rem; line-height: 1.5; color: var(--text-primary); background-color: rgba(229, 80, 57, 0.05); border: 1px solid rgba(229, 80, 57, 0.2); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; text-align: left;">
-                            <div style="display: flex; align-items: center; gap: 6px; font-weight: 800; color: var(--accent);">
-                                <i data-lucide="info" style="width: 14px; height: 14px; color: var(--accent);"></i> 💡 簡報設計黃金二步聯動工作流 (完美視覺指引)
+                        <div class="workflow-guide-banner" style="margin-bottom: 12px; font-size: 0.72rem; line-height: 1.5; color: var(--text-primary); background-color: rgba(229, 80, 57, 0.05); border: 1px solid rgba(229, 80, 57, 0.2); border-radius: 6px; padding: 10px 12px; text-align: left;">
+                            <div id="analyzerGuideHeader" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; font-weight: 800; color: var(--accent);">
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <i data-lucide="help-circle" style="width: 15px; height: 15px; color: var(--accent);"></i>
+                                    <span>💡 新手指南：如何做出和範例一樣好看的簡報？</span>
+                                </div>
+                                <span id="analyzerGuideToggleIcon" style="font-size: 0.72rem; display: flex; align-items: center; gap: 4px; font-weight: 400; color: var(--text-secondary);">
+                                    展開詳細步驟 <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
+                                </span>
                             </div>
-                            <p style="margin: 0; color: var(--text-secondary);">
-                                由於現有 AI 簡報工具 (如 Gamma) 是「排版引擎」無法自行手繪風格插圖，建議：  
-                                1. 使用 <b>Gamma/VBA 生成</b> ➡️ 建立簡報文字內容、字型與色彩骨架。  
-                                2. 使用 <b>Midjourney 簡報繪圖</b> ➡️ 生成對應風格的高質感背景圖並置入，即可 100% 達到範例的完美視覺效果！
-                            </p>
+                            <div id="analyzerGuideContent" style="display: none; margin-top: 10px; border-top: 1px solid rgba(229, 80, 57, 0.15); padding-top: 8px;">
+                                <p style="margin: 0 0 8px 0; color: var(--text-secondary); font-size: 0.72rem;">
+                                    由於 Gamma 等 AI 簡報工具只會「自動排版」，無法像畫家一樣憑空畫出 3D 或手繪插圖，若要達到範例的完美視覺，請遵循以下<b>黃金三步驟</b>：
+                                </p>
+                                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.72rem;">
+                                    <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 3px solid var(--accent);">
+                                        <b style="color: var(--accent);">第一步：生成簡報骨架與文字（二選一）</b>
+                                        <div style="margin-top: 4px; color: var(--text-secondary); padding-left: 8px;">
+                                            • <b>用 AI 簡報軟體</b>：切換至【Gamma/Mindshow 生成】頁籤 ➡️ 複製提示詞貼給 Gamma ➡️ 一鍵自動排版與配色。<br>
+                                            • <b>用傳統 PPT 軟體</b>：切換至【ChatGPT/Gemini/Claude】頁籤 ➡️ 複製提示詞貼給 AI ➡️ AI 會在文案下方附上一段 <b>VBA 程式碼</b> ➡️ 複製它並貼入 PPT 執行即可一鍵建檔。
+                                        </div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 3px solid #38bdf8;">
+                                        <b style="color: #38bdf8;">第二步：用 AI 畫出風格背景圖</b>
+                                        <div style="margin-top: 4px; color: var(--text-secondary); padding-left: 8px;">
+                                            • 切換至【Midjourney 繪圖】頁籤 ➡️ 複製 `/imagine` 繪圖指令 ➡️ 貼給 Midjourney 機器人，即可獲得適配此風格的高質感插圖背景。
+                                        </div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-left: 3px solid #34d399;">
+                                        <b style="color: #34d399;">第三步：圖片上傳與替換，大功告成！</b>
+                                        <div style="margin-top: 4px; color: var(--text-secondary); padding-left: 8px;">
+                                            • 將 Midjourney 生成的背景圖，上傳並設定為 PPT 或 Gamma 簡報的「投影片背景」，文字就會完美疊加在精美圖案上！
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- 使用說明 -->
@@ -439,7 +493,7 @@
     </div>
 
     <!-- 引入應用腳本 -->
-    <script src="app.js?v=1.2.3"></script>
+    <script src="app.js?v=1.2.4"></script>
 </body>
 
 </html>
