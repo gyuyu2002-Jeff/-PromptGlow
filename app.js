@@ -476,11 +476,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             // 轉換精簡數據的格式與多語言名稱，並生成默認 tag 標籤
-            const generalNumberOffset = businessData.length;
             liteData = liteRes.map(item => {
                 // 優先使用中文化名稱與標籤
                 item.name_original = item.name;
-                item.number = (item.number || 0) + generalNumberOffset;
                 if (item.name_zh) {
                     item.name = item.name_zh;
                 }
