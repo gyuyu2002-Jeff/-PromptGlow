@@ -319,8 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return BASE_IMAGE_URL + path;
         }
         
-        // 一般風格，直接讀取我們本地批量下載的繁體中文範例圖片！
-        return `assets/images/${item.id}.webp`;
+        // 一般風格，讀取 V2 重畫範例圖片；原圖保留在 assets/images 作為備份。
+        return `assets/images-redraw-v2/${item.id}.webp`;
     }
 
     // 顯示 Toast 彈窗
