@@ -402,42 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return '向量與扁平';
     }
     
-    function getBusinessStyleNumber(id) {
-        const mapping = {
-            'biz_business-consulting': 58,
-            'biz_business-government': 58,
-            'biz_industry-creative': 1,
-            'biz_industry-education': 58,
-            'biz_industry-retail': 58,
-            'biz_scene-analysis': 58,
-            'biz_scene-newbiz': 58,
-            'biz_scene-product': 58,
-            'biz_scene-promo': 58,
-            'biz_style-datadriven': 83,
-            'biz_style-empathy': 44,
-            'biz_style-innovation': 1,
-            'biz_style-japanese': 18,
-            'biz_style-premium': 10,
-            'biz_style-speed': 94,
-            'biz_style-storytelling': 47,
-            'biz_style-tech': 86,
-            'biz_taste-aerial': 6,
-            'biz_taste-bokeh': 2,
-            'biz_taste-collage': 101,
-            'biz_taste-duotone': 3,
-            'biz_taste-flat-gradient': 91,
-            'biz_taste-geometric': 12,
-            'biz_taste-infographic': 76,
-            'biz_taste-isometric': 71,
-            'biz_taste-mono-accent': 3,
-            'biz_taste-solid-3d': 72,
-            'biz_taste-teal-orange': 28,
-            'biz_taste-yuru-doodle': 43,
-            'biz_taste-yuru-marker': 44
-        };
-        return mapping[id] || 1;
-    }
-
     function getBusinessNameZh3(id) {
         const mapping = {
             'biz_business-consulting': '專業諮詢',
@@ -506,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             rankingData = rankingRes;
             businessData = businessRes.map((item, index) => {
-                item.number = getBusinessStyleNumber(item.id);
+                item.number = index + 1;
                 item.isBusiness = true;
                 return item;
             });
@@ -743,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 4. 排序處理
         if (searchQuery) {
             displayList.sort((a, b) => (b._searchScore || 0) - (a._searchScore || 0) || (a.number || 0) - (b.number || 0));
-        } else if (activeCategory !== 'business') {
+        } else {
             displayList.sort((a, b) => (a.number || 0) - (b.number || 0));
         }
 
