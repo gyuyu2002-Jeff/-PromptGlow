@@ -476,9 +476,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             // 轉換精簡數據的格式與多語言名稱，並生成默認 tag 標籤
+            const generalNumberOffset = businessData.length;
             liteData = liteRes.map(item => {
                 // 優先使用中文化名稱與標籤
                 item.name_original = item.name;
+                item.number = (item.number || 0) + generalNumberOffset;
                 if (item.name_zh) {
                     item.name = item.name_zh;
                 }
@@ -544,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 類別與次標籤渲染 ---
     function renderCategoryTabs() {
         // 先計算各分類的數量
-        const allCount = liteData.length;
+        const allCount = businessData.length + liteData.length;
         const businessCount = businessData.length;
         
         // 先保留固定 Tab (全部, 商業)
@@ -667,7 +669,23 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 1. 基於大類篩選
         if (activeCategory === 'all') {
-            displayList = liteData.map(item => ({ ...item, isBusiness: false }));
+            const businessList = businessData.map(item => {
+                const nameParts = [item.category_zh || '商業', item.name_zh || item.name, getBusinessNameZh3(item.id)];
+                const fullName = nameParts.filter(Boolean).join(' / ');
+                return {
+                    id: item.id,
+                    name: fullName,
+                    tags: [getBusinessDesignCategory(item.id), item.category_zh || '商業', item.name_zh || item.name, getBusinessNameZh3(item.id)],
+                    img: item.img,
+                    isBusiness: true,
+                    yaml: item.yaml,
+                    number: item.number
+                };
+            });
+            displayList = [
+                ...businessList,
+                ...liteData.map(item => ({ ...item, isBusiness: false }))
+            ];
         } else if (activeCategory === 'business') {
             // 商業大類使用獨立數據庫
             displayList = businessData.map(item => {
